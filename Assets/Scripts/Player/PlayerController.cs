@@ -6,6 +6,8 @@ public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D rb;
     private Animator animator;
+    private BoxCollider2D bxcollider;
+    [SerializeField] private LayerMask groundLayer;
 
     private float horizontalInput;
     private bool isFacingRight = true;
@@ -18,6 +20,7 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        bxcollider = GetComponent<BoxCollider2D>();
     }
     void Update()
     {
@@ -40,7 +43,7 @@ public class PlayerController : MonoBehaviour
 
         Move();
 
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump") && IsGrounded())
         {
             Jump();
         }
@@ -58,5 +61,9 @@ public class PlayerController : MonoBehaviour
     {
         isFacingRight = !isFacingRight;
         transform.Rotate(0.0f, 180.0f, 0.0f);
+    }
+    private bool IsGrounded()
+    {
+        return Physics2D.BoxCast(bxcollider.bounds.center, bxcollider.size, 0.0f, Vector2.down, 0.1f, groundLayer);
     }
 }

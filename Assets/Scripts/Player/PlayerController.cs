@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D rb;
+    private Animator animator;
 
     private float horizontalInput;
     private bool isFacingRight = true;
@@ -16,11 +17,17 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
-
     void Update()
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
+        // Horizontal input != 0 Running
+        animator.SetBool("Running", horizontalInput != 0);
+        // rb.velocity.y > 0.01f ise Jumping
+        animator.SetBool("Jumping", rb.velocity.y > 0.01f);
+        // rb.velocity.y < -0.01f ise Falling
+        animator.SetBool("Falling", rb.velocity.y < -0.01f);
 
         if (horizontalInput > 0 && !isFacingRight)
         {
@@ -38,17 +45,14 @@ public class PlayerController : MonoBehaviour
             Jump();
         }
     }
-
     private void Move()
     {
         rb.velocity = new Vector2(horizontalInput * speed, rb.velocity.y);
     }
-
     private void Jump()
     {
         rb.velocity = new Vector2(rb.velocity.x, jumpForce);
     }
-
     // Rotates the character to the right direction
     private void FlipCharacter()
     {

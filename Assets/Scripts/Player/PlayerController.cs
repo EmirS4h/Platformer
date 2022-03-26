@@ -66,4 +66,9 @@ public class PlayerController : MonoBehaviour
     {
         return Physics2D.BoxCast(bxcollider.bounds.center, bxcollider.size, 0.0f, Vector2.down, 0.1f, groundLayer);
     }
+
+    private void AhmedinMg()
+    {
+        Debug.Log("AHMEDIN MGGGG");
+    }
 }

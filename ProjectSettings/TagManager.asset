@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Apple
   - Trap
+  - Ground
   layers:
   - Default
   - TransparentFX

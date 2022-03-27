@@ -11,21 +11,22 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float moveSpeed;
     [SerializeField] private float jumpForce;
     [SerializeField] private float coyoteTime;
+    [SerializeField] private float bufferTime;
     [SerializeField] private float gravityScale;
     [SerializeField] private float acceleration;
     [SerializeField] private float decceleration;
     [SerializeField] private float frictionAmount;
     [SerializeField] private float fallMultiplier;
+    [SerializeField] private float coyoteTimeCounter;
+    [SerializeField] private float bufferTimeCounter;
     [SerializeField] private float lowJumpMultiplier;
 
+    private float amount;
     private float movement;
     private float speedDif;
     private float accelRate;
     private float targetSpeed;
     private float horizontalInput;
-    private float lastJumpTime = 0.3f;
-    private float lastGroundedTime;
-
 
     public bool isGrounded = false;
     private bool isJumping = false;
@@ -65,10 +66,31 @@ public class PlayerController : MonoBehaviour
             FlipCharacter();
         }
 
-        if (Input.GetButtonDown("Jump") && isGrounded && !isJumping)
+        if (isGrounded)
+        {
+            coyoteTimeCounter = coyoteTime;
+        }
+        else
+        {
+            coyoteTimeCounter -= Time.deltaTime;
+        }
+
+        if (Input.GetButtonDown("Jump"))
+        {
+            bufferTimeCounter = bufferTime;
+        }
+        else
+        {
+            bufferTimeCounter -= Time.deltaTime;
+        }
+
+        if (bufferTimeCounter > 0.1f && coyoteTimeCounter > 0.1f && !isJumping)
         {
             isJumping = true;
+            coyoteTimeCounter = 0.0f;
+            bufferTimeCounter = 0.0f;
         }
+
     }
 
     private void ChangeAnimation()
@@ -97,11 +119,12 @@ public class PlayerController : MonoBehaviour
 
     private void ApplyGravity()
     {
+        // Short jump
         if (rb.velocity.y > 0.01f && !Input.GetButton("Jump"))
         {
             rb.gravityScale = lowJumpMultiplier;
         }
-        else if (rb.velocity.y < -0.01f)
+        else if (rb.velocity.y < -0.01f) // Long jump
         {
             rb.gravityScale = fallMultiplier;
         }
@@ -115,7 +138,7 @@ public class PlayerController : MonoBehaviour
     {
         if (isGrounded && Mathf.Abs(horizontalInput) < 0.01f)
         {
-            float amount = Mathf.Min(Mathf.Abs(rb.velocity.x), Mathf.Abs(frictionAmount));
+            amount = Mathf.Min(Mathf.Abs(rb.velocity.x), Mathf.Abs(frictionAmount));
             amount *= Mathf.Sign(rb.velocity.x);
             rb.AddForce(Vector2.right * -amount, ForceMode2D.Impulse);
         }
@@ -126,16 +149,4 @@ public class PlayerController : MonoBehaviour
         isFacingRight = !isFacingRight;
         transform.Rotate(0.0f, 180.0f, 0.0f);
     }
-
-    // bu burda dursun belki lazým olur
-
-    //private bool IsGrounded()
-    //{
-    //    bool grounded = Physics2D.BoxCast(bxcollider.bounds.center, bxcollider.size, 0.0f, Vector2.down, 0.1f, groundLayer);
-    //    if (grounded)
-    //    {
-    //        return true;
-    //    }
-    //    return false;
-    //}
 }

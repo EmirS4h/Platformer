@@ -30,14 +30,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float dashTime;
     private bool isDashing = false;
     public bool canDash = false;
-    private Vector2 dashDir;
 
     private float amount;
     private float movement;
     private float speedDif;
     private float accelRate;
     private float targetSpeed;
-    private float verticalInput;
     private float horizontalInput;
 
     public bool isGrounded = false;
@@ -64,14 +62,13 @@ public class PlayerController : MonoBehaviour
 
         if (isDashing)
         {
-            rb.AddForce(dashDir * dashForce, ForceMode2D.Impulse);
+            rb.AddForce(new Vector2(horizontalInput, 0) * dashForce, ForceMode2D.Impulse);
         }
     }
 
     void Update()
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
-        verticalInput = Input.GetAxisRaw("Vertical");
 
         ChangeAnimation();
 
@@ -113,8 +110,8 @@ public class PlayerController : MonoBehaviour
         {
             isDashing = true;
             canDash = false;
-            dashDir = new Vector2(horizontalInput, verticalInput);
-            dashParticle.Play();
+            if(Mathf.Abs(horizontalInput)>0.01f)
+                dashParticle.Play();
             StartCoroutine(StopDash());
         }
     }

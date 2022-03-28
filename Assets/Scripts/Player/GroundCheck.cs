@@ -10,6 +10,7 @@ public class GroundCheck : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             controller.isGrounded = true;
+            controller.canDash = false;
         }
     }
     private void OnTriggerExit2D(Collider2D collision)

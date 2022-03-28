@@ -6,10 +6,13 @@ public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D rb;
     private Animator animator;
+    [SerializeField] private ParticleSystem dustParticle;
 
     [Header("Player Settings")]
+    [SerializeField] private float dashTime;
     [SerializeField] private float moveSpeed;
     [SerializeField] private float jumpForce;
+    [SerializeField] private float dashForce;
     [SerializeField] private float coyoteTime;
     [SerializeField] private float bufferTime;
     [SerializeField] private float gravityScale;
@@ -26,10 +29,15 @@ public class PlayerController : MonoBehaviour
     private float speedDif;
     private float accelRate;
     private float targetSpeed;
+    private float verticalInput;
     private float horizontalInput;
+
+    private Vector2 dashDir;
 
     public bool isGrounded = false;
     private bool isJumping = false;
+    public bool canDash = true;
+    private bool isDashing = false;
     private bool isFacingRight = true;
 
     void Start()
@@ -49,11 +57,17 @@ public class PlayerController : MonoBehaviour
             Jump();
             isJumping = false;
         }
+
+        if (isDashing)
+        {
+            rb.AddForce(dashDir * dashForce, ForceMode2D.Impulse);
+        }
     }
 
     void Update()
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
+        verticalInput = Input.GetAxisRaw("Vertical");
 
         ChangeAnimation();
 
@@ -91,6 +105,13 @@ public class PlayerController : MonoBehaviour
             bufferTimeCounter = 0.0f;
         }
 
+        if (Input.GetButtonDown("Dash") && canDash)
+        {
+            isDashing = true;
+            canDash = false;
+            dashDir = new Vector2(horizontalInput, verticalInput);
+            StartCoroutine(StopDash());
+        }
     }
 
     private void ChangeAnimation()
@@ -115,8 +136,13 @@ public class PlayerController : MonoBehaviour
     private void Jump()
     {
         rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        dustParticle.Play();
     }
-
+    private IEnumerator StopDash()
+    {
+        yield return new WaitForSeconds(dashTime);
+        isDashing = false;
+    }
     private void ApplyGravity()
     {
         // Short jump

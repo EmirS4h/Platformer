@@ -7,22 +7,30 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private Animator animator;
     [SerializeField] private ParticleSystem dustParticle;
+    [SerializeField] private ParticleSystem dashParticle;
 
     [Header("Player Settings")]
-    [SerializeField] private float dashTime;
     [SerializeField] private float moveSpeed;
-    [SerializeField] private float jumpForce;
-    [SerializeField] private float dashForce;
-    [SerializeField] private float coyoteTime;
-    [SerializeField] private float bufferTime;
     [SerializeField] private float gravityScale;
     [SerializeField] private float acceleration;
     [SerializeField] private float decceleration;
     [SerializeField] private float frictionAmount;
+
+    [Header("Player Jump")]
+    [SerializeField] private float jumpForce;
+    [SerializeField] private float coyoteTime;
+    [SerializeField] private float bufferTime;
     [SerializeField] private float fallMultiplier;
     [SerializeField] private float coyoteTimeCounter;
-    [SerializeField] private float bufferTimeCounter;
     [SerializeField] private float lowJumpMultiplier;
+    [SerializeField] private float bufferTimeCounter;
+
+    [Header("Player Dash")]
+    [SerializeField] private float dashForce;
+    [SerializeField] private float dashTime;
+    private bool isDashing = false;
+    public bool canDash = false;
+    private Vector2 dashDir;
 
     private float amount;
     private float movement;
@@ -32,12 +40,8 @@ public class PlayerController : MonoBehaviour
     private float verticalInput;
     private float horizontalInput;
 
-    private Vector2 dashDir;
-
     public bool isGrounded = false;
     private bool isJumping = false;
-    public bool canDash = true;
-    private bool isDashing = false;
     private bool isFacingRight = true;
 
     void Start()
@@ -110,6 +114,7 @@ public class PlayerController : MonoBehaviour
             isDashing = true;
             canDash = false;
             dashDir = new Vector2(horizontalInput, verticalInput);
+            dashParticle.Play();
             StartCoroutine(StopDash());
         }
     }

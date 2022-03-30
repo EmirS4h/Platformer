@@ -62,12 +62,21 @@ public class PlayerController : MonoBehaviour
 
         if (isDashing)
         {
-            rb.AddForce(new Vector2(horizontalInput, 0) * dashForce, ForceMode2D.Impulse);
+            rb.AddForce(new Vector2(horizontalInput, 0.0f) * dashForce, ForceMode2D.Impulse);
         }
     }
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            SavePlayer();
+        }
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            LoadPlayer();
+        }
+
         horizontalInput = Input.GetAxisRaw("Horizontal");
 
         ChangeAnimation();
@@ -99,7 +108,7 @@ public class PlayerController : MonoBehaviour
             bufferTimeCounter -= Time.deltaTime;
         }
 
-        if (bufferTimeCounter > 0.1f && coyoteTimeCounter > 0.1f && !isJumping)
+        if (bufferTimeCounter > 0.1f && coyoteTimeCounter > 0.1f)
         {
             isJumping = true;
             coyoteTimeCounter = 0.0f;
@@ -114,6 +123,10 @@ public class PlayerController : MonoBehaviour
                 dashParticle.Play();
             StartCoroutine(StopDash());
         }
+        if (isDashing)
+            frictionAmount = 0.0f;
+        else
+            frictionAmount = 0.8f;
     }
 
     private void ChangeAnimation()
@@ -140,11 +153,13 @@ public class PlayerController : MonoBehaviour
         rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         dustParticle.Play();
     }
+
     private IEnumerator StopDash()
     {
         yield return new WaitForSeconds(dashTime);
         isDashing = false;
     }
+
     private void ApplyGravity()
     {
         // Short jump
@@ -176,5 +191,20 @@ public class PlayerController : MonoBehaviour
     {
         isFacingRight = !isFacingRight;
         transform.Rotate(0.0f, 180.0f, 0.0f);
+    }
+
+    public void SavePlayer()
+    {
+        SaveData.SavePlayerData(this);
+    }
+    public void LoadPlayer()
+    {
+        PlayerData data = SaveData.LoadPlayerData();
+        Vector3 position;
+        position.x = data.playerPos[0];
+        position.y = data.playerPos[1];
+        position.z = data.playerPos[2];
+
+        transform.position = position;
     }
 }

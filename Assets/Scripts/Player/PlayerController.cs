@@ -6,8 +6,15 @@ public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D rb;
     private Animator animator;
-    [SerializeField] private ParticleSystem dustParticle;
+
+    [Header("Player Particles")]
+    [SerializeField] private ParticleSystem jumpParticle;
     [SerializeField] private ParticleSystem dashParticle;
+
+    [Header("Player Ground Checking")]
+    [SerializeField] private Transform checkGround;
+    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private float checkGroundRadius;
 
     [Header("Player Settings")]
     [SerializeField] private float moveSpeed;
@@ -31,12 +38,12 @@ public class PlayerController : MonoBehaviour
     private bool isDashing = false;
     public bool canDash = false;
 
-    private float amount;
-    private float movement;
-    private float speedDif;
-    private float accelRate;
-    private float targetSpeed;
-    private float horizontalInput;
+    [SerializeField] private float amount;
+    [SerializeField] private float movement;
+    [SerializeField] private float speedDif;
+    [SerializeField] private float accelRate;
+    [SerializeField] private float targetSpeed;
+    [SerializeField] private float horizontalInput;
 
     public bool isGrounded = false;
     private bool isJumping = false;
@@ -64,23 +71,21 @@ public class PlayerController : MonoBehaviour
         {
             rb.AddForce(new Vector2(horizontalInput, 0.0f) * dashForce, ForceMode2D.Impulse);
         }
+
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            SavePlayer();
-        }
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            LoadPlayer();
-        }
-
+        #region Check for Ground
+        CheckGround();
+        #endregion
+        #region Check for Horizontal Input
         horizontalInput = Input.GetAxisRaw("Horizontal");
+        #endregion
 
         ChangeAnimation();
 
+        #region Flip the Character based on HorizontalInput
         if (horizontalInput > 0 && !isFacingRight)
         {
             FlipCharacter();
@@ -89,7 +94,9 @@ public class PlayerController : MonoBehaviour
         {
             FlipCharacter();
         }
+        #endregion
 
+        #region Coyote Time
         if (isGrounded)
         {
             coyoteTimeCounter = coyoteTime;
@@ -98,7 +105,9 @@ public class PlayerController : MonoBehaviour
         {
             coyoteTimeCounter -= Time.deltaTime;
         }
+        #endregion
 
+        #region Jump
         if (Input.GetButtonDown("Jump"))
         {
             bufferTimeCounter = bufferTime;
@@ -107,36 +116,41 @@ public class PlayerController : MonoBehaviour
         {
             bufferTimeCounter -= Time.deltaTime;
         }
-
+        
         if (bufferTimeCounter > 0.1f && coyoteTimeCounter > 0.1f)
         {
             isJumping = true;
             coyoteTimeCounter = 0.0f;
             bufferTimeCounter = 0.0f;
         }
+        #endregion
 
+        #region Dash
         if (Input.GetButtonDown("Dash") && canDash)
         {
             isDashing = true;
             canDash = false;
-            if(Mathf.Abs(horizontalInput)>0.01f)
+            if (Mathf.Abs(horizontalInput)>0.01f)
                 dashParticle.Play();
             StartCoroutine(StopDash());
         }
-        if (isDashing)
-            frictionAmount = 0.0f;
+        if (isGrounded)
+            canDash = false;
         else
-            frictionAmount = 0.8f;
+            canDash = true;
+        #endregion
     }
 
     private void ChangeAnimation()
     {
-        // Horizontal input != 0 Running
         animator.SetBool("Running", horizontalInput != 0);
-        // rb.velocity.y > 0.01f ise Jumping
         animator.SetBool("Jumping", rb.velocity.y > 0.01f);
-        // rb.velocity.y < -0.01f ise Falling
         animator.SetBool("Falling", rb.velocity.y < -0.01f);
+    }
+
+    private void CheckGround()
+    {
+        isGrounded = Physics2D.OverlapCircle(checkGround.position, checkGroundRadius, groundLayer);
     }
 
     private void Move()
@@ -151,7 +165,7 @@ public class PlayerController : MonoBehaviour
     private void Jump()
     {
         rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-        dustParticle.Play();
+        jumpParticle.Play();
     }
 
     private IEnumerator StopDash()
@@ -197,14 +211,20 @@ public class PlayerController : MonoBehaviour
     {
         SaveData.SavePlayerData(this);
     }
+
     public void LoadPlayer()
     {
         PlayerData data = SaveData.LoadPlayerData();
-        Vector3 position;
-        position.x = data.playerPos[0];
-        position.y = data.playerPos[1];
-        position.z = data.playerPos[2];
+        Vector3 playerPosition;
+        playerPosition.x = data.playerPos[0];
+        playerPosition.y = data.playerPos[1];
+        playerPosition.z = data.playerPos[2];
 
-        transform.position = position;
+        transform.position = playerPosition;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(checkGround.position, checkGroundRadius);
     }
 }

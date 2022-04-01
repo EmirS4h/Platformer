@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerData
 {
     public float[] playerPos;
+    public float[] playerRot;
 
     public PlayerData(PlayerController player)
     {

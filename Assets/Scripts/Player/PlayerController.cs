@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     [Header("Player Particles")]
     [SerializeField] private ParticleSystem jumpParticle;
     [SerializeField] private ParticleSystem dashParticle;
+    [SerializeField] private ParticleSystem wallSlideParticle;
 
     [Header("Player Ground Checking")]
     [SerializeField] private Transform checkGround;
@@ -24,6 +25,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float frictionAmount;
 
     [Header("Player Jump")]
+    [SerializeField] private bool canJump;
     [SerializeField] private float jumpForce;
     [SerializeField] private float coyoteTime;
     [SerializeField] private float bufferTime;
@@ -31,6 +33,19 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float coyoteTimeCounter;
     [SerializeField] private float lowJumpMultiplier;
     [SerializeField] private float bufferTimeCounter;
+
+    [Header("Player Wall Jump / Slide")]
+    [SerializeField] private Transform wallCheck;
+    [SerializeField] private float wallSlidingSpeed;
+    [SerializeField] private float wallSlideGravity;
+    [SerializeField] private float wallCheckDistance;
+    [SerializeField] private bool isTouchingWall;
+    [SerializeField] private bool wallSliding;
+    [SerializeField] private Vector2 wallHopDirection;
+    [SerializeField] private Vector2 wallJumpDirection;
+    [SerializeField] private Vector2 wallJumpForceToAdd;
+    [SerializeField] private float wallJumpForce;
+    private float direction = 1;
 
     [Header("Player Dash")]
     [SerializeField] private float dashForce;
@@ -53,6 +68,9 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+
+        wallHopDirection.Normalize();
+        wallJumpDirection.Normalize();
     }
 
     private void FixedUpdate()
@@ -76,16 +94,33 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        #region Check for Ground
+        if(isGrounded || wallSliding)
+        {
+            canJump = true;
+        }
+        else
+        {
+            canJump = false;
+        }
+
+        #region Check for Surroundings
+
         CheckGround();
+        CheckWall();
+        CheckForWallSliding();
+
         #endregion
+
         #region Check for Horizontal Input
+
         horizontalInput = Input.GetAxisRaw("Horizontal");
+
         #endregion
 
         ChangeAnimation();
 
         #region Flip the Character based on HorizontalInput
+
         if (horizontalInput > 0 && !isFacingRight)
         {
             FlipCharacter();
@@ -94,10 +129,12 @@ public class PlayerController : MonoBehaviour
         {
             FlipCharacter();
         }
+
         #endregion
 
         #region Coyote Time
-        if (isGrounded)
+
+        if (isGrounded ||canJump)
         {
             coyoteTimeCounter = coyoteTime;
         }
@@ -105,9 +142,11 @@ public class PlayerController : MonoBehaviour
         {
             coyoteTimeCounter -= Time.deltaTime;
         }
+
         #endregion
 
         #region Jump
+
         if (Input.GetButtonDown("Jump"))
         {
             bufferTimeCounter = bufferTime;
@@ -116,16 +155,18 @@ public class PlayerController : MonoBehaviour
         {
             bufferTimeCounter -= Time.deltaTime;
         }
-        
+
         if (bufferTimeCounter > 0.1f && coyoteTimeCounter > 0.1f)
         {
             isJumping = true;
             coyoteTimeCounter = 0.0f;
             bufferTimeCounter = 0.0f;
         }
+
         #endregion
 
         #region Dash
+
         if (Input.GetButtonDown("Dash") && canDash)
         {
             isDashing = true;
@@ -138,6 +179,7 @@ public class PlayerController : MonoBehaviour
             canDash = false;
         else
             canDash = true;
+
         #endregion
     }
 
@@ -152,20 +194,52 @@ public class PlayerController : MonoBehaviour
     {
         isGrounded = Physics2D.OverlapCircle(checkGround.position, checkGroundRadius, groundLayer);
     }
-
+    private void CheckWall()
+    {
+        isTouchingWall = Physics2D.Raycast(wallCheck.position, transform.right, wallCheckDistance, groundLayer);
+    }
+    private void CheckForWallSliding()
+    {
+        if (isTouchingWall && !isGrounded && rb.velocity.y < 0.01f)
+        {
+            wallSliding = true;
+        }
+        else
+        {
+            wallSliding = false;
+        }
+    }
     private void Move()
     {
         targetSpeed = horizontalInput * moveSpeed;
         speedDif = targetSpeed - rb.velocity.x;
         accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? acceleration : decceleration;
         movement = Mathf.Pow(Mathf.Abs(speedDif) * accelRate, 0.9f) * Mathf.Sign(speedDif);
+
+        if (wallSliding)
+        {
+            if (rb.velocity.y < -wallSlidingSpeed)
+            {
+                wallSlideParticle.Play();
+            }
+        }
+
         rb.AddForce(movement * Vector2.right);
     }
 
     private void Jump()
     {
-        rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-        jumpParticle.Play();
+        if (canJump && !wallSliding)
+        {
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            jumpParticle.Play();
+        }
+        else if (wallSliding && canJump)
+        {
+            wallSliding = false;
+            wallJumpForceToAdd = new Vector2(wallJumpForce * wallHopDirection.x * -direction, wallJumpForce * wallHopDirection.y);
+            rb.AddForce(wallJumpForceToAdd, ForceMode2D.Impulse);
+        }
     }
 
     private IEnumerator StopDash()
@@ -176,8 +250,12 @@ public class PlayerController : MonoBehaviour
 
     private void ApplyGravity()
     {
+        if (wallSliding)
+        {
+            rb.gravityScale = wallSlideGravity;
+        }
         // Short jump
-        if (rb.velocity.y > 0.01f && !Input.GetButton("Jump"))
+        else if (rb.velocity.y > 0.01f && !Input.GetButton("Jump"))
         {
             rb.gravityScale = lowJumpMultiplier;
         }
@@ -203,6 +281,8 @@ public class PlayerController : MonoBehaviour
 
     private void FlipCharacter()
     {
+        direction *= -1;
+
         isFacingRight = !isFacingRight;
         transform.Rotate(0.0f, 180.0f, 0.0f);
     }
@@ -226,5 +306,7 @@ public class PlayerController : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(checkGround.position, checkGroundRadius);
+
+        Gizmos.DrawLine(wallCheck.position, new Vector3(wallCheck.position.x + wallCheckDistance, wallCheck.position.y, wallCheck.position.z));
     }
 }

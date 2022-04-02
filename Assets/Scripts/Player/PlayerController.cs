@@ -43,13 +43,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool wallSliding;
     [SerializeField] private Vector2 wallHopDirection;
     [SerializeField] private Vector2 wallJumpDirection;
-    [SerializeField] private Vector2 wallJumpForceToAdd;
     [SerializeField] private float wallJumpForce;
+    private Vector2 wallJumpForceToAdd;
     private float direction = 1;
 
     [Header("Player Dash")]
     [SerializeField] private float dashForce;
     [SerializeField] private float dashTime;
+    [SerializeField] private float cameraShakeIntensity;
+    [SerializeField] private float cameraShakeTime;
     private bool isDashing = false;
     public bool canDash = false;
 
@@ -88,6 +90,7 @@ public class PlayerController : MonoBehaviour
         if (isDashing)
         {
             rb.AddForce(new Vector2(horizontalInput, 0.0f) * dashForce, ForceMode2D.Impulse);
+            CameraShake.Instance.Shake(cameraShakeIntensity,cameraShakeTime);
         }
 
     }

@@ -32,16 +32,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float fallMultiplier;
     [SerializeField] private float coyoteTimeCounter;
     [SerializeField] private float lowJumpMultiplier;
-    [SerializeField] private float bufferTimeCounter;
+    [SerializeField] private float jumpBufferTimeCounter;
 
     [Header("Player Wall Jump / Slide")]
     [SerializeField] private Transform wallCheck;
-    [SerializeField] private float wallSlidingSpeed;
     [SerializeField] private float wallSlideGravity;
     [SerializeField] private float wallCheckDistance;
     [SerializeField] private bool isTouchingWall;
     [SerializeField] private bool wallSliding;
-    [SerializeField] private Vector2 wallHopDirection;
     [SerializeField] private Vector2 wallJumpDirection;
     [SerializeField] private float wallJumpForce;
     private Vector2 wallJumpForceToAdd;
@@ -71,7 +69,6 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
 
-        wallHopDirection.Normalize();
         wallJumpDirection.Normalize();
     }
 
@@ -90,30 +87,12 @@ public class PlayerController : MonoBehaviour
         if (isDashing)
         {
             rb.AddForce(new Vector2(horizontalInput, 0.0f) * dashForce, ForceMode2D.Impulse);
-            CameraShake.Instance.Shake(cameraShakeIntensity,cameraShakeTime);
+            CameraShake.Instance.Shake(cameraShakeIntensity, cameraShakeTime);
         }
-
     }
 
     void Update()
     {
-        if(isGrounded || wallSliding)
-        {
-            canJump = true;
-        }
-        else
-        {
-            canJump = false;
-        }
-
-        #region Check for Surroundings
-
-        CheckGround();
-        CheckWall();
-        CheckForWallSliding();
-
-        #endregion
-
         #region Check for Horizontal Input
 
         horizontalInput = Input.GetAxisRaw("Horizontal");
@@ -135,37 +114,42 @@ public class PlayerController : MonoBehaviour
 
         #endregion
 
-        #region Coyote Time
+        #region Check for Surroundings
 
-        if (isGrounded ||canJump)
+        CheckGround();
+        CheckWall();
+        CheckForWallSliding();
+
+        #endregion
+
+        if (isGrounded || wallSliding)
         {
-            coyoteTimeCounter = coyoteTime;
+            canJump = true;
+            coyoteTimeCounter = coyoteTime; // for jumping
         }
         else
         {
-            coyoteTimeCounter -= Time.deltaTime;
+            canJump = false;
+            coyoteTimeCounter -= Time.deltaTime; // for jumping
         }
-
-        #endregion
 
         #region Jump
 
         if (Input.GetButtonDown("Jump"))
         {
-            bufferTimeCounter = bufferTime;
+            jumpBufferTimeCounter = bufferTime;
         }
         else
         {
-            bufferTimeCounter -= Time.deltaTime;
+            jumpBufferTimeCounter -= Time.deltaTime;
         }
-
-        if (bufferTimeCounter > 0.1f && coyoteTimeCounter > 0.1f)
+       
+        if (coyoteTimeCounter > 0.0f && jumpBufferTimeCounter > 0.0f)
         {
             isJumping = true;
+            jumpBufferTimeCounter = 0.0f;
             coyoteTimeCounter = 0.0f;
-            bufferTimeCounter = 0.0f;
         }
-
         #endregion
 
         #region Dash
@@ -178,7 +162,7 @@ public class PlayerController : MonoBehaviour
                 dashParticle.Play();
             StartCoroutine(StopDash());
         }
-        if (isGrounded)
+        if (isGrounded || wallSliding)
             canDash = false;
         else
             canDash = true;
@@ -197,35 +181,31 @@ public class PlayerController : MonoBehaviour
     {
         isGrounded = Physics2D.OverlapCircle(checkGround.position, checkGroundRadius, groundLayer);
     }
+
     private void CheckWall()
     {
         isTouchingWall = Physics2D.Raycast(wallCheck.position, transform.right, wallCheckDistance, groundLayer);
     }
+
     private void CheckForWallSliding()
     {
         if (isTouchingWall && !isGrounded && rb.velocity.y < 0.01f)
         {
             wallSliding = true;
+            wallSlideParticle.Play();
         }
         else
         {
             wallSliding = false;
         }
     }
+
     private void Move()
     {
         targetSpeed = horizontalInput * moveSpeed;
         speedDif = targetSpeed - rb.velocity.x;
         accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? acceleration : decceleration;
         movement = Mathf.Pow(Mathf.Abs(speedDif) * accelRate, 0.9f) * Mathf.Sign(speedDif);
-
-        if (wallSliding)
-        {
-            if (rb.velocity.y < -wallSlidingSpeed)
-            {
-                wallSlideParticle.Play();
-            }
-        }
 
         rb.AddForce(movement * Vector2.right);
     }
@@ -240,8 +220,9 @@ public class PlayerController : MonoBehaviour
         else if (wallSliding && canJump)
         {
             wallSliding = false;
-            wallJumpForceToAdd = new Vector2(wallJumpForce * wallHopDirection.x * -direction, wallJumpForce * wallHopDirection.y);
+            wallJumpForceToAdd = new Vector2(wallJumpForce * wallJumpDirection.x * -direction, wallJumpForce * wallJumpDirection.y);
             rb.AddForce(wallJumpForceToAdd, ForceMode2D.Impulse);
+            FlipCharacter();
         }
     }
 
@@ -309,7 +290,6 @@ public class PlayerController : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(checkGround.position, checkGroundRadius);
-
         Gizmos.DrawLine(wallCheck.position, new Vector3(wallCheck.position.x + wallCheckDistance, wallCheck.position.y, wallCheck.position.z));
     }
 }

@@ -53,6 +53,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float cameraShakeTime;
     private bool isDashing = false;
     public bool canDash = false;
+    public int dashLeft = 1;
 
     [Header("Player Movement")]
     [SerializeField] private float amount;
@@ -88,7 +89,7 @@ public class PlayerController : MonoBehaviour
         if (isDashing)
         {
             rb.AddForce(new Vector2(horizontalInput, 0.0f) * dashForce, ForceMode2D.Impulse);
-            CameraShake.Instance.Shake(cameraShakeIntensity, cameraShakeTime);
+            canDash = false;
         }
     }
 
@@ -129,6 +130,7 @@ public class PlayerController : MonoBehaviour
         {
             canJump = true;
             coyoteTimeCounter = coyoteTime; // for jumping
+            dashLeft=1;
         }
         else
         {
@@ -144,7 +146,7 @@ public class PlayerController : MonoBehaviour
         {
             jumpBufferTimeCounter -= Time.deltaTime;
         }
-       
+
         if (jumpBufferTimeCounter > 0.01f && coyoteTimeCounter > 0.01f)
         {
             isJumping = true;
@@ -159,12 +161,16 @@ public class PlayerController : MonoBehaviour
 
         #region Dash
 
-        if (Input.GetButtonDown("Dash") && canDash)
+        if (Input.GetButtonDown("Dash") && canDash && dashLeft != 0)
         {
             isDashing = true;
             canDash = false;
+            dashLeft--;
             if (Mathf.Abs(horizontalInput)>0.01f)
+            {
                 dashParticle.Play();
+                CameraShake.Instance.Shake(cameraShakeIntensity, cameraShakeTime);
+            }
             StartCoroutine(StopDash());
         }
         if (isGrounded || wallSliding)

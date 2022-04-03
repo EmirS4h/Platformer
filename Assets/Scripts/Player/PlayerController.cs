@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float frictionAmount;
 
     [Header("Player Jump")]
+    public bool isGrounded = false;
     [SerializeField] private bool canJump;
     [SerializeField] private float jumpForce;
     [SerializeField] private float coyoteTime;
@@ -53,6 +54,7 @@ public class PlayerController : MonoBehaviour
     private bool isDashing = false;
     public bool canDash = false;
 
+    [Header("Player Movement")]
     [SerializeField] private float amount;
     [SerializeField] private float movement;
     [SerializeField] private float speedDif;
@@ -60,7 +62,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float targetSpeed;
     [SerializeField] private float horizontalInput;
 
-    public bool isGrounded = false;
     private bool isJumping = false;
     private bool isFacingRight = true;
 
@@ -122,6 +123,8 @@ public class PlayerController : MonoBehaviour
 
         #endregion
 
+        #region Jump
+
         if (isGrounded || wallSliding)
         {
             canJump = true;
@@ -133,8 +136,6 @@ public class PlayerController : MonoBehaviour
             coyoteTimeCounter -= Time.deltaTime; // for jumping
         }
 
-        #region Jump
-
         if (Input.GetButtonDown("Jump"))
         {
             jumpBufferTimeCounter = bufferTime;
@@ -144,10 +145,14 @@ public class PlayerController : MonoBehaviour
             jumpBufferTimeCounter -= Time.deltaTime;
         }
        
-        if (coyoteTimeCounter > 0.0f && jumpBufferTimeCounter > 0.0f)
+        if (jumpBufferTimeCounter > 0.01f && coyoteTimeCounter > 0.01f)
         {
             isJumping = true;
             jumpBufferTimeCounter = 0.0f;
+        }
+
+        if (Input.GetButtonUp("Jump") && rb.velocity.y > 0.01f)
+        {
             coyoteTimeCounter = 0.0f;
         }
         #endregion
@@ -212,7 +217,7 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
-        if (canJump && !wallSliding)
+        if (!wallSliding)
         {
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             jumpParticle.Play();

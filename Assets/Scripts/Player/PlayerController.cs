@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     [Header("Player Ground Checking")]
     [SerializeField] private Transform checkGround;
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private LayerMask wallLayer;
     [SerializeField] private float checkGroundRadius;
 
     [Header("Player Settings")]
@@ -27,6 +28,8 @@ public class PlayerController : MonoBehaviour
     [Header("Player Jump")]
     public bool isGrounded = false;
     [SerializeField] private bool canJump;
+    [SerializeField] private int maxJump;
+    [SerializeField] private int jumpsLeft;
     [SerializeField] private float jumpForce;
     [SerializeField] private float coyoteTime;
     [SerializeField] private float bufferTime;
@@ -51,9 +54,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float dashTime;
     [SerializeField] private float cameraShakeIntensity;
     [SerializeField] private float cameraShakeTime;
-    private bool isDashing = false;
+    [SerializeField] private int maxDash;
+    [SerializeField] private int dashsLeft;
     public bool canDash = false;
-    public int dashLeft = 1;
+    private bool isDashing = false;
 
     [Header("Player Movement")]
     [SerializeField] private float amount;
@@ -130,7 +134,7 @@ public class PlayerController : MonoBehaviour
         {
             canJump = true;
             coyoteTimeCounter = coyoteTime; // for jumping
-            dashLeft=1;
+            dashsLeft = maxDash;
         }
         else
         {
@@ -161,11 +165,11 @@ public class PlayerController : MonoBehaviour
 
         #region Dash
 
-        if (Input.GetButtonDown("Dash") && canDash && dashLeft != 0)
+        if (Input.GetButtonDown("Dash") && canDash && dashsLeft != 0)
         {
             isDashing = true;
             canDash = false;
-            dashLeft--;
+            dashsLeft--;
             if (Mathf.Abs(horizontalInput)>0.01f)
             {
                 dashParticle.Play();

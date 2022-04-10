@@ -68,6 +68,8 @@ public class PlayerController : MonoBehaviour
     private bool isJumping = false;
     private bool isFacingRight = true;
 
+    public bool isGameOver = false;
+    public bool playerHaveTheKey = false;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -99,7 +101,10 @@ public class PlayerController : MonoBehaviour
     {
         #region Check for Horizontal Input
 
-        horizontalInput = Input.GetAxisRaw("Horizontal");
+        if (!isGameOver)
+        {
+            horizontalInput = Input.GetAxisRaw("Horizontal");
+        }
 
         #endregion
 
@@ -185,9 +190,18 @@ public class PlayerController : MonoBehaviour
 
     private void ChangeAnimation()
     {
-        animator.SetBool("Running", horizontalInput != 0);
-        animator.SetBool("Jumping", rb.velocity.y > 0.01f);
-        animator.SetBool("Falling", rb.velocity.y < -0.01f);
+        if (!isGameOver)
+        {
+            animator.SetBool("Running", horizontalInput != 0);
+            animator.SetBool("Jumping", rb.velocity.y > 0.01f);
+            animator.SetBool("Falling", rb.velocity.y < -0.01f);
+        }
+        else
+        {
+            animator.SetBool("Running", false);
+            animator.SetBool("Jumping", false);
+            animator.SetBool("Falling", false);
+        }
     }
 
     private void CheckGround()

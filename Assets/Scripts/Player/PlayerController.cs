@@ -28,8 +28,6 @@ public class PlayerController : MonoBehaviour
     [Header("Player Jump")]
     public bool isGrounded = false;
     [SerializeField] private bool canJump;
-    [SerializeField] private int maxJump;
-    [SerializeField] private int jumpsLeft;
     [SerializeField] private float jumpForce;
     [SerializeField] private float coyoteTime;
     [SerializeField] private float bufferTime;

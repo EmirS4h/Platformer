@@ -8,6 +8,9 @@ TagManager:
   - Trap
   - Ground
   - Key
+  - SpeedBoost
+  - JumpBoost
+  - DashBoost
   layers:
   - Default
   - TransparentFX

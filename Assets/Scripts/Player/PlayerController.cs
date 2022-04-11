@@ -15,11 +15,10 @@ public class PlayerController : MonoBehaviour
     [Header("Player Ground Checking")]
     [SerializeField] private Transform checkGround;
     [SerializeField] private LayerMask groundLayer;
-    [SerializeField] private LayerMask wallLayer;
     [SerializeField] private float checkGroundRadius;
 
     [Header("Player Settings")]
-    [SerializeField] private float moveSpeed;
+    public float moveSpeed;
     [SerializeField] private float gravityScale;
     [SerializeField] private float acceleration;
     [SerializeField] private float decceleration;
@@ -28,7 +27,7 @@ public class PlayerController : MonoBehaviour
     [Header("Player Jump")]
     public bool isGrounded = false;
     [SerializeField] private bool canJump;
-    [SerializeField] private float jumpForce;
+    public float jumpForce;
     [SerializeField] private float coyoteTime;
     [SerializeField] private float bufferTime;
     [SerializeField] private float fallMultiplier;
@@ -48,7 +47,7 @@ public class PlayerController : MonoBehaviour
     private float direction = 1;
 
     [Header("Player Dash")]
-    [SerializeField] private float dashForce;
+    public float dashForce;
     [SerializeField] private float dashTime;
     [SerializeField] private float cameraShakeIntensity;
     [SerializeField] private float cameraShakeTime;

@@ -5,18 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
-    [SerializeField] PlayerController player;
-    private void OnTriggerEnter2D(Collider2D collision)
+    [SerializeField] private Animator animator;
+    public IEnumerator LoadNextLevel()
     {
-        if (player.playerHaveTheKey)
-        {
-            StartCoroutine(LoadNextScene());
-        }
-    }
-    IEnumerator LoadNextScene()
-    {
-        player.isGameOver = true;
-        yield return new WaitForSeconds(2.0f);
+        animator.SetTrigger("Start");
+        yield return new WaitForSeconds(1);
         if (SceneManager.GetActiveScene().buildIndex + 1 == SceneManager.sceneCountInBuildSettings)
         {
             SceneManager.LoadScene(0);

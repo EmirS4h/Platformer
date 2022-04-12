@@ -4,13 +4,10 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Apple
   - Trap
-  - Ground
   - Key
-  - SpeedBoost
-  - JumpBoost
-  - DashBoost
+  - Ground
+  - Boost
   layers:
   - Default
   - TransparentFX
@@ -18,10 +15,10 @@ TagManager:
   - 
   - Water
   - UI
-  - Ground
-  - Wall
-  - PostProcess
-  - Room
+  - 
+  - 
+  - 
+  - 
   - 
   - 
   - 
@@ -46,11 +43,11 @@ TagManager:
   - 
   m_SortingLayers:
   - name: Background
-    uniqueID: 139151347
+    uniqueID: 836002515
     locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
   - name: Terrain
-    uniqueID: 732714595
+    uniqueID: 2594922781
     locked: 0

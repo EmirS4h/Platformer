@@ -5,11 +5,18 @@ using UnityEngine;
 public class JumpBoost : MonoBehaviour
 {
     [SerializeField] PlayerController playerController;
+    [SerializeField] GameManager gameManager;
 
     [Header("Jump Boost")]
     [SerializeField] float jumpBoostAmount;
     [SerializeField] float jumpBoostTime;
     private float playerStartJumpForce;
+
+    private void OnEnable()
+    {
+        gameObject.GetComponent<SpriteRenderer>().enabled = true;
+        gameObject.GetComponent<BoxCollider2D>().enabled = true;
+    }
 
     private void Start()
     {
@@ -21,6 +28,7 @@ public class JumpBoost : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
             gameObject.GetComponent<SpriteRenderer>().enabled = false;
             gameObject.GetComponent<BoxCollider2D>().enabled = false;
+            gameManager.objects.Add(gameObject);
             StartCoroutine(JumpBooster(jumpBoostAmount, jumpBoostTime));
     }
 
@@ -29,6 +37,6 @@ public class JumpBoost : MonoBehaviour
         playerController.jumpForce *= boostAmount;
         yield return new WaitForSeconds(time);
         playerController.jumpForce = playerStartJumpForce;
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }

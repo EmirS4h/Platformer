@@ -6,11 +6,18 @@ public class DashBoost : MonoBehaviour
 {
 
     [SerializeField] PlayerController playerController;
+    [SerializeField] GameManager gameManager;
 
     [Header("Dash Boost")]
     [SerializeField] float dashBoostAmount;
     [SerializeField] float dashBoostTime;
     private float playerStartDashForce;
+
+    private void OnEnable()
+    {
+        gameObject.GetComponent<SpriteRenderer>().enabled = true;
+        gameObject.GetComponent<BoxCollider2D>().enabled = true;
+    }
 
     private void Start()
     {
@@ -22,6 +29,7 @@ public class DashBoost : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
             gameObject.GetComponent<SpriteRenderer>().enabled = false;
             gameObject.GetComponent<BoxCollider2D>().enabled = false;
+            gameManager.objects.Add(gameObject);
             StartCoroutine(DashBooster(dashBoostAmount, dashBoostTime));
     }
 
@@ -30,6 +38,6 @@ public class DashBoost : MonoBehaviour
         playerController.dashForce *= boostAmount;
         yield return new WaitForSeconds(time);
         playerController.dashForce = playerStartDashForce;
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }

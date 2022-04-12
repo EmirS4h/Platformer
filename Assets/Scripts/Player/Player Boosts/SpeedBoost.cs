@@ -5,11 +5,18 @@ using UnityEngine;
 public class SpeedBoost : MonoBehaviour
 {
     [SerializeField] PlayerController playerController;
+    [SerializeField] GameManager gameManager;
 
     [Header("Speed Boost")]
     [SerializeField] float speedBoostAmount;
     [SerializeField] float speedBoostTime;
     private float playerStartSpeed;
+
+    private void OnEnable()
+    {
+        gameObject.GetComponent<SpriteRenderer>().enabled = true;
+        gameObject.GetComponent<BoxCollider2D>().enabled = true;
+    }
 
     private void Start()
     {
@@ -21,6 +28,7 @@ public class SpeedBoost : MonoBehaviour
         if(collision.gameObject.CompareTag("Player"))
             gameObject.GetComponent<SpriteRenderer>().enabled = false;
             gameObject.GetComponent<BoxCollider2D>().enabled = false;
+            gameManager.objects.Add(gameObject);
             StartCoroutine(SpeedBooster(speedBoostAmount, speedBoostTime));
     }
 
@@ -29,6 +37,6 @@ public class SpeedBoost : MonoBehaviour
         playerController.moveSpeed *= boostAmount;
         yield return new WaitForSeconds(time);
         playerController.moveSpeed = playerStartSpeed;
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }

@@ -79,112 +79,120 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Move();
-        ApplyGravity();
-        ApplyFriction();
-
-        if (isJumping)
+        if (!isGameOver)
         {
-            Jump();
-            isJumping = false;
-        }
+            Move();
+            ApplyFriction();
+            ApplyGravity();
 
-        if (isDashing)
-        {
-            rb.AddForce(new Vector2(horizontalInput, 0.0f) * dashForce, ForceMode2D.Impulse);
-            canDash = false;
+            if (isJumping)
+            {
+                Jump();
+                isJumping = false;
+            }
+
+            if (isDashing)
+            {
+                rb.AddForce(new Vector2(horizontalInput, 0.0f) * dashForce, ForceMode2D.Impulse);
+                canDash = false;
+            }
         }
     }
 
     void Update()
     {
-        #region Check for Horizontal Input
+        ChangeAnimation();
 
         if (!isGameOver)
         {
+            #region Check for Horizontal Input
+
             horizontalInput = Input.GetAxisRaw("Horizontal");
-        }
 
-        #endregion
+            #endregion
 
-        ChangeAnimation();
 
-        #region Flip the Character based on HorizontalInput
+            #region Flip the Character based on HorizontalInput
 
-        if (horizontalInput > 0 && !isFacingRight)
-        {
-            FlipCharacter();
-        }
-        else if (horizontalInput < 0 && isFacingRight)
-        {
-            FlipCharacter();
-        }
-
-        #endregion
-
-        #region Check for Surroundings
-
-        CheckGround();
-        CheckWall();
-        CheckForWallSliding();
-
-        #endregion
-
-        #region Jump
-
-        if (isGrounded || wallSliding)
-        {
-            canJump = true;
-            coyoteTimeCounter = coyoteTime; // for jumping
-            dashsLeft = maxDash;
-        }
-        else
-        {
-            canJump = false;
-            coyoteTimeCounter -= Time.deltaTime; // for jumping
-        }
-
-        if (Input.GetButtonDown("Jump"))
-        {
-            jumpBufferTimeCounter = bufferTime;
-        }
-        else
-        {
-            jumpBufferTimeCounter -= Time.deltaTime;
-        }
-
-        if (jumpBufferTimeCounter > 0.01f && coyoteTimeCounter > 0.01f)
-        {
-            isJumping = true;
-            jumpBufferTimeCounter = 0.0f;
-        }
-
-        if (Input.GetButtonUp("Jump") && rb.velocity.y > 0.01f)
-        {
-            coyoteTimeCounter = 0.0f;
-        }
-        #endregion
-
-        #region Dash
-
-        if (Input.GetButtonDown("Dash") && canDash && dashsLeft != 0)
-        {
-            isDashing = true;
-            canDash = false;
-            dashsLeft--;
-            if (Mathf.Abs(horizontalInput)>0.01f)
+            if (horizontalInput > 0 && !isFacingRight)
             {
-                dashParticle.Play();
-                CameraShake.Instance.Shake(cameraShakeIntensity, cameraShakeTime);
+                FlipCharacter();
             }
-            StartCoroutine(StopDash());
-        }
-        if (isGrounded || wallSliding)
-            canDash = false;
-        else
-            canDash = true;
+            else if (horizontalInput < 0 && isFacingRight)
+            {
+                FlipCharacter();
+            }
 
-        #endregion
+            #endregion
+
+            #region Check for Surroundings
+
+            CheckGround();
+            CheckWall();
+            CheckForWallSliding();
+
+            #endregion
+
+            #region Jump
+
+            if (isGrounded || wallSliding)
+            {
+                canJump = true;
+                coyoteTimeCounter = coyoteTime; // for jumping
+                dashsLeft = maxDash;
+            }
+            else
+            {
+                canJump = false;
+                coyoteTimeCounter -= Time.deltaTime; // for jumping
+            }
+
+            if (Input.GetButtonDown("Jump"))
+            {
+                jumpBufferTimeCounter = bufferTime;
+            }
+            else
+            {
+                jumpBufferTimeCounter -= Time.deltaTime;
+            }
+
+            if (jumpBufferTimeCounter > 0.01f && coyoteTimeCounter > 0.01f)
+            {
+                isJumping = true;
+                jumpBufferTimeCounter = 0.0f;
+            }
+
+            if (Input.GetButtonUp("Jump") && rb.velocity.y > 0.01f)
+            {
+                coyoteTimeCounter = 0.0f;
+            }
+            #endregion
+
+            #region Dash
+
+            if (Input.GetButtonDown("Dash") && canDash && dashsLeft != 0)
+            {
+                isDashing = true;
+                canDash = false;
+                dashsLeft--;
+                if (Mathf.Abs(horizontalInput)>0.01f)
+                {
+                    dashParticle.Play();
+                    CameraShake.Instance.Shake(cameraShakeIntensity, cameraShakeTime);
+                }
+                StartCoroutine(StopDash());
+            }
+            if (isGrounded || wallSliding)
+                canDash = false;
+            else
+                canDash = true;
+
+            #endregion
+        }
+        else
+        {
+            rb.velocity = new Vector2(0.0f,rb.velocity.y);
+        }
     }
 
     private void ChangeAnimation()

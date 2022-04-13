@@ -10,6 +10,7 @@ public class NextLevelDoor : MonoBehaviour
     AudioSource audioSource;
 
     public bool canGoLoadNextLevel = false;
+    public bool isOnDoor = false;
 
     private void Start()
     {
@@ -21,11 +22,18 @@ public class NextLevelDoor : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             canGoLoadNextLevel = player.playerHaveTheKey;
+            isOnDoor = true;
         }
     }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        isOnDoor = false;
+    }
+
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.E) && canGoLoadNextLevel)
+        if(Input.GetKeyDown(KeyCode.E) && canGoLoadNextLevel && isOnDoor)
         {
             audioSource.Play();
             StartCoroutine(levelManager.LoadNextLevel());

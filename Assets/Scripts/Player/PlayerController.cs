@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D rb;
     private Animator animator;
+    private SoundManager soundManager;
 
     [Header("Player Particles")]
     [SerializeField] private ParticleSystem jumpParticle;
@@ -67,13 +68,15 @@ public class PlayerController : MonoBehaviour
     private bool isJumping = false;
     private bool isFacingRight = true;
 
+    public int groundType = 0;
+
     public bool isGameOver = false;
     public bool playerHaveTheKey = false;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-
+        soundManager = GetComponent<SoundManager>();
         wallJumpDirection.Normalize();
     }
 
@@ -150,6 +153,7 @@ public class PlayerController : MonoBehaviour
             if (Input.GetButtonDown("Jump"))
             {
                 jumpBufferTimeCounter = bufferTime;
+                soundManager.PlayJumpSound();
             }
             else
             {
@@ -215,7 +219,6 @@ public class PlayerController : MonoBehaviour
     {
         isGrounded = Physics2D.OverlapCircle(checkGround.position, checkGroundRadius, groundLayer);
     }
-
     private void CheckWall()
     {
         isTouchingWall = Physics2D.Raycast(wallCheck.position, transform.right, wallCheckDistance, groundLayer);

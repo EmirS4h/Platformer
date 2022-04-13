@@ -9,6 +9,9 @@ TagManager:
   - Ground
   - Boost
   - Door
+  - Grass
+  - Stone
+  - Wood
   layers:
   - Default
   - TransparentFX
@@ -16,7 +19,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Ground
   - 
   - 
   - 

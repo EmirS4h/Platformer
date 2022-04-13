@@ -131,6 +131,7 @@ public class PlayerController : MonoBehaviour
             #region Check for Surroundings
 
             CheckGround();
+            soundManager.playLandingSound = !isGrounded;
             CheckWall();
             CheckForWallSliding();
 

@@ -6,10 +6,16 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] PlayerController playerController;
     Rigidbody2D rb;
+
     public Vector2 playerStartingPosition;
     public Vector3 playerStartingRotation;
     public float playerStartingDirection;
     public bool playerStartingFacingDirection;
+
+    public float playerStartingSpeed;
+    public float playerStartingJumpForce;
+    public float playerStartingDashForce;
+
     public List<GameObject> objects = new List<GameObject>();
     public List<GameObject> boostObject = new List<GameObject>();
 
@@ -19,6 +25,11 @@ public class GameManager : MonoBehaviour
         playerStartingRotation = new Vector3(playerController.transform.rotation.x, playerController.transform.rotation.y, playerController.transform.rotation.z);
         playerStartingDirection = playerController.direction;
         playerStartingFacingDirection = playerController.isFacingRight;
+
+        playerStartingSpeed = playerController.moveSpeed;
+        playerStartingDashForce = playerController.dashForce;
+        playerStartingJumpForce = playerController.jumpForce;
+
         rb = playerController.GetComponent<Rigidbody2D>();
     }
 
@@ -50,6 +61,11 @@ public class GameManager : MonoBehaviour
         playerController.transform.rotation = Quaternion.Euler(playerStartingRotation);
         playerController.direction = playerStartingDirection;
         playerController.isFacingRight = playerStartingFacingDirection;
+
+        playerController.moveSpeed = playerStartingSpeed;
+        playerController.jumpForce = playerStartingJumpForce;
+        playerController.dashForce = playerStartingDashForce;
+
         rb.bodyType = RigidbodyType2D.Dynamic;
         playerController.playerHaveTheKey = false;
     }

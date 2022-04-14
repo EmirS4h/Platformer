@@ -7,11 +7,13 @@ TagManager:
   - Trap
   - Key
   - Ground
-  - Boost
   - Door
   - Grass
   - Stone
   - Wood
+  - JumpBoost
+  - SpeedBoost
+  - DashBoost
   layers:
   - Default
   - TransparentFX

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
-    PlayerController playerController;
     AudioSource audioSource;
     
     [SerializeField] AudioClip keySound;
@@ -30,7 +29,6 @@ public class SoundManager : MonoBehaviour
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
-        playerController = GetComponent<PlayerController>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -39,6 +37,10 @@ public class SoundManager : MonoBehaviour
         {
             audioSource.PlayOneShot(keySound);
         }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
         if (playLandingSound)
         {
             PlayLandingSound();

@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Vector2 wallJumpDirection;
     [SerializeField] private float wallJumpForce;
     private Vector2 wallJumpForceToAdd;
-    private float direction = 1;
+    public float direction = 1;
 
     [Header("Player Dash")]
     public float dashForce;
@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float horizontalInput;
 
     private bool isJumping = false;
-    private bool isFacingRight = true;
+    public bool isFacingRight = true;
 
     public int groundType = 0;
 

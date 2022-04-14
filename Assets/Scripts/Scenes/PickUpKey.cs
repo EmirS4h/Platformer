@@ -10,7 +10,7 @@ public class PickUpKey : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         player.playerHaveTheKey = true;
-        gameManager.objects.Add(gameObject);
         gameObject.SetActive(false);
+        gameManager.objects.Add(gameObject);
     }
 }

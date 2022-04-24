@@ -159,7 +159,7 @@ public class PlayerController : MonoBehaviour
                 coyoteTimeCounter -= Time.deltaTime; // for jumping
             }
 
-            if (Input.GetButtonDown("Jump") && isGrounded)
+            if (Input.GetButtonDown("Jump") && (isGrounded || wallSliding))
             {
                 jumpBufferTimeCounter = bufferTime;
             }
@@ -261,7 +261,6 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
-
         if (!wallSliding)
         {
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);

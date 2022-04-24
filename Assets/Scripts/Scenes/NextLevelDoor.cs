@@ -8,6 +8,8 @@ public class NextLevelDoor : MonoBehaviour
     [SerializeField] LevelManager levelManager;
 
     AudioSource audioSource;
+    [SerializeField] AudioClip openSound; 
+    [SerializeField] AudioClip closeSound; 
 
     public bool canGoLoadNextLevel = false;
     public bool isOnDoor = false;
@@ -33,10 +35,19 @@ public class NextLevelDoor : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.E) && canGoLoadNextLevel && isOnDoor)
+        if (Input.GetKeyDown(KeyCode.E) && isOnDoor)
         {
-            audioSource.Play();
-            StartCoroutine(levelManager.LoadNextLevel());
+            if (canGoLoadNextLevel)
+            {
+                audioSource.clip = openSound;
+                audioSource.Play();
+                StartCoroutine(levelManager.LoadNextLevel());
+            }
+            else
+            {
+                audioSource.clip = closeSound;
+                audioSource.Play();
+            }
         }
     }
 }

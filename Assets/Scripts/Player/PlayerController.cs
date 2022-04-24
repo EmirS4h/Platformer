@@ -29,6 +29,8 @@ public class PlayerController : MonoBehaviour
     public bool isGrounded = false;
     [SerializeField] private bool canJump;
     public float jumpForce;
+    [SerializeField] bool doubleJump = false;
+    [SerializeField] bool canDoubleJump = false;
     [SerializeField] private float coyoteTime;
     [SerializeField] private float bufferTime;
     [SerializeField] private float fallMultiplier;
@@ -93,7 +95,12 @@ public class PlayerController : MonoBehaviour
                 Jump();
                 isJumping = false;
             }
-
+            if (doubleJump)
+            {
+                Jump();
+                doubleJump = false;
+                canDoubleJump = false;
+            }
             if (isDashing)
             {
                 rb.AddForce(new Vector2(horizontalInput, 0.0f) * dashForce, ForceMode2D.Impulse);
@@ -142,6 +149,7 @@ public class PlayerController : MonoBehaviour
             if (isGrounded || wallSliding)
             {
                 canJump = true;
+                canDoubleJump = true;
                 coyoteTimeCounter = coyoteTime; // for jumping
                 dashsLeft = maxDash;
             }
@@ -151,10 +159,13 @@ public class PlayerController : MonoBehaviour
                 coyoteTimeCounter -= Time.deltaTime; // for jumping
             }
 
-            if (Input.GetButtonDown("Jump"))
+            if (Input.GetButtonDown("Jump") && isGrounded)
             {
                 jumpBufferTimeCounter = bufferTime;
-                soundManager.PlayJumpSound();
+            }
+            else if (Input.GetButtonDown("Jump") && canDoubleJump)
+            {
+                doubleJump = true;
             }
             else
             {
@@ -196,7 +207,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            rb.velocity = new Vector2(0.0f,rb.velocity.y);
+            rb.velocity = new Vector2(0.0f, rb.velocity.y);
         }
     }
 
@@ -250,10 +261,12 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
+
         if (!wallSliding)
         {
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             jumpParticle.Play();
+            soundManager.PlayJumpSound();
         }
         else if (wallSliding && canJump)
         {

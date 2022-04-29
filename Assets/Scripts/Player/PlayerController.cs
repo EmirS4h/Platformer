@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour
     public float jumpForce;
     [SerializeField] bool doubleJump = false;
     [SerializeField] bool canDoubleJump = false;
+    [SerializeField] bool hasDoubleJump = false;
     [SerializeField] private float coyoteTime;
     [SerializeField] private float bufferTime;
     [SerializeField] private float fallMultiplier;
@@ -54,7 +55,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float dashTime;
     [SerializeField] private float cameraShakeIntensity;
     [SerializeField] private float cameraShakeTime;
-    [SerializeField] private int maxDash;
+    public int maxDash;
     [SerializeField] private int dashsLeft;
     public bool canDash = false;
     private bool isDashing = false;
@@ -118,9 +119,11 @@ public class PlayerController : MonoBehaviour
         {
             #region Check for Horizontal Input
 
-            // Input.GetAxisRaw("Horizontal");
+            // Mobile
             horizontalInput = CrossPlatformInputManager.GetAxisRaw("Horizontal");
 
+            // Pc Web
+            //horizontalInput = Input.GetAxisRaw("Horizontal");
             #endregion
 
 
@@ -151,7 +154,10 @@ public class PlayerController : MonoBehaviour
             if (isGrounded || wallSliding)
             {
                 canJump = true;
-                canDoubleJump = true;
+                if (hasDoubleJump)
+                {
+                    canDoubleJump = true;
+                }
                 coyoteTimeCounter = coyoteTime; // for jumping
                 dashsLeft = maxDash;
             }
@@ -160,7 +166,8 @@ public class PlayerController : MonoBehaviour
                 canJump = false;
                 coyoteTimeCounter -= Time.deltaTime; // for jumping
             }
-            // Input.GetButtonDown("Jump")
+            // Input.GetButtonDown("Jump") PC Web
+            // Mobile CrossPlatformInputManager.GetButtonDown("Jump")
             if (CrossPlatformInputManager.GetButtonDown("Jump") && (isGrounded || wallSliding))
             {
                 jumpBufferTimeCounter = bufferTime;
@@ -180,7 +187,7 @@ public class PlayerController : MonoBehaviour
                 jumpBufferTimeCounter = 0.0f;
             }
 
-            if (CrossPlatformInputManager.GetButtonUp("Jump") && rb.velocity.y > 0.01f)
+            if (CrossPlatformInputManager.GetButtonDown("Jump") && rb.velocity.y > 0.01f)
             {
                 coyoteTimeCounter = 0.0f;
             }
@@ -188,6 +195,7 @@ public class PlayerController : MonoBehaviour
 
             #region Dash
             //Input.GetButtonDown("Dash")
+            // CrossPlatformInputManager.GetButtonDown("Dash")
             if (CrossPlatformInputManager.GetButtonDown("Dash") && canDash && dashsLeft != 0)
             {
                 isDashing = true;
@@ -291,6 +299,8 @@ public class PlayerController : MonoBehaviour
             rb.gravityScale = wallSlideGravity;
         }
         // Short jump
+        // !Input.GetButton("Jump"))
+        // !CrossPlatformInputManager.GetButton("Jump")
         else if (rb.velocity.y > 0.01f && !CrossPlatformInputManager.GetButton("Jump"))
         {
             rb.gravityScale = lowJumpMultiplier;

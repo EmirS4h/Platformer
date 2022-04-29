@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityStandardAssets.CrossPlatformInput;
 public class TwoWayPlatform : MonoBehaviour
 {
     private BoxCollider2D bxcollider2D;
@@ -14,6 +14,7 @@ public class TwoWayPlatform : MonoBehaviour
 
     private void Update()
     {
+        //CrossPlatformInputManager.GetButtonDown("DropBtn")
         if (playerOnPlatform && Input.GetAxisRaw("Vertical") < 0)
         {
             bxcollider2D.enabled = false;

@@ -5,10 +5,10 @@ using UnityEngine;
 public class SoundManager : MonoBehaviour
 {
     AudioSource audioSource;
-    
+    Rigidbody2D rb;
     [SerializeField] AudioClip keySound;
     
-    [Header("Runing Sounds")]
+    [Header("Running Sounds")]
     [SerializeField] AudioClip[] grassSounds;
     [SerializeField] AudioClip[] rockSounds;
     [SerializeField] AudioClip[] woodSounds;
@@ -29,6 +29,7 @@ public class SoundManager : MonoBehaviour
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -41,7 +42,7 @@ public class SoundManager : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (playLandingSound)
+        if (playLandingSound && rb.velocity.y < 10.0f)
         {
             PlayLandingSound();
         }

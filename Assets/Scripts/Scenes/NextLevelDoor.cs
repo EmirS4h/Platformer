@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.CrossPlatformInput;
 
 public class NextLevelDoor : MonoBehaviour
 {
@@ -13,7 +14,6 @@ public class NextLevelDoor : MonoBehaviour
 
     public bool canGoLoadNextLevel = false;
     public bool isOnDoor = false;
-
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -35,7 +35,9 @@ public class NextLevelDoor : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && isOnDoor)
+        // CrossPlatformInputManager.GetButtonDown("InteractBtn")
+        // Input.GetKeyDown(KeyCode.E)
+        if (CrossPlatformInputManager.GetButtonDown("InteractBtn") && isOnDoor)
         {
             if (canGoLoadNextLevel)
             {

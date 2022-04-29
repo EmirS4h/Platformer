@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    // OYUNCUNUN LEVEL ICERISINDEKI DURUMUNU ve YAPDIKLARINI TAKIP EDER
+
     [SerializeField] PlayerController playerController;
     Rigidbody2D rb;
 
@@ -19,6 +21,7 @@ public class GameManager : MonoBehaviour
     public List<GameObject> objects = new List<GameObject>();
     public List<GameObject> boostObject = new List<GameObject>();
 
+    // Oyuncunun baslangic pozisyonunu ve ozelliklerini kaydeder
     private void Start()
     {
         playerStartingPosition = new Vector2(playerController.transform.position.x, playerController.transform.position.y);
@@ -33,6 +36,7 @@ public class GameManager : MonoBehaviour
         rb = playerController.GetComponent<Rigidbody2D>();
     }
 
+    // Oyuncu olunce Oyuncunun olmeden once topladigi herseyi geri getirir
     public void ReActivateBack()
     {
         if (objects.Count > 0)
@@ -55,6 +59,8 @@ public class GameManager : MonoBehaviour
             boostObject.Clear();
         }
     }
+
+    // Oyuncuyu baslangictaki haline dondurur
     public void SentPlayerBackToStart()
     {
         playerController.transform.position = playerStartingPosition;

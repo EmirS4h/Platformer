@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class UiManager : MonoBehaviour
 {
-    [SerializeField] Canvas canvas;
+    [SerializeField] Canvas btnUI;
+    [SerializeField] Canvas menuUI;
     [SerializeField] TextMeshProUGUI timerText;
 
     float timerTime;
@@ -16,24 +17,50 @@ public class UiManager : MonoBehaviour
 
     private void Start()
     {
-        timerTime = Time.time;    
+        timerTime = Time.time;
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            canvas.enabled = !canvas.enabled;
-            if (canvas.enabled)
-                Time.timeScale = 0.0f;
-            else
-                Time.timeScale = 1.0f;
-        }
+
         t = Time.time - timerTime;
 
         minutes = ((int)t / 60).ToString();
         seconds = (t % 60).ToString("f2");
 
         timerText.text = minutes + ":"+seconds;
+    }
+    public void PauseTheGameBtn()
+    {
+
+        menuUI.enabled = !menuUI.enabled;
+        if (menuUI.enabled)
+        {
+            Time.timeScale = 0.0f;
+            btnUI.enabled = false;
+        }
+        else
+        {
+            Time.timeScale = 1.0f;
+            btnUI.enabled = true;
+        }
+    }
+
+    public void PauseTheGame()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            menuUI.enabled = !menuUI.enabled;
+            if (menuUI.enabled)
+            {
+                Time.timeScale = 0.0f;
+                btnUI.enabled = false;
+            }
+            else
+            {
+                Time.timeScale = 1.0f;
+                btnUI.enabled = true;
+            }
+        }
     }
 }

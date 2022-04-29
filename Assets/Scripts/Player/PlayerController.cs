@@ -120,10 +120,10 @@ public class PlayerController : MonoBehaviour
             #region Check for Horizontal Input
 
             // Mobile
-            horizontalInput = CrossPlatformInputManager.GetAxisRaw("Horizontal");
+            //horizontalInput = CrossPlatformInputManager.GetAxisRaw("Horizontal");
 
             // Pc Web
-            //horizontalInput = Input.GetAxisRaw("Horizontal");
+            horizontalInput = Input.GetAxisRaw("Horizontal");
             #endregion
 
 
@@ -168,11 +168,11 @@ public class PlayerController : MonoBehaviour
             }
             // Input.GetButtonDown("Jump") PC Web
             // Mobile CrossPlatformInputManager.GetButtonDown("Jump")
-            if (CrossPlatformInputManager.GetButtonDown("Jump") && (isGrounded || wallSliding))
+            if (Input.GetButtonDown("Jump") && (isGrounded || wallSliding))
             {
                 jumpBufferTimeCounter = bufferTime;
             }
-            else if (CrossPlatformInputManager.GetButtonDown("Jump") && canDoubleJump)
+            else if (Input.GetButtonDown("Jump") && canDoubleJump)
             {
                 doubleJump = true;
             }
@@ -187,16 +187,16 @@ public class PlayerController : MonoBehaviour
                 jumpBufferTimeCounter = 0.0f;
             }
 
-            if (CrossPlatformInputManager.GetButtonDown("Jump") && rb.velocity.y > 0.01f)
+            if (Input.GetButtonDown("Jump") && rb.velocity.y > 0.01f)
             {
                 coyoteTimeCounter = 0.0f;
             }
             #endregion
 
             #region Dash
-            //Input.GetButtonDown("Dash")
+            // Input.GetButtonDown("Dash")
             // CrossPlatformInputManager.GetButtonDown("Dash")
-            if (CrossPlatformInputManager.GetButtonDown("Dash") && canDash && dashsLeft != 0)
+            if (Input.GetButtonDown("Dash") && canDash && dashsLeft != 0)
             {
                 isDashing = true;
                 canDash = false;
@@ -299,9 +299,9 @@ public class PlayerController : MonoBehaviour
             rb.gravityScale = wallSlideGravity;
         }
         // Short jump
-        // !Input.GetButton("Jump"))
+        // !Input.GetButton("Jump")
         // !CrossPlatformInputManager.GetButton("Jump")
-        else if (rb.velocity.y > 0.01f && !CrossPlatformInputManager.GetButton("Jump"))
+        else if (rb.velocity.y > 0.01f && !Input.GetButton("Jump"))
         {
             rb.gravityScale = lowJumpMultiplier;
         }

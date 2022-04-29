@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityStandardAssets.CrossPlatformInput;
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D rb;
@@ -74,6 +74,7 @@ public class PlayerController : MonoBehaviour
 
     public bool isGameOver = false;
     public bool playerHaveTheKey = false;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -117,7 +118,8 @@ public class PlayerController : MonoBehaviour
         {
             #region Check for Horizontal Input
 
-            horizontalInput = Input.GetAxisRaw("Horizontal");
+            // Input.GetAxisRaw("Horizontal");
+            horizontalInput = CrossPlatformInputManager.GetAxisRaw("Horizontal");
 
             #endregion
 
@@ -158,12 +160,12 @@ public class PlayerController : MonoBehaviour
                 canJump = false;
                 coyoteTimeCounter -= Time.deltaTime; // for jumping
             }
-
-            if (Input.GetButtonDown("Jump") && (isGrounded || wallSliding))
+            // Input.GetButtonDown("Jump")
+            if (CrossPlatformInputManager.GetButtonDown("Jump") && (isGrounded || wallSliding))
             {
                 jumpBufferTimeCounter = bufferTime;
             }
-            else if (Input.GetButtonDown("Jump") && canDoubleJump)
+            else if (CrossPlatformInputManager.GetButtonDown("Jump") && canDoubleJump)
             {
                 doubleJump = true;
             }
@@ -178,15 +180,15 @@ public class PlayerController : MonoBehaviour
                 jumpBufferTimeCounter = 0.0f;
             }
 
-            if (Input.GetButtonUp("Jump") && rb.velocity.y > 0.01f)
+            if (CrossPlatformInputManager.GetButtonUp("Jump") && rb.velocity.y > 0.01f)
             {
                 coyoteTimeCounter = 0.0f;
             }
             #endregion
 
             #region Dash
-
-            if (Input.GetButtonDown("Dash") && canDash && dashsLeft != 0)
+            //Input.GetButtonDown("Dash")
+            if (CrossPlatformInputManager.GetButtonDown("Dash") && canDash && dashsLeft != 0)
             {
                 isDashing = true;
                 canDash = false;
@@ -289,7 +291,7 @@ public class PlayerController : MonoBehaviour
             rb.gravityScale = wallSlideGravity;
         }
         // Short jump
-        else if (rb.velocity.y > 0.01f && !Input.GetButton("Jump"))
+        else if (rb.velocity.y > 0.01f && !CrossPlatformInputManager.GetButton("Jump"))
         {
             rb.gravityScale = lowJumpMultiplier;
         }

@@ -76,12 +76,16 @@ public class PlayerController : MonoBehaviour
     public bool isGameOver = false;
     public bool playerHaveTheKey = false;
 
+    public int collectedDashBoosterAmount = 0;
+    public int collectedJumpBoosterAmount = 0;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         soundManager = GetComponent<SoundManager>();
         wallJumpDirection.Normalize();
+        LoadPlayerData();
     }
 
     private void FixedUpdate()
@@ -349,6 +353,8 @@ public class PlayerController : MonoBehaviour
         hasDoubleJump = data.hasDoubleJump;
         maxDash = data.playerMaxDash;
 
+        collectedDashBoosterAmount = data.collectedDashBoosterAmount;
+        collectedJumpBoosterAmount = data.collectedJumpBoosterAmount;
     }
 
     private void OnDrawGizmos()

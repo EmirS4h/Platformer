@@ -12,6 +12,9 @@ public class PlayerData
     public bool hasDoubleJump;
     public int playerMaxDash;
 
+    public int collectedDashBoosterAmount;
+    public int collectedJumpBoosterAmount;
+
     public PlayerData(PlayerController player)
     {
         playerSpeed = player.moveSpeed;
@@ -21,6 +24,9 @@ public class PlayerData
         hasDoubleJump = player.hasDoubleJump;
 
         playerMaxDash = player.maxDash;
+
+        collectedDashBoosterAmount = player.collectedDashBoosterAmount;
+        collectedJumpBoosterAmount = player.collectedJumpBoosterAmount;
 
     }
 }

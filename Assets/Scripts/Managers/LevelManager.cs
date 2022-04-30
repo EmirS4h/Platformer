@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using TMPro;
 public class LevelManager : MonoBehaviour
 {
     [SerializeField] private Animator animator;
-
+    [SerializeField] private UiManager uiManager;
+    [SerializeField] private Canvas levelEndingCanvas;
     // Level yukleme animasyonunu oynatýr ve bir sonraki leveli yukler
     public IEnumerator LoadNextLevel()
     {
@@ -31,7 +32,15 @@ public class LevelManager : MonoBehaviour
             SceneManager.LoadScene(index);
         }
     }
-
+    public void NextLevel()
+    {
+        levelEndingCanvas.enabled = false;
+        StartCoroutine(LoadNextLevel());
+    }
+    public void LevelEndingScreen()
+    {
+        uiManager.LevelEnd();
+    }
     // Ilk leveli yukler
     public void StartGame()
     {

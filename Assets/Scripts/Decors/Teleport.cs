@@ -25,6 +25,8 @@ public class Teleport : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Input.GetKeyDown(KeyCode.E)
+        // CrossPlatformInputManager.GetButtonDown("InteractBtn")
         if (CrossPlatformInputManager.GetButtonDown("InteractBtn") && canTeleport && !teleporting)
         {
             StartCoroutine(StartTeleportation());

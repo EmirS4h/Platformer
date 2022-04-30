@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class UiManager : MonoBehaviour
 {
+    [SerializeField] PlayerController playerController;
+
     [SerializeField] Canvas btnUI;
     [SerializeField] Canvas menuUI;
     [SerializeField] TextMeshProUGUI timerText;
@@ -15,6 +17,10 @@ public class UiManager : MonoBehaviour
     string minutes;
     string seconds;
 
+    string timeText;
+
+    [SerializeField] private Canvas levelEndCanvas;
+    [SerializeField] private TextMeshProUGUI levelEndingTimeText;
     private void Start()
     {
         timerTime = Time.time;
@@ -22,13 +28,17 @@ public class UiManager : MonoBehaviour
 
     void Update()
     {
+        if(!playerController.isGameOver)
+        {
+            t = Time.time - timerTime;
 
-        t = Time.time - timerTime;
+            minutes = ((int)t / 60).ToString();
+            seconds = (t % 60).ToString("f2");
+            timeText = minutes + ":"+seconds;
+            timerText.text = timeText;
+        }
 
-        minutes = ((int)t / 60).ToString();
-        seconds = (t % 60).ToString("f2");
-
-        timerText.text = minutes + ":"+seconds;
+        
     }
     public void PauseTheGameBtn()
     {
@@ -62,5 +72,11 @@ public class UiManager : MonoBehaviour
                 btnUI.enabled = true;
             }
         }
+    }
+
+    public void LevelEnd()
+    {
+        levelEndCanvas.enabled = true;
+        levelEndingTimeText.text = timeText;
     }
 }

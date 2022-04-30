@@ -37,13 +37,15 @@ public class NextLevelDoor : MonoBehaviour
     {
         // CrossPlatformInputManager.GetButtonDown("InteractBtn")
         // Input.GetKeyDown(KeyCode.E)
-        if (CrossPlatformInputManager.GetButtonDown("InteractBtn") && isOnDoor)
+        if (Input.GetKeyDown(KeyCode.E) && isOnDoor)
         {
+            player.isGameOver = true;
             if (canGoLoadNextLevel)
             {
                 audioSource.clip = openSound;
                 audioSource.Play();
-                StartCoroutine(levelManager.LoadNextLevel());
+                levelManager.LevelEndingScreen();
+                //StartCoroutine(levelManager.LoadNextLevel());
             }
             else
             {

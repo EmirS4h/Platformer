@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
     public float jumpForce;
     [SerializeField] bool doubleJump = false;
     [SerializeField] bool canDoubleJump = false;
-    [SerializeField] bool hasDoubleJump = false;
+    public bool hasDoubleJump = false;
     [SerializeField] private float coyoteTime;
     [SerializeField] private float bufferTime;
     [SerializeField] private float fallMultiplier;
@@ -86,11 +86,12 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        ApplyGravity();
+        ApplyFriction();
+
         if (!isGameOver)
         {
             Move();
-            ApplyFriction();
-            ApplyGravity();
 
             if (isJumping)
             {
@@ -333,20 +334,21 @@ public class PlayerController : MonoBehaviour
         transform.Rotate(0.0f, 180.0f, 0.0f);
     }
 
-    public void SavePlayer()
+    public void SavePlayerData()
     {
         SaveData.SavePlayerData(this);
     }
 
-    public void LoadPlayer()
+    public void LoadPlayerData()
     {
         PlayerData data = SaveData.LoadPlayerData();
-        Vector3 playerPosition;
-        playerPosition.x = data.playerPos[0];
-        playerPosition.y = data.playerPos[1];
-        playerPosition.z = data.playerPos[2];
+        jumpForce = data.playerJumpForce;
+        moveSpeed = data.playerSpeed;
+        dashForce = data.playerDashForce;
 
-        transform.position = playerPosition;
+        hasDoubleJump = data.hasDoubleJump;
+        maxDash = data.playerMaxDash;
+
     }
 
     private void OnDrawGizmos()

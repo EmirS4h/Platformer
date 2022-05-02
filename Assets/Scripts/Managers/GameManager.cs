@@ -21,6 +21,9 @@ public class GameManager : MonoBehaviour
     public List<GameObject> objects = new List<GameObject>();
     public List<GameObject> boostObject = new List<GameObject>();
 
+    public GameObject jumpBooster;
+    public List<Transform> boosterSpawnPoints = new List<Transform>();
+
     // Oyuncunun baslangic pozisyonunu ve ozelliklerini kaydeder
     private void Start()
     {
@@ -34,6 +37,11 @@ public class GameManager : MonoBehaviour
         playerStartingJumpForce = playerController.jumpForce;
 
         rb = playerController.GetComponent<Rigidbody2D>();
+
+        int rnd = Random.Range(0, boosterSpawnPoints.Count);
+        Debug.Log("Instantiate");
+        Instantiate(jumpBooster, boosterSpawnPoints[rnd].transform.position, jumpBooster.transform.rotation);
+        Debug.Log("Bitti");
     }
 
     // Oyuncu olunce Oyuncunun olmeden once topladigi herseyi geri getirir

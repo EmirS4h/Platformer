@@ -28,7 +28,7 @@ public class UiManager : MonoBehaviour
 
     void Update()
     {
-        if(!playerController.isGameOver)
+        if (!playerController.isGameOver)
         {
             t = Time.time - timerTime;
 
@@ -37,8 +37,6 @@ public class UiManager : MonoBehaviour
             timeText = minutes + ":"+seconds;
             timerText.text = timeText;
         }
-
-        
     }
     public void PauseTheGameBtn()
     {

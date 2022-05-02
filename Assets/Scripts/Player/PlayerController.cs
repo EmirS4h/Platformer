@@ -78,6 +78,7 @@ public class PlayerController : MonoBehaviour
 
     public int collectedDashBoosterAmount = 0;
     public int collectedJumpBoosterAmount = 0;
+    public int collectedDashForceBoosterAmount = 0;
 
     void Start()
     {
@@ -355,8 +356,8 @@ public class PlayerController : MonoBehaviour
 
         collectedDashBoosterAmount = data.collectedDashBoosterAmount;
         collectedJumpBoosterAmount = data.collectedJumpBoosterAmount;
+        collectedDashForceBoosterAmount = data.collectedDashForceBoosterAmount;
     }
-
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(checkGround.position, checkGroundRadius);

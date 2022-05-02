@@ -14,6 +14,7 @@ public class PlayerData
 
     public int collectedDashBoosterAmount;
     public int collectedJumpBoosterAmount;
+    public int collectedDashForceBoosterAmount;
 
     public PlayerData(PlayerController player)
     {
@@ -27,6 +28,7 @@ public class PlayerData
 
         collectedDashBoosterAmount = player.collectedDashBoosterAmount;
         collectedJumpBoosterAmount = player.collectedJumpBoosterAmount;
+        collectedDashForceBoosterAmount = player.collectedDashForceBoosterAmount;
 
     }
 }

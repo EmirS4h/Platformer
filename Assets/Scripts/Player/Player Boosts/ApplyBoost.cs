@@ -20,9 +20,16 @@ public class ApplyBoost : MonoBehaviour
     [SerializeField] float jumpBoostTime;
 
     [Header("Starting Forces")]
-    private float playerStartSpeed;
-    private float playerStartDashForce;
-    private float playerStartJumpForce;
+    [SerializeField] private float playerStartSpeed;
+    [SerializeField] private float playerStartDashForce;
+    [SerializeField] private float playerStartJumpForce;
+
+    enum BoostType
+    {
+        SpeedBoost,
+        DashBoost,
+        JumpBoost,
+    }
 
     private void Start()
     {
@@ -35,35 +42,35 @@ public class ApplyBoost : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("SpeedBoost"))
         {
-            DeactivateBoostAndApply(collision.gameObject, 0, speedBoostAmount, speedBoostTime);
+            DeactivateBoostAndApply(collision.gameObject, BoostType.SpeedBoost, speedBoostAmount, speedBoostTime);
         }
         else if (collision.gameObject.CompareTag("DashBoost"))
         {
-            DeactivateBoostAndApply(collision.gameObject, 1, dashBoostAmount, dashBoostTime);
+            DeactivateBoostAndApply(collision.gameObject, BoostType.DashBoost, dashBoostAmount, dashBoostTime);
         }
         else if (collision.gameObject.CompareTag("JumpBoost"))
         {
-            DeactivateBoostAndApply(collision.gameObject, 2, jumpBoostAmount, jumpBoostTime);
+            DeactivateBoostAndApply(collision.gameObject, BoostType.JumpBoost, jumpBoostAmount, jumpBoostTime);
         }
     }
 
-    IEnumerator Booster(GameObject boost, int boostType, float boostAmount, float time)
+    IEnumerator Booster(GameObject boost, BoostType boostType, float boostAmount, float time)
     {
         switch (boostType)
         {
-            case 0:
+            case BoostType.SpeedBoost:
                 playerController.moveSpeed *= boostAmount;
                 yield return new WaitForSeconds(time);
                 playerController.moveSpeed = playerStartSpeed;
                 boost.SetActive(false);
                 break;
-            case 1:
+            case BoostType.DashBoost:
                 playerController.dashForce *= boostAmount;
                 yield return new WaitForSeconds(time);
                 playerController.dashForce = playerStartDashForce;
                 boost.SetActive(false);
                 break;
-            case 2:
+            case BoostType.JumpBoost:
                 playerController.jumpForce *= boostAmount;
                 yield return new WaitForSeconds(time);
                 playerController.jumpForce = playerStartJumpForce;
@@ -72,7 +79,7 @@ public class ApplyBoost : MonoBehaviour
         }
     }
 
-    private void DeactivateBoostAndApply(GameObject boost, int boostType, float amount, float time)
+    private void DeactivateBoostAndApply(GameObject boost, BoostType boostType, float amount, float time)
     {
         boost.GetComponent<SpriteRenderer>().enabled = false;
         boost.GetComponent<BoxCollider2D>().enabled = false;

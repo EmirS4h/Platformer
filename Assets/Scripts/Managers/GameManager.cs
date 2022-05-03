@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     // OYUNCUNUN LEVEL ICERISINDEKI DURUMUNU ve YAPDIKLARINI TAKIP EDER
+    public static GameManager Instance;
 
     [SerializeField] PlayerController playerController;
     Rigidbody2D rb;
@@ -21,8 +22,20 @@ public class GameManager : MonoBehaviour
     public List<GameObject> objects = new List<GameObject>();
     public List<GameObject> boostObject = new List<GameObject>();
 
-    public GameObject jumpBooster;
-    public List<Transform> boosterSpawnPoints = new List<Transform>();
+    public GameObject[] boosters;
+    public Transform[] boosterSpawnPoints;
+
+    private void Awake()
+    {
+        if(Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
 
     // Oyuncunun baslangic pozisyonunu ve ozelliklerini kaydeder
     private void Start()
@@ -38,10 +51,7 @@ public class GameManager : MonoBehaviour
 
         rb = playerController.GetComponent<Rigidbody2D>();
 
-        int rnd = Random.Range(0, boosterSpawnPoints.Count);
-        Debug.Log("Instantiate");
-        Instantiate(jumpBooster, boosterSpawnPoints[rnd].transform.position, jumpBooster.transform.rotation);
-        Debug.Log("Bitti");
+        SpawnRandomObject(boosters, boosterSpawnPoints);
     }
 
     // Oyuncu olunce Oyuncunun olmeden once topladigi herseyi geri getirir
@@ -82,5 +92,15 @@ public class GameManager : MonoBehaviour
 
         rb.bodyType = RigidbodyType2D.Dynamic;
         playerController.playerHaveTheKey = false;
+    }
+
+    public void SpawnRandomObject(GameObject[] gameObjects, Transform[] spawnPoints)
+    {
+        if(gameObjects.Length != 0 && spawnPoints.Length != 0)
+        {
+            int rndPos = Random.Range(0, spawnPoints.Length);
+            int rndObj = Random.Range(0, gameObjects.Length);
+            Instantiate(gameObjects[rndObj], spawnPoints[rndPos].transform.position, gameObjects[rndObj].transform.rotation);
+        }
     }
 }

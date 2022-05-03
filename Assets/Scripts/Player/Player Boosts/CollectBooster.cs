@@ -5,8 +5,13 @@ using UnityEngine;
 public class CollectBooster : MonoBehaviour
 {
     [SerializeField] PlayerController playerController;
-    public int boostType; // 1 maxDash 2 doubleJump // 3 dashForce
-
+    enum BoosterType
+    {
+        MaxDash,
+        DoubleJump,
+        DashForce,
+    }
+    [SerializeField] BoosterType boosterType;
     private void Start()
     {
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
@@ -16,7 +21,7 @@ public class CollectBooster : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            if (boostType == 1 && playerController.collectedDashBoosterAmount < 3)
+            if (boosterType == BoosterType.MaxDash && playerController.collectedDashBoosterAmount < 3)
             {
                 playerController.collectedDashBoosterAmount++;
                 if (playerController.collectedDashBoosterAmount==3)
@@ -26,7 +31,7 @@ public class CollectBooster : MonoBehaviour
                 playerController.SavePlayerData();
                 Destroy(gameObject);
             }
-            else if (boostType == 2 && playerController.collectedJumpBoosterAmount < 3)
+            else if (boosterType == BoosterType.DoubleJump && playerController.collectedJumpBoosterAmount < 3)
             {
                 playerController.collectedJumpBoosterAmount++;
                 if (playerController.collectedJumpBoosterAmount==3)
@@ -36,7 +41,7 @@ public class CollectBooster : MonoBehaviour
                 playerController.SavePlayerData();
                 Destroy(gameObject);
             }
-            else if (boostType == 3 && playerController.collectedDashForceBoosterAmount < 3)
+            else if (boosterType == BoosterType.DashForce && playerController.collectedDashForceBoosterAmount < 3)
             {
                 playerController.collectedDashForceBoosterAmount++;
                 if (playerController.collectedDashForceBoosterAmount==3)

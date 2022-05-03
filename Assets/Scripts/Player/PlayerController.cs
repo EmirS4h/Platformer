@@ -80,13 +80,17 @@ public class PlayerController : MonoBehaviour
     public int collectedJumpBoosterAmount = 0;
     public int collectedDashForceBoosterAmount = 0;
 
+    private void Awake()
+    {
+        LoadPlayerData();
+    }
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         soundManager = GetComponent<SoundManager>();
         wallJumpDirection.Normalize();
-        LoadPlayerData();
     }
 
     private void FixedUpdate()

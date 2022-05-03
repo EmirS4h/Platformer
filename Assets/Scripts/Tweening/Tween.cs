@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Tween : MonoBehaviour
 {
+    private LTDescr _tweenObject;
     public enum AnimationType
     {
         ScaleInAndOut,
@@ -14,10 +15,25 @@ public class Tween : MonoBehaviour
 
     public enum MoveAxis
     {
+        None,
         X,
         Y,
     }
     public MoveAxis moveAxis;
+
+    public enum EaseType
+    {
+        None,
+        EaseInBack,
+        EaseInBounce,
+        EaseInOutBack,
+        EaseInOutBounce,
+        EaseOutBack,
+        EaseOutBounce,
+        EaseInOutElastic,
+        Linear,
+    }
+    public EaseType easeType;
 
     public float duration;
     public float rotDegrees;
@@ -26,7 +42,6 @@ public class Tween : MonoBehaviour
     public bool pingpong = false;
     public bool local = false;
 
-    public Vector3 from;
     public Vector3 to;
 
     private void Start()
@@ -34,123 +49,90 @@ public class Tween : MonoBehaviour
         switch (animationType)
         {
             case AnimationType.ScaleInAndOut:
-                ScaleInAndOut(gameObject, to, duration, loop, pingpong);
+                ScaleInAndOut();
                 break;
             case AnimationType.MoveAlongAxis:
-                MoveAlongAxis(gameObject, moveAxis, to, duration, loop, pingpong, local);
+                MoveAlongAxis();
                 break;
             case AnimationType.Rotate:
-                Rotate(gameObject, to, rotDegrees, duration, loop, pingpong);
+                Rotate();
                 break;
         }
-
-    }
-
-    public static void ScaleInAndOut(GameObject gameObject, Vector3 vector3, float time, bool loop, bool pingpong)
-    {
         if (loop)
         {
-            LeanTween.scale(gameObject, vector3, time).setLoopClamp();
+            _tweenObject.setLoopClamp();
         }
-        else if (pingpong)
+        if (pingpong)
         {
-            LeanTween.scale(gameObject, vector3, time).setLoopPingPong();
+            _tweenObject.setLoopPingPong();
         }
-        else
+        switch (easeType)
         {
-            LeanTween.scale(gameObject, vector3, time);
+            case EaseType.None:
+                break;
+            case EaseType.EaseInBack:
+                _tweenObject.setEase(LeanTweenType.easeInBack);
+                break;
+            case EaseType.EaseInBounce:
+                _tweenObject.setEase(LeanTweenType.easeInBounce);
+                break;
+            case EaseType.EaseInOutBack:
+                _tweenObject.setEase(LeanTweenType.easeInOutBack);
+                break;
+            case EaseType.EaseInOutBounce:
+                _tweenObject.setEase(LeanTweenType.easeInOutBounce);
+                break;
+            case EaseType.EaseOutBack:
+                _tweenObject.setEase(LeanTweenType.easeOutBack);
+                break;
+            case EaseType.EaseOutBounce:
+                _tweenObject.setEase(LeanTweenType.easeOutBounce);
+                break;
+            case EaseType.EaseInOutElastic:
+                _tweenObject.setEase(LeanTweenType.easeInOutElastic);
+                break;
+            case EaseType.Linear:
+                _tweenObject.setEase(LeanTweenType.linear);
+                break;
         }
     }
 
-    public static void MoveAlongAxis(GameObject gameObject, MoveAxis moveAxis, Vector3 to, float time, bool loop, bool pingpong, bool local)
+    public void ScaleInAndOut()
+    {
+        _tweenObject = LeanTween.scale(gameObject, to, duration);
+    }
+
+    public void MoveAlongAxis()
     {
         switch (moveAxis)
         {
+            case MoveAxis.None:
+                break;
             case MoveAxis.X:
-                if (loop)
+                if (local)
                 {
-                    if (local)
-                    {
-                        LeanTween.moveX(gameObject, gameObject.transform.position.x +  to.x, time).setLoopClamp();
-                    }
-                    else
-                    {
-                        LeanTween.moveX(gameObject, to.x, time).setLoopClamp();
-                    }
-                }
-                else if (pingpong)
-                {
-                    if (local)
-                    {
-                        LeanTween.moveX(gameObject, gameObject.transform.position.x +  to.x, time).setLoopPingPong();
-                    }
-                    else
-                    {
-                        LeanTween.moveX(gameObject, to.x, time).setLoopPingPong();
-                    }
+                    _tweenObject = LeanTween.moveX(gameObject, gameObject.transform.position.x +  to.x, duration);
                 }
                 else
                 {
-                    if (local)
-                    {
-                        LeanTween.moveX(gameObject, gameObject.transform.position.x +  to.x, time);
-                    }
-                    else
-                    {
-                        LeanTween.moveX(gameObject, to.x, time);
-                    }
+                    _tweenObject = LeanTween.moveX(gameObject, to.x, duration);
                 }
                 break;
             case MoveAxis.Y:
-                if (loop)
+                if (local)
                 {
-                    if (local)
-                    {
-                        LeanTween.moveY(gameObject, gameObject.transform.position.y +  to.y, time).setLoopClamp();
-                    }
-                    else
-                    {
-                        LeanTween.moveY(gameObject, to.y, time).setLoopClamp();
-                    }
-                }
-                else if (pingpong)
-                {
-                    if (local)
-                    {
-                        LeanTween.moveY(gameObject, gameObject.transform.position.y +  to.y, time).setLoopPingPong();
-                    }
-                    else
-                    {
-                        LeanTween.moveY(gameObject, to.y, time).setLoopPingPong();
-                    }
+                    _tweenObject = LeanTween.moveY(gameObject, gameObject.transform.position.y +  to.y, duration);
                 }
                 else
                 {
-                    if (local)
-                    {
-                        LeanTween.moveY(gameObject, gameObject.transform.position.y +  to.y, time);
-                    }
-                    else
-                    {
-                        LeanTween.moveY(gameObject, to.y, time);
-                    }
+                    _tweenObject = LeanTween.moveY(gameObject, to.y, duration);
                 }
                 break;
         }
     }
-    public static void Rotate(GameObject gameObject, Vector3 vector3, float deg, float time, bool loop, bool pingpong)
+    public void Rotate()
     {
-        if (loop)
-        {
-            LeanTween.rotateAround(gameObject, vector3, deg, time).setLoopClamp();
-        }
-        else if (pingpong)
-        {
-            LeanTween.rotateAround(gameObject, vector3, deg, time).setLoopPingPong();
-        }
-        else
-        {
-            LeanTween.rotateAround(gameObject, vector3, deg, time);
-        }
+
+        LeanTween.rotateAround(gameObject, to, rotDegrees, duration);
     }
 }

@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour
         {
             foreach (GameObject o in boostObject)
             {
-                o.SetActive(true);
+                //o.SetActive(true);
                 o.GetComponent<SpriteRenderer>().enabled = true;
                 o.GetComponent<BoxCollider2D>().enabled = true;
             }
@@ -91,6 +91,7 @@ public class GameManager : MonoBehaviour
 
         rb.bodyType = RigidbodyType2D.Dynamic;
         PlayerController.Instance.playerHaveTheKey = false;
+        PlayerController.Instance.boostActive = false;
     }
 
     public void SpawnRandomObject(GameObject[] gameObjects, Transform[] spawnPoints)

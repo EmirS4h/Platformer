@@ -37,21 +37,21 @@ public class ApplyBoost : MonoBehaviour
                 PlayerController.Instance.moveSpeed *= boostAmount;
                 yield return new WaitForSeconds(time);
                 PlayerController.Instance.moveSpeed = playerStartSpeed;
-                gameObject.SetActive(false);
+                //gameObject.SetActive(false);
                 PlayerController.Instance.boostActive = false;
                 break;
             case Boost.Type.DashForce:
                 PlayerController.Instance.dashForce *= boostAmount;
                 yield return new WaitForSeconds(time);
                 PlayerController.Instance.dashForce = playerStartDashForce;
-                gameObject.SetActive(false);
+                //gameObject.SetActive(false);
                 PlayerController.Instance.boostActive = false;
                 break;
             case Boost.Type.JumpForce:
                 PlayerController.Instance.jumpForce *= boostAmount;
                 yield return new WaitForSeconds(time);
                 PlayerController.Instance.jumpForce = playerStartJumpForce;
-                gameObject.SetActive(false);
+                //gameObject.SetActive(false);
                 PlayerController.Instance.boostActive = false;
                 break;
         }

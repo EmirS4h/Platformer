@@ -7,7 +7,6 @@ public class GameManager : MonoBehaviour
     // OYUNCUNUN LEVEL ICERISINDEKI DURUMUNU ve YAPDIKLARINI TAKIP EDER
     public static GameManager Instance;
 
-    [SerializeField] PlayerController playerController;
     Rigidbody2D rb;
 
     public Vector2 playerStartingPosition;
@@ -40,16 +39,16 @@ public class GameManager : MonoBehaviour
     // Oyuncunun baslangic pozisyonunu ve ozelliklerini kaydeder
     private void Start()
     {
-        playerStartingPosition = new Vector2(playerController.transform.position.x, playerController.transform.position.y);
-        playerStartingRotation = new Vector3(playerController.transform.rotation.x, playerController.transform.rotation.y, playerController.transform.rotation.z);
-        playerStartingDirection = playerController.direction;
-        playerStartingFacingDirection = playerController.isFacingRight;
+        playerStartingPosition = new Vector2(PlayerController.Instance.transform.position.x, PlayerController.Instance.transform.position.y);
+        playerStartingRotation = new Vector3(PlayerController.Instance.transform.rotation.x, PlayerController.Instance.transform.rotation.y, PlayerController.Instance.transform.rotation.z);
+        playerStartingDirection = PlayerController.Instance.direction;
+        playerStartingFacingDirection = PlayerController.Instance.isFacingRight;
 
-        playerStartingSpeed = playerController.moveSpeed;
-        playerStartingDashForce = playerController.dashForce;
-        playerStartingJumpForce = playerController.jumpForce;
+        playerStartingSpeed = PlayerController.Instance.moveSpeed;
+        playerStartingDashForce = PlayerController.Instance.dashForce;
+        playerStartingJumpForce = PlayerController.Instance.jumpForce;
 
-        rb = playerController.GetComponent<Rigidbody2D>();
+        rb = PlayerController.Instance.GetComponent<Rigidbody2D>();
 
         SpawnRandomObject(boosters, boosterSpawnPoints);
     }
@@ -81,17 +80,17 @@ public class GameManager : MonoBehaviour
     // Oyuncuyu baslangictaki haline dondurur
     public void SentPlayerBackToStart()
     {
-        playerController.transform.position = playerStartingPosition;
-        playerController.transform.rotation = Quaternion.Euler(playerStartingRotation);
-        playerController.direction = playerStartingDirection;
-        playerController.isFacingRight = playerStartingFacingDirection;
+        PlayerController.Instance.transform.position = playerStartingPosition;
+        PlayerController.Instance.transform.rotation = Quaternion.Euler(playerStartingRotation);
+        PlayerController.Instance.direction = playerStartingDirection;
+        PlayerController.Instance.isFacingRight = playerStartingFacingDirection;
 
-        playerController.moveSpeed = playerStartingSpeed;
-        playerController.jumpForce = playerStartingJumpForce;
-        playerController.dashForce = playerStartingDashForce;
+        PlayerController.Instance.moveSpeed = playerStartingSpeed;
+        PlayerController.Instance.jumpForce = playerStartingJumpForce;
+        PlayerController.Instance.dashForce = playerStartingDashForce;
 
         rb.bodyType = RigidbodyType2D.Dynamic;
-        playerController.playerHaveTheKey = false;
+        PlayerController.Instance.playerHaveTheKey = false;
     }
 
     public void SpawnRandomObject(GameObject[] gameObjects, Transform[] spawnPoints)

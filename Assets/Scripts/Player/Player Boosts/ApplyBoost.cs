@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class ApplyBoost : MonoBehaviour
 {
-    [SerializeField] PlayerController playerController;
-
     [Header("Starting Forces")]
     [SerializeField] private float playerStartSpeed;
     [SerializeField] private float playerStartDashForce;
@@ -15,11 +13,9 @@ public class ApplyBoost : MonoBehaviour
 
     private void Start()
     {
-        playerStartSpeed = playerController.moveSpeed;
-        playerStartDashForce = playerController.dashForce;
-        playerStartJumpForce = playerController.jumpForce;
-
-        playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        playerStartSpeed = PlayerController.Instance.moveSpeed;
+        playerStartDashForce = PlayerController.Instance.dashForce;
+        playerStartJumpForce = PlayerController.Instance.jumpForce;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -35,21 +31,21 @@ public class ApplyBoost : MonoBehaviour
         switch (boostType)
         {
             case Boost.Type.MoveSpeed:
-                playerController.moveSpeed *= boostAmount;
+                PlayerController.Instance.moveSpeed *= boostAmount;
                 yield return new WaitForSeconds(time);
-                playerController.moveSpeed = playerStartSpeed;
+                PlayerController.Instance.moveSpeed = playerStartSpeed;
                 gameObject.SetActive(false);
                 break;
             case Boost.Type.DashForce:
-                playerController.dashForce *= boostAmount;
+                PlayerController.Instance.dashForce *= boostAmount;
                 yield return new WaitForSeconds(time);
-                playerController.dashForce = playerStartDashForce;
+                PlayerController.Instance.dashForce = playerStartDashForce;
                 gameObject.SetActive(false);
                 break;
             case Boost.Type.JumpForce:
-                playerController.jumpForce *= boostAmount;
+                PlayerController.Instance.jumpForce *= boostAmount;
                 yield return new WaitForSeconds(time);
-                playerController.jumpForce = playerStartJumpForce;
+                PlayerController.Instance.jumpForce = playerStartJumpForce;
                 gameObject.SetActive(false);
                 break;
         }

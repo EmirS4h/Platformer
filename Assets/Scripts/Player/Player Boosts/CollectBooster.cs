@@ -4,14 +4,7 @@ using UnityEngine;
 
 public class CollectBooster : MonoBehaviour
 {
-    [SerializeField] PlayerController playerController;
-
     [SerializeField] Boost boost;
-
-    private void Start()
-    {
-        playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -20,62 +13,62 @@ public class CollectBooster : MonoBehaviour
             switch (boost.type)
             {
                 case Boost.Type.DoubleDashBooster:
-                    if (playerController.collectedDoubleDashBoosterAmount < 3)
+                    if (PlayerController.Instance.collectedDoubleDashBoosterAmount < 3)
                     {
-                        playerController.collectedDoubleDashBoosterAmount++;
-                        if (playerController.collectedDoubleDashBoosterAmount==3)
+                        PlayerController.Instance.collectedDoubleDashBoosterAmount++;
+                        if (PlayerController.Instance.collectedDoubleDashBoosterAmount==3)
                         {
-                            playerController.maxDash = 2;
+                            PlayerController.Instance.maxDash = 2;
                         }
-                        playerController.SavePlayerData();
+                        PlayerController.Instance.SavePlayerData();
                     }
                     Destroy(gameObject);
                     break;
                 case Boost.Type.DoubleJumpBooster:
-                    if (playerController.collectedDoubleJumpBoosterAmount < 3)
+                    if (PlayerController.Instance.collectedDoubleJumpBoosterAmount < 3)
                     {
-                        playerController.collectedDoubleJumpBoosterAmount++;
-                        if (playerController.collectedDoubleJumpBoosterAmount==3)
+                        PlayerController.Instance.collectedDoubleJumpBoosterAmount++;
+                        if (PlayerController.Instance.collectedDoubleJumpBoosterAmount==3)
                         {
-                            playerController.hasDoubleJump = true;
+                            PlayerController.Instance.hasDoubleJump = true;
                         }
-                        playerController.SavePlayerData();
+                        PlayerController.Instance.SavePlayerData();
                     }
                     Destroy(gameObject);
                     break;
                 case Boost.Type.PermaDashForce:
-                    if (playerController.collectedDashForceBoosterAmount < 3)
+                    if (PlayerController.Instance.collectedDashForceBoosterAmount < 3)
                     {
-                        playerController.collectedDashForceBoosterAmount++;
-                        if (playerController.collectedDashForceBoosterAmount==3)
+                        PlayerController.Instance.collectedDashForceBoosterAmount++;
+                        if (PlayerController.Instance.collectedDashForceBoosterAmount==3)
                         {
-                            playerController.dashForce *= 1.5f;
+                            PlayerController.Instance.dashForce *= 1.5f;
                         }
-                        playerController.SavePlayerData();
+                        PlayerController.Instance.SavePlayerData();
                     }
                     Destroy(gameObject);
                     break;
                 case Boost.Type.PermaMoveSpeed:
-                    if (playerController.collectedMoveSpeedBoosterAmount < 3)
+                    if (PlayerController.Instance.collectedMoveSpeedBoosterAmount < 3)
                     {
-                        playerController.collectedMoveSpeedBoosterAmount++;
-                        if (playerController.collectedMoveSpeedBoosterAmount==3)
+                        PlayerController.Instance.collectedMoveSpeedBoosterAmount++;
+                        if (PlayerController.Instance.collectedMoveSpeedBoosterAmount==3)
                         {
-                            playerController.moveSpeed *= 1.5f;
+                            PlayerController.Instance.moveSpeed *= 1.5f;
                         }
-                        playerController.SavePlayerData();
+                        PlayerController.Instance.SavePlayerData();
                     }
                     Destroy(gameObject);
                     break;
                 case Boost.Type.PermaJumpForce:
-                    if (playerController.collectedJumpForceBoosterAmount < 3)
+                    if (PlayerController.Instance.collectedJumpForceBoosterAmount < 3)
                     {
-                        playerController.collectedJumpForceBoosterAmount++;
-                        if (playerController.collectedJumpForceBoosterAmount==3)
+                        PlayerController.Instance.collectedJumpForceBoosterAmount++;
+                        if (PlayerController.Instance.collectedJumpForceBoosterAmount==3)
                         {
-                            playerController.jumpForce *= 1.5f;
+                            PlayerController.Instance.jumpForce *= 1.5f;
                         }
-                        playerController.SavePlayerData();
+                        PlayerController.Instance.SavePlayerData();
                     }
                     Destroy(gameObject);
                     break;

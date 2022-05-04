@@ -4,9 +4,10 @@ using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController Instance;
+
     private Rigidbody2D rb;
     private Animator animator;
-    private SoundManager soundManager;
 
     [Header("Player Particles")]
     [SerializeField] private ParticleSystem jumpParticle;
@@ -84,6 +85,14 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
         LoadPlayerData();
     }
 
@@ -91,7 +100,6 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        soundManager = GetComponent<SoundManager>();
         wallJumpDirection.Normalize();
     }
 
@@ -155,7 +163,7 @@ public class PlayerController : MonoBehaviour
             #region Check for Surroundings
 
             CheckGround();
-            soundManager.playLandingSound = !isGrounded;
+            SoundManager.Instance.playLandingSound = !isGrounded;
             CheckWall();
             CheckForWallSliding();
 
@@ -287,7 +295,7 @@ public class PlayerController : MonoBehaviour
         {
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             jumpParticle.Play();
-            soundManager.PlayJumpSound();
+            SoundManager.Instance.PlayJumpSound();
         }
         else if (wallSliding && canJump)
         {

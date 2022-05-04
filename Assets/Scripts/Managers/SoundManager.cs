@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
+    public static SoundManager Instance;
+
     AudioSource audioSource;
     Rigidbody2D rb;
     [SerializeField] AudioClip keySound;
@@ -26,6 +28,19 @@ public class SoundManager : MonoBehaviour
     public int groundType = 0;
     public bool playLandingSound = false;
     int rnd;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
+
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();

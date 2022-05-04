@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class UiManager : MonoBehaviour
 {
-    [SerializeField] PlayerController playerController;
+    public static UiManager Instance;
 
     [SerializeField] Canvas btnUI;
     [SerializeField] Canvas menuUI;
@@ -21,6 +21,19 @@ public class UiManager : MonoBehaviour
 
     [SerializeField] private Canvas levelEndCanvas;
     [SerializeField] private TextMeshProUGUI levelEndingTimeText;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
+
     private void Start()
     {
         timerTime = Time.time;
@@ -28,7 +41,7 @@ public class UiManager : MonoBehaviour
 
     void Update()
     {
-        if (!playerController.isGameOver)
+        if (!PlayerController.Instance.isGameOver)
         {
             t = Time.time - timerTime;
 

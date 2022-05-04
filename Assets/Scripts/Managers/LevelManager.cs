@@ -5,9 +5,23 @@ using UnityEngine.SceneManagement;
 using TMPro;
 public class LevelManager : MonoBehaviour
 {
+    public static LevelManager Instance;
+
     [SerializeField] private Animator animator;
-    [SerializeField] private UiManager uiManager;
     [SerializeField] private Canvas levelEndingCanvas;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
+
     // Level yukleme animasyonunu oynatýr ve bir sonraki leveli yukler
     public IEnumerator LoadNextLevel()
     {
@@ -39,7 +53,7 @@ public class LevelManager : MonoBehaviour
     }
     public void LevelEndingScreen()
     {
-        uiManager.LevelEnd();
+        UiManager.Instance.LevelEnd();
     }
     // Ilk leveli yukler
     public void StartGame()

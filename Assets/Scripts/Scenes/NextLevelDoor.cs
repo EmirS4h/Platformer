@@ -5,7 +5,6 @@ using UnityStandardAssets.CrossPlatformInput;
 
 public class NextLevelDoor : MonoBehaviour
 {
-    [SerializeField] PlayerController player;
     [SerializeField] LevelManager levelManager;
 
     AudioSource audioSource;
@@ -23,7 +22,7 @@ public class NextLevelDoor : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            canGoLoadNextLevel = player.playerHaveTheKey;
+            canGoLoadNextLevel = PlayerController.Instance.playerHaveTheKey;
             isOnDoor = true;
         }
     }
@@ -39,7 +38,7 @@ public class NextLevelDoor : MonoBehaviour
         // Input.GetKeyDown(KeyCode.E)
         if (Input.GetKeyDown(KeyCode.E) && isOnDoor)
         {
-            player.isGameOver = true;
+            PlayerController.Instance.isGameOver = true;
             if (canGoLoadNextLevel)
             {
                 audioSource.clip = openSound;

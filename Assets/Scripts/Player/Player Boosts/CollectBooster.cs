@@ -42,7 +42,7 @@ public class CollectBooster : MonoBehaviour
                         PlayerController.Instance.collectedDashForceBoosterAmount++;
                         if (PlayerController.Instance.collectedDashForceBoosterAmount==3)
                         {
-                            PlayerController.Instance.dashForce *= 1.5f;
+                            PlayerController.Instance.dashForce *= boost.permaDashForceBoostAmount;
                         }
                         PlayerController.Instance.SavePlayerData();
                     }
@@ -54,7 +54,7 @@ public class CollectBooster : MonoBehaviour
                         PlayerController.Instance.collectedMoveSpeedBoosterAmount++;
                         if (PlayerController.Instance.collectedMoveSpeedBoosterAmount==3)
                         {
-                            PlayerController.Instance.moveSpeed *= 1.5f;
+                            PlayerController.Instance.moveSpeed *= boost.permaMoveSpeedBoostAmount;
                         }
                         PlayerController.Instance.SavePlayerData();
                     }
@@ -66,7 +66,7 @@ public class CollectBooster : MonoBehaviour
                         PlayerController.Instance.collectedJumpForceBoosterAmount++;
                         if (PlayerController.Instance.collectedJumpForceBoosterAmount==3)
                         {
-                            PlayerController.Instance.jumpForce *= 1.5f;
+                            PlayerController.Instance.jumpForce *= boost.permaJumpForceBoostAmount;
                         }
                         PlayerController.Instance.SavePlayerData();
                     }

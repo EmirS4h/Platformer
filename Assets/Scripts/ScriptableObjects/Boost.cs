@@ -19,4 +19,8 @@ public class Boost : ScriptableObject
     public Type type;
     public float boostAmount;
     public float boostTime;
+
+    public float permaMoveSpeedBoostAmount;
+    public float permaDashForceBoostAmount;
+    public float permaJumpForceBoostAmount;
 }

@@ -83,6 +83,8 @@ public class PlayerController : MonoBehaviour
     public int collectedJumpForceBoosterAmount = 0;
     public int collectedMoveSpeedBoosterAmount = 0;
 
+    public bool boostActive = false;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)

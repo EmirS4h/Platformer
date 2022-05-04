@@ -5,8 +5,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class PlayerLife : MonoBehaviour
 {
-    [SerializeField] GameManager gameManager;
-
     private Animator animator;
     private Rigidbody2D rb;
     void Start()
@@ -22,7 +20,6 @@ public class PlayerLife : MonoBehaviour
             Die();
         }
     }
-
     private void Die()
     {
         animator.SetTrigger("Die");
@@ -31,7 +28,7 @@ public class PlayerLife : MonoBehaviour
 
     public void Deneme()
     {
-        gameManager.ReActivateBack();
-        gameManager.SentPlayerBackToStart();
+        GameManager.Instance.ReActivateBack();
+        GameManager.Instance.SentPlayerBackToStart();
     }
 }

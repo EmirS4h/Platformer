@@ -15,6 +15,8 @@ public class PlayerData
     public int collectedDashBoosterAmount;
     public int collectedJumpBoosterAmount;
     public int collectedDashForceBoosterAmount;
+    public int collectedJumpForceBoosterAmount;
+    public int collectedMoveSpeedBoosterAmount;
 
     public PlayerData(PlayerController player)
     {
@@ -26,9 +28,10 @@ public class PlayerData
 
         playerMaxDash = player.maxDash;
 
-        collectedDashBoosterAmount = player.collectedDashBoosterAmount;
-        collectedJumpBoosterAmount = player.collectedJumpBoosterAmount;
+        collectedDashBoosterAmount = player.collectedDoubleDashBoosterAmount;
+        collectedJumpBoosterAmount = player.collectedDoubleJumpBoosterAmount;
         collectedDashForceBoosterAmount = player.collectedDashForceBoosterAmount;
-
+        collectedJumpForceBoosterAmount = player.collectedJumpForceBoosterAmount;
+        collectedMoveSpeedBoosterAmount = player.collectedMoveSpeedBoosterAmount;
     }
 }

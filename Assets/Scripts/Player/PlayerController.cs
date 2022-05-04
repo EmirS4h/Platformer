@@ -76,9 +76,11 @@ public class PlayerController : MonoBehaviour
     public bool isGameOver = false;
     public bool playerHaveTheKey = false;
 
-    public int collectedDashBoosterAmount = 0;
-    public int collectedJumpBoosterAmount = 0;
+    public int collectedDoubleDashBoosterAmount = 0;
+    public int collectedDoubleJumpBoosterAmount = 0;
     public int collectedDashForceBoosterAmount = 0;
+    public int collectedJumpForceBoosterAmount = 0;
+    public int collectedMoveSpeedBoosterAmount = 0;
 
     private void Awake()
     {
@@ -358,9 +360,11 @@ public class PlayerController : MonoBehaviour
         hasDoubleJump = data.hasDoubleJump;
         maxDash = data.playerMaxDash;
 
-        collectedDashBoosterAmount = data.collectedDashBoosterAmount;
-        collectedJumpBoosterAmount = data.collectedJumpBoosterAmount;
+        collectedDoubleDashBoosterAmount = data.collectedDashBoosterAmount;
+        collectedDoubleJumpBoosterAmount = data.collectedJumpBoosterAmount;
         collectedDashForceBoosterAmount = data.collectedDashForceBoosterAmount;
+        collectedJumpForceBoosterAmount = data.collectedJumpForceBoosterAmount;
+        collectedMoveSpeedBoosterAmount = data.collectedMoveSpeedBoosterAmount;
     }
     private void OnDrawGizmos()
     {

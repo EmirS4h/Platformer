@@ -14,6 +14,9 @@ TagManager:
   - JumpBoost
   - SpeedBoost
   - DashBoost
+  - GameManager
+  - UiManager
+  - LevelManager
   layers:
   - Default
   - TransparentFX

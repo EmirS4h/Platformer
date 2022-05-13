@@ -15,7 +15,6 @@ public class RotateOnTouch : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             animator.SetTrigger("move");
-            Debug.Log("girdi");
         }
     }
 

@@ -5,9 +5,10 @@ using UnityEngine;
 public class OpenChest : MonoBehaviour
 {
     SpriteRenderer spriteRenderer;
-    [SerializeField] Sprite newSprite;
+    public Sprite closedChestSprite;
+    public Sprite openedChestSprite;
     [SerializeField] private bool isPlayerOnTheChest = false;
-    [SerializeField] private bool chestOpened = false;
+    public bool chestOpened = false;
     [SerializeField] GameObject[] objects;
     // Start is called before the first frame update
     void Start()
@@ -20,12 +21,13 @@ public class OpenChest : MonoBehaviour
     {
         if (isPlayerOnTheChest && !chestOpened && Input.GetKeyDown(KeyCode.E))
         {
-            spriteRenderer.sprite = newSprite;
+            spriteRenderer.sprite = openedChestSprite;
             chestOpened = true;
             int rnd = Random.Range(0, objects.Length);
             int leftRight = Random.Range(0, 2);
             Vector2 spawnPos = new Vector2(leftRight == 0 ? gameObject.transform.position.x + 0.8f : gameObject.transform.position.x + -0.8f, gameObject.transform.position.y);
             Instantiate(objects[rnd], spawnPos, objects[rnd].transform.rotation);
+            GameManager.Instance.chestsOpened.Add(this);
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -35,5 +37,11 @@ public class OpenChest : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
         isPlayerOnTheChest = false;
+    }
+
+    public void ReturnNormalState()
+    {
+        spriteRenderer.sprite = closedChestSprite;
+        chestOpened = false;
     }
 }

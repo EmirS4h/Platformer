@@ -34,24 +34,24 @@ public class ApplyBoost : MonoBehaviour
         switch (boostType)
         {
             case Boost.Type.MoveSpeed:
+            case Boost.Type.MoveSpeedFromChest:
                 PlayerController.Instance.moveSpeed *= boostAmount;
                 yield return new WaitForSeconds(time);
                 PlayerController.Instance.moveSpeed = playerStartSpeed;
-                //gameObject.SetActive(false);
                 PlayerController.Instance.boostActive = false;
                 break;
             case Boost.Type.DashForce:
+            case Boost.Type.DashForceFromChest:
                 PlayerController.Instance.dashForce *= boostAmount;
                 yield return new WaitForSeconds(time);
                 PlayerController.Instance.dashForce = playerStartDashForce;
-                //gameObject.SetActive(false);
                 PlayerController.Instance.boostActive = false;
                 break;
             case Boost.Type.JumpForce:
+            case Boost.Type.JumpForceFromChest:
                 PlayerController.Instance.jumpForce *= boostAmount;
                 yield return new WaitForSeconds(time);
                 PlayerController.Instance.jumpForce = playerStartJumpForce;
-                //gameObject.SetActive(false);
                 PlayerController.Instance.boostActive = false;
                 break;
         }
@@ -62,7 +62,15 @@ public class ApplyBoost : MonoBehaviour
         PlayerController.Instance.boostActive = true;
         gameObject.GetComponent<SpriteRenderer>().enabled = false;
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
-        GameManager.Instance.boostObject.Add(gameObject);
-        StartCoroutine(Booster(boostType, amount, time));
+        if (boost.type == Boost.Type.MoveSpeedFromChest || boost.type == Boost.Type.DashForceFromChest || boost.type == Boost.Type.JumpForceFromChest)
+        {
+            GameManager.Instance.boostObjectFromChest.Add(gameObject);
+            StartCoroutine(Booster(boostType, amount, time));
+        }
+        else
+        {
+            GameManager.Instance.boostObject.Add(gameObject);
+            StartCoroutine(Booster(boostType, amount, time));
+        }
     }
 }

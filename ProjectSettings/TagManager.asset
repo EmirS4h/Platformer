@@ -11,9 +11,6 @@ TagManager:
   - Grass
   - Stone
   - Wood
-  - JumpBoost
-  - SpeedBoost
-  - DashBoost
   - GameManager
   - UiManager
   - LevelManager

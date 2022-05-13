@@ -20,13 +20,19 @@ public class GameManager : MonoBehaviour
 
     public List<GameObject> objects = new List<GameObject>();
     public List<GameObject> boostObject = new List<GameObject>();
+    public List<GameObject> boostObjectFromChest = new List<GameObject>();
+
+    public List<OpenChest> chestsOpened = new List<OpenChest>();
 
     public GameObject[] boosters;
     public Transform[] boosterSpawnPoints;
 
+    public GameObject[] rndomObjectsToSpawn;
+    public Transform[] rndomPositions;
+
     private void Awake()
     {
-        if(Instance != null && Instance != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(this);
         }
@@ -49,8 +55,14 @@ public class GameManager : MonoBehaviour
         playerStartingJumpForce = PlayerController.Instance.jumpForce;
 
         rb = PlayerController.Instance.GetComponent<Rigidbody2D>();
-
-        SpawnRandomObject(boosters, boosterSpawnPoints);
+        if (boosters.Length != 0)
+        {
+            SpawnRandomObject(boosters, boosterSpawnPoints);
+        }
+        if (rndomObjectsToSpawn.Length != 0)
+        {
+            SpawnRandomObject(rndomObjectsToSpawn, rndomPositions);
+        }
     }
 
     // Oyuncu olunce Oyuncunun olmeden once topladigi herseyi geri getirir
@@ -69,11 +81,26 @@ public class GameManager : MonoBehaviour
         {
             foreach (GameObject o in boostObject)
             {
-                //o.SetActive(true);
                 o.GetComponent<SpriteRenderer>().enabled = true;
                 o.GetComponent<BoxCollider2D>().enabled = true;
             }
             boostObject.Clear();
+        }
+
+        if(chestsOpened.Count > 0)
+        {
+            foreach (OpenChest o in chestsOpened)
+            {
+                o.ReturnNormalState();
+            }
+        }
+
+        if(boostObjectFromChest.Count > 0)
+        {
+            foreach (GameObject o in boostObjectFromChest)
+            {
+                Destroy(o);
+            }
         }
     }
 
@@ -96,7 +123,7 @@ public class GameManager : MonoBehaviour
 
     public void SpawnRandomObject(GameObject[] gameObjects, Transform[] spawnPoints)
     {
-        if(gameObjects.Length != 0 && spawnPoints.Length != 0)
+        if (gameObjects.Length != 0 && spawnPoints.Length != 0)
         {
             int rndPos = Random.Range(0, spawnPoints.Length);
             int rndObj = Random.Range(0, gameObjects.Length);

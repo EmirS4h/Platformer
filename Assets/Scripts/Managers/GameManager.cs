@@ -30,6 +30,9 @@ public class GameManager : MonoBehaviour
     public GameObject[] rndomObjectsToSpawn;
     public Transform[] rndomPositions;
 
+
+    public GameObject[] playerModels;
+    public Transform startingPosition;
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -45,6 +48,9 @@ public class GameManager : MonoBehaviour
     // Oyuncunun baslangic pozisyonunu ve ozelliklerini kaydeder
     private void Start()
     {
+        GameObject prefab = playerModels[PlayerPrefs.GetInt("charIndex")];
+        Instantiate(prefab, startingPosition.position, Quaternion.identity);
+
         playerStartingPosition = new Vector2(PlayerController.Instance.transform.position.x, PlayerController.Instance.transform.position.y);
         playerStartingRotation = new Vector3(PlayerController.Instance.transform.rotation.x, PlayerController.Instance.transform.rotation.y, PlayerController.Instance.transform.rotation.z);
         playerStartingDirection = PlayerController.Instance.direction;
@@ -87,7 +93,7 @@ public class GameManager : MonoBehaviour
             boostObject.Clear();
         }
 
-        if(chestsOpened.Count > 0)
+        if (chestsOpened.Count > 0)
         {
             foreach (OpenChest o in chestsOpened)
             {
@@ -95,7 +101,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        if(boostObjectFromChest.Count > 0)
+        if (boostObjectFromChest.Count > 0)
         {
             foreach (GameObject o in boostObjectFromChest)
             {

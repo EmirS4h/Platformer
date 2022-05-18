@@ -24,10 +24,12 @@ public class PlayerLife : MonoBehaviour
     {
         animator.SetTrigger("Die");
         rb.bodyType = RigidbodyType2D.Static;
+        StartCoroutine(Deneme());
     }
 
-    public void Deneme()
+    public IEnumerator Deneme()
     {
+        yield return new WaitForSeconds(1);
         GameManager.Instance.ReActivateBack();
         GameManager.Instance.SentPlayerBackToStart();
     }

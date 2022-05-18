@@ -8,7 +8,9 @@ public class LevelManager : MonoBehaviour
     public static LevelManager Instance;
 
     [SerializeField] private Animator animator;
-    [SerializeField] private Canvas levelEndingCanvas;
+    [SerializeField] private GameObject levelEndingCanvas;
+
+    [SerializeField] GameObject pauseMenu;
 
     private void Awake()
     {
@@ -19,6 +21,14 @@ public class LevelManager : MonoBehaviour
         else
         {
             Instance = this;
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) && pauseMenu != null)
+        {
+            pauseMenu.SetActive(!pauseMenu.activeSelf);
         }
     }
 
@@ -48,7 +58,7 @@ public class LevelManager : MonoBehaviour
     }
     public void NextLevel()
     {
-        levelEndingCanvas.enabled = false;
+        levelEndingCanvas.SetActive(false);
         StartCoroutine(LoadNextLevel());
     }
     public void LevelEndingScreen()

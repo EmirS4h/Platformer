@@ -74,39 +74,27 @@ public class GameManager : MonoBehaviour
     // Oyuncu olunce Oyuncunun olmeden once topladigi herseyi geri getirir
     public void ReActivateBack()
     {
-        if (objects.Count > 0)
+        foreach (GameObject o in objects)
         {
-            foreach (GameObject o in objects)
-            {
-                o.SetActive(true);
-            }
-            objects.Clear();
+            o.SetActive(true);
+        }
+        objects.Clear();
+
+        foreach (GameObject o in boostObject)
+        {
+            o.GetComponent<SpriteRenderer>().enabled = true;
+            o.GetComponent<BoxCollider2D>().enabled = true;
+        }
+        boostObject.Clear();
+
+        foreach (OpenChest o in chestsOpened)
+        {
+            o.ReturnNormalState();
         }
 
-        if (boostObject.Count > 0)
+        foreach (GameObject o in boostObjectFromChest)
         {
-            foreach (GameObject o in boostObject)
-            {
-                o.GetComponent<SpriteRenderer>().enabled = true;
-                o.GetComponent<BoxCollider2D>().enabled = true;
-            }
-            boostObject.Clear();
-        }
-
-        if (chestsOpened.Count > 0)
-        {
-            foreach (OpenChest o in chestsOpened)
-            {
-                o.ReturnNormalState();
-            }
-        }
-
-        if (boostObjectFromChest.Count > 0)
-        {
-            foreach (GameObject o in boostObjectFromChest)
-            {
-                Destroy(o);
-            }
+            Destroy(o);
         }
     }
 

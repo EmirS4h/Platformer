@@ -10,6 +10,13 @@ public class OpenChest : MonoBehaviour
     [SerializeField] private bool isPlayerOnTheChest = false;
     public bool chestOpened = false;
     [SerializeField] GameObject[] objects;
+
+    public enum ChestType
+    {
+        Gold,
+        Silver,
+    }
+    public ChestType type;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,9 +32,12 @@ public class OpenChest : MonoBehaviour
             chestOpened = true;
             int rnd = Random.Range(0, objects.Length);
             int leftRight = Random.Range(0, 2);
-            Vector2 spawnPos = new Vector2(leftRight == 0 ? gameObject.transform.position.x + 0.8f : gameObject.transform.position.x + -0.8f, gameObject.transform.position.y);
+            Vector2 spawnPos = new Vector2(leftRight == 0 ? gameObject.transform.position.x + 1.0f : gameObject.transform.position.x + -1.0f, gameObject.transform.position.y);
             Instantiate(objects[rnd], spawnPos, Quaternion.identity);
-            GameManager.Instance.chestsOpened.Add(this);
+            if (type == ChestType.Silver)
+            {
+                GameManager.Instance.chestsOpened.Add(this);
+            }
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)

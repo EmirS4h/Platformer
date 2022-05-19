@@ -8,7 +8,6 @@ public class CollectBooster : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Triggerd");
         if (collision.gameObject.CompareTag("Player"))
         {
             switch (boost.type)

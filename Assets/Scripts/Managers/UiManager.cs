@@ -20,6 +20,19 @@ public class UiManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI levelEndingTimeText;
 
+    [SerializeField] GameObject mainMenu, pauseMenu, optionsMenu, charSelectMenu, Hud;
+
+    public enum UI
+    {
+        MainMenu,
+        PauseMenu,
+        OptionsMenu,
+        CharacterSelectMenu,
+        Hud,
+    }
+    public UI activeUi;
+
+    bool onMenu = false;
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -48,8 +61,27 @@ public class UiManager : MonoBehaviour
             timeText = minutes + ":"+seconds;
             timerText.text = timeText;
         }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            onMenu = !onMenu;
+        }
+        if (onMenu)
+        {
+            Time.timeScale = 0.0f;
+        }
+        if (Input.GetKeyDown(KeyCode.Escape) && pauseMenu != null && activeUi != UI.OptionsMenu)
+        {
+            pauseMenu.SetActive(!pauseMenu.activeSelf);
+            activeUi = UI.PauseMenu;
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape) && activeUi == UI.OptionsMenu)
+        {
+            optionsMenu.SetActive(false);
+            activeUi = UI.Hud;
+            Time.timeScale = 1.0f;
+        }
     }
-    
+
     public void LevelEnd()
     {
         levelEndingTimeText.text = timeText;
@@ -60,6 +92,22 @@ public class UiManager : MonoBehaviour
     }
     public void Save()
     {
+        PlayerController.Instance.SavePlayerData();
+    }
+    public void OptionsMenu()
+    {
+        activeUi = UI.OptionsMenu;
+        mainMenu.SetActive(false);
+        optionsMenu.SetActive(true);
+    }
+    public void ContinueBtn()
+    {
+        onMenu = false;
+        Time.timeScale = 1.0f;
+    }
+    public void ResetBtn()
+    {
+        PlayerController.Instance.ResetPlayerData();
         PlayerController.Instance.SavePlayerData();
     }
 }

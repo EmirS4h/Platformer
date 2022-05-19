@@ -10,7 +10,6 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private GameObject levelEndingCanvas;
 
-    [SerializeField] GameObject pauseMenu;
 
     private void Awake()
     {
@@ -21,14 +20,6 @@ public class LevelManager : MonoBehaviour
         else
         {
             Instance = this;
-        }
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape) && pauseMenu != null)
-        {
-            pauseMenu.SetActive(!pauseMenu.activeSelf);
         }
     }
 

@@ -360,6 +360,22 @@ public class PlayerController : MonoBehaviour
         SaveData.SavePlayerData(this);
     }
 
+    public void ResetPlayerData()
+    {
+        jumpForce = 12.0f;
+        moveSpeed = 12.0f;
+        dashForce = 6.0f;
+
+        hasDoubleJump = false;
+        maxDash = 1;
+
+        collectedDoubleDashBoosterAmount = 0;
+        collectedDoubleJumpBoosterAmount = 0;
+
+        collectedDashForceBoosterAmount = 0;
+        collectedJumpForceBoosterAmount = 0;
+        collectedMoveSpeedBoosterAmount = 0;
+    }
     public void LoadPlayerData()
     {
         PlayerData data = SaveData.LoadPlayerData();
@@ -372,6 +388,7 @@ public class PlayerController : MonoBehaviour
 
         collectedDoubleDashBoosterAmount = data.collectedDashBoosterAmount;
         collectedDoubleJumpBoosterAmount = data.collectedJumpBoosterAmount;
+
         collectedDashForceBoosterAmount = data.collectedDashForceBoosterAmount;
         collectedJumpForceBoosterAmount = data.collectedJumpForceBoosterAmount;
         collectedMoveSpeedBoosterAmount = data.collectedMoveSpeedBoosterAmount;

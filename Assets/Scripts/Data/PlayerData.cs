@@ -14,6 +14,7 @@ public class PlayerData
 
     public int collectedDashBoosterAmount;
     public int collectedJumpBoosterAmount;
+
     public int collectedDashForceBoosterAmount;
     public int collectedJumpForceBoosterAmount;
     public int collectedMoveSpeedBoosterAmount;

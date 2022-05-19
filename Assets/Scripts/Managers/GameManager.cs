@@ -96,6 +96,7 @@ public class GameManager : MonoBehaviour
         {
             Destroy(o);
         }
+
     }
 
     // Oyuncuyu baslangictaki haline dondurur

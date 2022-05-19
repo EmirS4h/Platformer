@@ -26,7 +26,7 @@ public class OpenChest : MonoBehaviour
             int rnd = Random.Range(0, objects.Length);
             int leftRight = Random.Range(0, 2);
             Vector2 spawnPos = new Vector2(leftRight == 0 ? gameObject.transform.position.x + 0.8f : gameObject.transform.position.x + -0.8f, gameObject.transform.position.y);
-            Instantiate(objects[rnd], spawnPos, objects[rnd].transform.rotation);
+            Instantiate(objects[rnd], spawnPos, Quaternion.identity);
             GameManager.Instance.chestsOpened.Add(this);
         }
     }

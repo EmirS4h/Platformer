@@ -58,4 +58,8 @@ public class UiManager : MonoBehaviour
     {
         LevelManager.Instance.LoadNextLevel();
     }
+    public void Save()
+    {
+        PlayerController.Instance.SavePlayerData();
+    }
 }

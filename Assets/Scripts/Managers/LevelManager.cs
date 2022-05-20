@@ -26,7 +26,7 @@ public class LevelManager : MonoBehaviour
     // Level yukleme animasyonunu oynatýr ve bir sonraki leveli yukler
     public IEnumerator LoadNextLevel()
     {
-        animator.SetTrigger("Start");
+        //animator.SetTrigger("Start");
         yield return new WaitForSecondsRealtime(1);
         if (SceneManager.GetActiveScene().buildIndex + 1 == SceneManager.sceneCountInBuildSettings)
         {
@@ -40,7 +40,7 @@ public class LevelManager : MonoBehaviour
     // Level yukleme animasyonunu oynatýr ve istenilen leveli yukler
     public IEnumerator LoadLevel(int index)
     {
-        animator.SetTrigger("Start");
+        //animator.SetTrigger("Start");
         yield return new WaitForSecondsRealtime(1);
         if (SceneManager.sceneCountInBuildSettings >= index)
         {
@@ -49,7 +49,10 @@ public class LevelManager : MonoBehaviour
     }
     public void NextLevel()
     {
-        levelEndingCanvas.SetActive(false);
+        if (levelEndingCanvas)
+        {
+            levelEndingCanvas.SetActive(false);
+        }
         StartCoroutine(LoadNextLevel());
     }
     public void LevelEndingScreen()
@@ -59,7 +62,7 @@ public class LevelManager : MonoBehaviour
     // Ilk leveli yukler
     public void StartGame()
     {
-        Time.timeScale = 1.0f;
+        GameManager.Instance.StartTime();
         StartCoroutine(LoadLevel(1));
     }
     // Cikis yapar
@@ -69,6 +72,7 @@ public class LevelManager : MonoBehaviour
     }
     public void LoadMainMenu()
     {
+        GameManager.Instance.StartTime();
         StartCoroutine(LoadLevel(0));
     }
 }

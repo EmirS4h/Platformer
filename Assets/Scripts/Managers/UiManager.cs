@@ -22,6 +22,8 @@ public class UiManager : MonoBehaviour
 
     [SerializeField] GameObject mainMenu, pauseMenu, optionsMenu, charSelectMenu, Hud;
 
+    [SerializeField] Deneme deneme;
+
     public enum UI
     {
         MainMenu,
@@ -61,24 +63,24 @@ public class UiManager : MonoBehaviour
             timeText = minutes + ":"+seconds;
             timerText.text = timeText;
         }
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && activeUi != UI.MainMenu)
         {
             onMenu = !onMenu;
         }
         if (onMenu)
         {
-            Time.timeScale = 0.0f;
+            GameManager.Instance.StopTime();
         }
-        if (Input.GetKeyDown(KeyCode.Escape) && pauseMenu != null && activeUi != UI.OptionsMenu)
+        if (Input.GetKeyDown(KeyCode.Escape) && pauseMenu != null && activeUi != UI.OptionsMenu && activeUi != UI.MainMenu)
         {
-            pauseMenu.SetActive(!pauseMenu.activeSelf);
+            pauseMenu.SetActive(true);
             activeUi = UI.PauseMenu;
         }
         else if (Input.GetKeyDown(KeyCode.Escape) && activeUi == UI.OptionsMenu)
         {
             optionsMenu.SetActive(false);
             activeUi = UI.Hud;
-            Time.timeScale = 1.0f;
+            GameManager.Instance.StartTime();
         }
     }
 
@@ -88,7 +90,8 @@ public class UiManager : MonoBehaviour
     }
     public void NextLevel()
     {
-        LevelManager.Instance.LoadNextLevel();
+        deneme.SetChar();
+        StartCoroutine(LevelManager.Instance.LoadNextLevel());
     }
     public void Save()
     {
@@ -100,10 +103,15 @@ public class UiManager : MonoBehaviour
         mainMenu.SetActive(false);
         optionsMenu.SetActive(true);
     }
+    public void ReturnToMainMenu()
+    {
+        LevelManager.Instance.LoadMainMenu();
+    }
     public void ContinueBtn()
     {
         onMenu = false;
-        Time.timeScale = 1.0f;
+        activeUi = UI.Hud;
+        GameManager.Instance.StartTime();
     }
     public void ResetBtn()
     {

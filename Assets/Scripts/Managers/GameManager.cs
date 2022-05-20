@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -48,27 +49,31 @@ public class GameManager : MonoBehaviour
     // Oyuncunun baslangic pozisyonunu ve ozelliklerini kaydeder
     private void Start()
     {
-        GameObject prefab = playerModels[PlayerPrefs.GetInt("charIndex")];
-        Instantiate(prefab, startingPosition.position, Quaternion.identity);
-
-        playerStartingPosition = new Vector2(PlayerController.Instance.transform.position.x, PlayerController.Instance.transform.position.y);
-        playerStartingRotation = new Vector3(PlayerController.Instance.transform.rotation.x, PlayerController.Instance.transform.rotation.y, PlayerController.Instance.transform.rotation.z);
-        playerStartingDirection = PlayerController.Instance.direction;
-        playerStartingFacingDirection = PlayerController.Instance.isFacingRight;
-
-        playerStartingSpeed = PlayerController.Instance.moveSpeed;
-        playerStartingDashForce = PlayerController.Instance.dashForce;
-        playerStartingJumpForce = PlayerController.Instance.jumpForce;
-
-        rb = PlayerController.Instance.GetComponent<Rigidbody2D>();
-        if (boosters.Length != 0)
+        if (SceneManager.GetActiveScene().buildIndex != 0)
         {
-            SpawnRandomObject(boosters, boosterSpawnPoints);
+            GameObject prefab = playerModels[PlayerPrefs.GetInt("charIndex")];
+            Instantiate(prefab, startingPosition.position, Quaternion.identity);
+
+            playerStartingPosition = new Vector2(PlayerController.Instance.transform.position.x, PlayerController.Instance.transform.position.y);
+            playerStartingRotation = new Vector3(PlayerController.Instance.transform.rotation.x, PlayerController.Instance.transform.rotation.y, PlayerController.Instance.transform.rotation.z);
+            playerStartingDirection = PlayerController.Instance.direction;
+            playerStartingFacingDirection = PlayerController.Instance.isFacingRight;
+
+            playerStartingSpeed = PlayerController.Instance.moveSpeed;
+            playerStartingDashForce = PlayerController.Instance.dashForce;
+            playerStartingJumpForce = PlayerController.Instance.jumpForce;
+
+            rb = PlayerController.Instance.GetComponent<Rigidbody2D>();
+            if (boosters.Length != 0)
+            {
+                SpawnRandomObject(boosters, boosterSpawnPoints);
+            }
+            if (rndomObjectsToSpawn.Length != 0)
+            {
+                SpawnRandomObject(rndomObjectsToSpawn, rndomPositions);
+            }
         }
-        if (rndomObjectsToSpawn.Length != 0)
-        {
-            SpawnRandomObject(rndomObjectsToSpawn, rndomPositions);
-        }
+        StartTime();
     }
 
     // Oyuncu olunce Oyuncunun olmeden once topladigi herseyi geri getirir
@@ -124,5 +129,14 @@ public class GameManager : MonoBehaviour
             int rndObj = Random.Range(0, gameObjects.Length);
             Instantiate(gameObjects[rndObj], spawnPoints[rndPos].transform.position, gameObjects[rndObj].transform.rotation);
         }
+    }
+
+    public void StopTime()
+    {
+        Time.timeScale = 0.0f;
+    }
+    public void StartTime()
+    {
+        Time.timeScale = 1.0f;
     }
 }

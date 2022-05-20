@@ -41,6 +41,9 @@ public class Tween : MonoBehaviour
     public bool loop = false;
     public bool pingpong = false;
     public bool local = false;
+    public bool tweenAfterATime = false;
+
+    public float delay = 0.0f;
 
     public Vector3 to;
 
@@ -65,6 +68,10 @@ public class Tween : MonoBehaviour
         if (pingpong)
         {
             _tweenObject.setLoopPingPong();
+        }
+        if (tweenAfterATime)
+        {
+            _tweenObject.setDelay(delay);
         }
         switch (easeType)
         {

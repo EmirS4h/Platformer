@@ -5,6 +5,15 @@ using UnityEngine;
 public class CollectBooster : MonoBehaviour
 {
     [SerializeField] Boost boost;
+    [SerializeField] ParticleSystem ps;
+    SpriteRenderer sp;
+    CircleCollider2D cc;
+
+    private void Awake()
+    {
+        sp = GetComponent<SpriteRenderer>();
+        cc = GetComponent<CircleCollider2D>();
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -22,7 +31,6 @@ public class CollectBooster : MonoBehaviour
                         }
                         PlayerController.Instance.SavePlayerData();
                     }
-                    Destroy(gameObject);
                     break;
                 case Boost.Type.DoubleJumpBooster:
                     if (PlayerController.Instance.collectedDoubleJumpBoosterAmount < 3)
@@ -34,7 +42,6 @@ public class CollectBooster : MonoBehaviour
                         }
                         PlayerController.Instance.SavePlayerData();
                     }
-                    Destroy(gameObject);
                     break;
                 case Boost.Type.PermaDashForce:
                     if (PlayerController.Instance.collectedDashForceBoosterAmount < 3)
@@ -46,7 +53,6 @@ public class CollectBooster : MonoBehaviour
                         }
                         PlayerController.Instance.SavePlayerData();
                     }
-                    Destroy(gameObject);
                     break;
                 case Boost.Type.PermaMoveSpeed:
                     if (PlayerController.Instance.collectedMoveSpeedBoosterAmount < 3)
@@ -58,7 +64,6 @@ public class CollectBooster : MonoBehaviour
                         }
                         PlayerController.Instance.SavePlayerData();
                     }
-                    Destroy(gameObject);
                     break;
                 case Boost.Type.PermaJumpForce:
                     if (PlayerController.Instance.collectedJumpForceBoosterAmount < 3)
@@ -70,11 +75,20 @@ public class CollectBooster : MonoBehaviour
                         }
                         PlayerController.Instance.SavePlayerData();
                     }
-                    Destroy(gameObject);
                     break;
                 default:
                     break;
             }
+            StartCoroutine(PlayParticles());
         }
+    }
+
+    private IEnumerator PlayParticles()
+    {
+        sp.enabled = false;
+        cc.enabled = false;
+        ps.Play();
+        yield return new WaitForSeconds(2.0f);
+        Destroy(gameObject);
     }
 }

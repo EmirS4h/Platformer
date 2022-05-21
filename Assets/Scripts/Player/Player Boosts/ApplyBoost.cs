@@ -11,13 +11,17 @@ public class ApplyBoost : MonoBehaviour
 
     [SerializeField] private Boost boost;
     [SerializeField] private bool playerOnBooster = false;
-    private void Start()
+
+    [SerializeField] GameObject card;
+
+    private void Awake()
     {
+        card = transform.GetChild(0).gameObject;
         playerStartSpeed = PlayerController.Instance.moveSpeed;
         playerStartDashForce = PlayerController.Instance.dashForce;
         playerStartJumpForce = PlayerController.Instance.jumpForce;
     }
-
+    
     private void Update()
     {
         if (playerOnBooster && Input.GetKeyDown(KeyCode.E))
@@ -28,8 +32,9 @@ public class ApplyBoost : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player") && !PlayerController.Instance.boostActive)
         {
+            card.SetActive(true);
             playerOnBooster = true;
             playerStartSpeed = PlayerController.Instance.moveSpeed;
             playerStartDashForce = PlayerController.Instance.dashForce;
@@ -39,6 +44,7 @@ public class ApplyBoost : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        card.SetActive(false);
         playerOnBooster = false;
     }
 

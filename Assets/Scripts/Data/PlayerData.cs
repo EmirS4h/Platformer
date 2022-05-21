@@ -19,6 +19,13 @@ public class PlayerData
     public int collectedJumpForceBoosterAmount;
     public int collectedMoveSpeedBoosterAmount;
 
+    public bool hasCollectedDoubleDashBooster = false;
+    public bool hasCollectedDoubleJumpBooster = false;
+
+    public bool hasCollectedDashForceBooster = false;
+    public bool hasCollectedJumpForceBooster = false;
+    public bool hasCollectedMoveSpeedBooster = false;
+
     public PlayerData(PlayerController player)
     {
         playerSpeed = player.moveSpeed;
@@ -31,8 +38,16 @@ public class PlayerData
 
         collectedDashBoosterAmount = player.collectedDoubleDashBoosterAmount;
         collectedJumpBoosterAmount = player.collectedDoubleJumpBoosterAmount;
+
         collectedDashForceBoosterAmount = player.collectedDashForceBoosterAmount;
         collectedJumpForceBoosterAmount = player.collectedJumpForceBoosterAmount;
         collectedMoveSpeedBoosterAmount = player.collectedMoveSpeedBoosterAmount;
+
+        hasCollectedDoubleDashBooster = player.hasCollectedDoubleDashBooster;
+        hasCollectedDoubleJumpBooster = player.hasCollectedDoubleJumpBooster;
+
+        hasCollectedDashForceBooster = player.hasCollectedDashForceBooster;
+        hasCollectedJumpForceBooster = player.hasCollectedJumpForceBooster;
+        hasCollectedMoveSpeedBooster = player.hasCollectedMoveSpeedBooster;
     }
 }

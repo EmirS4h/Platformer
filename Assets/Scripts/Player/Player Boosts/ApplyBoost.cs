@@ -10,7 +10,7 @@ public class ApplyBoost : MonoBehaviour
     [SerializeField] private float playerStartJumpForce;
 
     [SerializeField] private Boost boost;
-
+    [SerializeField] private bool playerOnBooster = false;
     private void Start()
     {
         playerStartSpeed = PlayerController.Instance.moveSpeed;
@@ -20,18 +20,26 @@ public class ApplyBoost : MonoBehaviour
 
     private void Update()
     {
-        
+        if (playerOnBooster && Input.GetKeyDown(KeyCode.E))
+        {
+            DeactivateBoostAndApply(boost.type, boost.boostAmount, boost.boostTime);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player") && !PlayerController.Instance.boostActive)
+        if (collision.gameObject.CompareTag("Player"))
         {
+            playerOnBooster = true;
             playerStartSpeed = PlayerController.Instance.moveSpeed;
             playerStartDashForce = PlayerController.Instance.dashForce;
             playerStartJumpForce = PlayerController.Instance.jumpForce;
-            DeactivateBoostAndApply(boost.type, boost.boostAmount, boost.boostTime);
         }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        playerOnBooster = false;
     }
 
     IEnumerator Booster(Boost.Type boostType, float boostAmount, float time)

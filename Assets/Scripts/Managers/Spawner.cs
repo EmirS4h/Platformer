@@ -12,29 +12,24 @@ public class Spawner : MonoBehaviour
     {
         _pool = new ObjectPool<ApplyBoost>(() =>
         {
-            return Instantiate(potion);
+            return Instantiate(potion); // To Create an Object
         },
         pot =>
         {
-            pot.gameObject.SetActive(true);
+            pot.gameObject.SetActive(true); // To Get an Object
             pot.gameObject.transform.position = transform.position + Random.onUnitSphere * 5.0f;
         },
         pot =>
         {
-            pot.gameObject.SetActive(false);
+            pot.gameObject.SetActive(false); // To Deactivate an Object
         },
         pot =>
         {
-            Destroy(pot.gameObject);
+            Destroy(pot.gameObject); // To Destroy an Object
         },
         false,
-        50,
-        50);
-    }
-
-    private void Start()
-    {
-        Invoke(nameof(Spawn), 5.0f);
+        10, // Default size
+        20); // Max size
     }
 
     private void Spawn()

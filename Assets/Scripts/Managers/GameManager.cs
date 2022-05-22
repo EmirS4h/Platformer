@@ -44,16 +44,13 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
         }
-    }
 
-    // Oyuncunun baslangic pozisyonunu ve ozelliklerini kaydeder
-    private void Start()
-    {
         if (SceneManager.GetActiveScene().buildIndex != 0)
         {
-            GameObject prefab = playerModels[PlayerPrefs.GetInt("charIndex")];
-            Instantiate(prefab, startingPosition.position, Quaternion.identity);
+            GameObject prefab = playerModels[PlayerPrefs.GetInt("charIndex")]; // Secili Karakter Modelini Bul
+            Instantiate(prefab, startingPosition.position, Quaternion.identity); // Instantiate the prefferd char model
 
+            // Get The Starting Stats Of The Player
             playerStartingPosition = new Vector2(PlayerController.Instance.transform.position.x, PlayerController.Instance.transform.position.y);
             playerStartingRotation = new Vector3(PlayerController.Instance.transform.rotation.x, PlayerController.Instance.transform.rotation.y, PlayerController.Instance.transform.rotation.z);
             playerStartingDirection = PlayerController.Instance.direction;
@@ -63,7 +60,16 @@ public class GameManager : MonoBehaviour
             playerStartingDashForce = PlayerController.Instance.dashForce;
             playerStartingJumpForce = PlayerController.Instance.jumpForce;
 
-            rb = PlayerController.Instance.GetComponent<Rigidbody2D>();
+            rb = PlayerController.Instance.GetComponent<Rigidbody2D>(); // Get the Chars RigidBody
+        }
+
+    }
+
+    // Oyuncunun baslangic pozisyonunu ve ozelliklerini kaydeder
+    private void Start()
+    {
+        if (SceneManager.GetActiveScene().buildIndex != 0)
+        {
             if (boosters.Length != 0)
             {
                 SpawnRandomObject(boosters, boosterSpawnPoints);
@@ -124,6 +130,7 @@ public class GameManager : MonoBehaviour
         PlayerController.Instance.boostActive = false;
     }
 
+    // For spawning Object to random positions
     public void SpawnRandomObject(GameObject[] gameObjects, Transform[] spawnPoints)
     {
         if (gameObjects.Length != 0 && spawnPoints.Length != 0)

@@ -14,7 +14,7 @@ public class NextLevelDoor : MonoBehaviour
 
     [SerializeField] LevelKey[] keys;
 
-    private void Start()
+    private void Awake()
     {
         keys = FindObjectsOfType<LevelKey>();
         audioSource = GetComponent<AudioSource>();

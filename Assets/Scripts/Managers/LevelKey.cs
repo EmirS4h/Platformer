@@ -27,7 +27,7 @@ public class LevelKey : MonoBehaviour
             particles.Play();
             bg.SetActive(true);
             keyActivated = true;
-            GameManager.Instance.keysActivated.Add(this);
+            GameManager.Instance.keysActivated.Add(this); // Adds its self to GameManagers activeKeysList
         }
     }
 

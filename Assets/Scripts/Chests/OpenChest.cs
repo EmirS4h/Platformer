@@ -18,7 +18,7 @@ public class OpenChest : MonoBehaviour
     }
     public ChestType type;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
     }

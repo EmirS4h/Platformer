@@ -47,7 +47,7 @@ public class Tween : MonoBehaviour
 
     public Vector3 to;
 
-    private void Start()
+    private void Awake()
     {
         switch (animationType)
         {

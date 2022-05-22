@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
-
+using System.Linq;
 public class NextLevelDoor : MonoBehaviour
 {
     AudioSource audioSource;
@@ -11,8 +11,12 @@ public class NextLevelDoor : MonoBehaviour
 
     public bool canGoLoadNextLevel = false;
     public bool isOnDoor = false;
+
+    [SerializeField] LevelKey[] keys;
+
     private void Start()
     {
+        keys = FindObjectsOfType<LevelKey>();
         audioSource = GetComponent<AudioSource>();
     }
 
@@ -20,7 +24,7 @@ public class NextLevelDoor : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            canGoLoadNextLevel = PlayerController.Instance.playerHaveTheKey;
+            canGoLoadNextLevel = keys.All(key => key.keyActivated == true);
             isOnDoor = true;
         }
     }

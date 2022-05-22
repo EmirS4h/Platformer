@@ -24,13 +24,13 @@ public class GameManager : MonoBehaviour
     public List<GameObject> boostObjectFromChest = new List<GameObject>();
 
     public List<OpenChest> chestsOpened = new List<OpenChest>();
+    public List<LevelKey> keysActivated = new List<LevelKey>();
 
     public GameObject[] boosters;
     public Transform[] boosterSpawnPoints;
 
     public GameObject[] rndomObjectsToSpawn;
     public Transform[] rndomPositions;
-
 
     public GameObject[] playerModels;
     public Transform startingPosition;
@@ -102,6 +102,10 @@ public class GameManager : MonoBehaviour
             Destroy(o);
         }
 
+        foreach (LevelKey key in keysActivated)
+        {
+            key.DeactivateKey();
+        }
     }
 
     // Oyuncuyu baslangictaki haline dondurur
@@ -117,7 +121,6 @@ public class GameManager : MonoBehaviour
         PlayerController.Instance.dashForce = playerStartingDashForce;
 
         rb.bodyType = RigidbodyType2D.Dynamic;
-        PlayerController.Instance.playerHaveTheKey = false;
         PlayerController.Instance.boostActive = false;
     }
 

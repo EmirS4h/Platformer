@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     Rigidbody2D rb;
+    AudioSource audioSource;
 
     public Vector2 playerStartingPosition;
     public Vector3 playerStartingRotation;
@@ -26,10 +27,10 @@ public class GameManager : MonoBehaviour
     public List<OpenChest> chestsOpened = new List<OpenChest>();
     public List<LevelKey> keysActivated = new List<LevelKey>();
 
-    public GameObject[] boosters;
+    public GameObject booster;
     public Transform[] boosterSpawnPoints;
 
-    public GameObject[] rndomObjectsToSpawn;
+    public GameObject nextLevelGate;
     public Transform[] rndomPositions;
 
     public GameObject[] playerModels;
@@ -61,6 +62,8 @@ public class GameManager : MonoBehaviour
             playerStartingJumpForce = PlayerController.Instance.jumpForce;
 
             rb = PlayerController.Instance.GetComponent<Rigidbody2D>(); // Get the Chars RigidBody
+
+            audioSource = GetComponent<AudioSource>();
         }
 
     }
@@ -70,14 +73,9 @@ public class GameManager : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().buildIndex != 0)
         {
-            if (boosters.Length != 0)
-            {
-                SpawnRandomObject(boosters, boosterSpawnPoints);
-            }
-            if (rndomObjectsToSpawn.Length != 0)
-            {
-                SpawnRandomObject(rndomObjectsToSpawn, rndomPositions);
-            }
+            SpawnRandomObject(booster, boosterSpawnPoints);
+            SpawnRandomObject(nextLevelGate, rndomPositions);
+            audioSource.Play();
         }
         StartTime();
     }
@@ -131,13 +129,12 @@ public class GameManager : MonoBehaviour
     }
 
     // For spawning Object to random positions
-    public void SpawnRandomObject(GameObject[] gameObjects, Transform[] spawnPoints)
+    public void SpawnRandomObject(GameObject gameObject, Transform[] spawnPoints)
     {
-        if (gameObjects.Length != 0 && spawnPoints.Length != 0)
+        if (gameObject && spawnPoints.Length != 0)
         {
             int rndPos = Random.Range(0, spawnPoints.Length);
-            int rndObj = Random.Range(0, gameObjects.Length);
-            Instantiate(gameObjects[rndObj], spawnPoints[rndPos].transform.position, gameObjects[rndObj].transform.rotation);
+            Instantiate(gameObject, spawnPoints[rndPos].transform.position, gameObject.transform.rotation);
         }
     }
 

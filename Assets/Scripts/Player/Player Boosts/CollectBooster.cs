@@ -16,8 +16,11 @@ public class CollectBooster : MonoBehaviour
     [SerializeField] GameObject card;
     [SerializeField] SpriteRenderer cardSpriteRenderer;
 
+    AudioSource audioSource;
+
     private void Awake()
     {
+        audioSource = GetComponent<AudioSource>();
         sp = GetComponent<SpriteRenderer>();
         cc = GetComponent<CircleCollider2D>();
         card = transform.GetChild(1).gameObject;
@@ -29,6 +32,7 @@ public class CollectBooster : MonoBehaviour
         if (playerOnBooster && Input.GetKeyDown(KeyCode.E))
         {
             ApplyBooster();
+            audioSource.Play();
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)

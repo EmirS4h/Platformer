@@ -17,11 +17,15 @@ public class ApplyBoost : MonoBehaviour
     private void Awake()
     {
         card = transform.GetChild(0).gameObject;
+    }
+
+    private void Start()
+    {
         playerStartSpeed = PlayerController.Instance.moveSpeed;
         playerStartDashForce = PlayerController.Instance.dashForce;
         playerStartJumpForce = PlayerController.Instance.jumpForce;
     }
-    
+
     private void Update()
     {
         if (playerOnBooster && Input.GetKeyDown(KeyCode.E))

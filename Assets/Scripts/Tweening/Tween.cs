@@ -139,6 +139,6 @@ public class Tween : MonoBehaviour
     }
     public void Rotate()
     {
-        LeanTween.rotateAround(gameObject, to, rotDegrees, duration);
+        _tweenObject = LeanTween.rotateAround(gameObject, to, rotDegrees, duration);
     }
 }

@@ -10,7 +10,6 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private GameObject levelEndingCanvas;
 
-
     private void Awake()
     {
         if (Instance != null && Instance != this)

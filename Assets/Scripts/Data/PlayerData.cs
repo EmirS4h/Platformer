@@ -26,6 +26,8 @@ public class PlayerData
     public bool hasCollectedJumpForceBooster = false;
     public bool hasCollectedMoveSpeedBooster = false;
 
+    public bool hasCollectedPowerUpStone = false;
+
     public PlayerData(PlayerController player)
     {
         playerSpeed = player.moveSpeed;
@@ -42,5 +44,7 @@ public class PlayerData
         collectedDashForceBoosterAmount = player.collectedDashForceBoosterAmount;
         collectedJumpForceBoosterAmount = player.collectedJumpForceBoosterAmount;
         collectedMoveSpeedBoosterAmount = player.collectedMoveSpeedBoosterAmount;
+
+        hasCollectedPowerUpStone = player.hasCollectedPowerUpStone;
     }
 }

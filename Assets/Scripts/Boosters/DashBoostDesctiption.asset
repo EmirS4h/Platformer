@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 051fe5e6022996843809bdadf8cef9e5, type: 3}
   m_Name: DashBoostDesctiption
   m_EditorClassIdentifier: 
-  HeaderText: Power Up Stone
-  DescriptionText: 'You have collected a power up stone.
+  HeaderText: Power Stone
+  DescriptionText: 'You have collected a Power Stone.
 
     Collect 3 of the same
     type to permanantly achive thier powers.'

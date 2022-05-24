@@ -8,7 +8,7 @@ public class LevelKey : MonoBehaviour
 
     [SerializeField] Sprite inActiveSprite;
     [SerializeField] Sprite activeSprite;
-    [SerializeField] GameObject bg;
+    [SerializeField] GameObject bg, interactBtn;
     SpriteRenderer spriteRenderer;
 
     [SerializeField] bool playerOnKey = false;
@@ -17,6 +17,7 @@ public class LevelKey : MonoBehaviour
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        interactBtn = transform.GetChild(2).gameObject;
     }
 
     private void Update()
@@ -28,6 +29,15 @@ public class LevelKey : MonoBehaviour
             bg.SetActive(true);
             keyActivated = true;
             GameManager.Instance.keysActivated.Add(this); // Adds its self to GameManagers activeKeysList
+        }
+
+        if(!keyActivated && playerOnKey)
+        {
+            interactBtn.SetActive(true);
+        }
+        else
+        {
+            interactBtn.SetActive(false);
         }
     }
 

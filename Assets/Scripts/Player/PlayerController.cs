@@ -397,6 +397,8 @@ public class PlayerController : MonoBehaviour
         collectedDashForceBoosterAmount = data.collectedDashForceBoosterAmount;
         collectedJumpForceBoosterAmount = data.collectedJumpForceBoosterAmount;
         collectedMoveSpeedBoosterAmount = data.collectedMoveSpeedBoosterAmount;
+
+        hasCollectedPowerUpStone = data.hasCollectedPowerUpStone;
     }
     private void OnDrawGizmos()
     {

@@ -10,7 +10,7 @@ public class OpenChest : MonoBehaviour
     [SerializeField] private bool isPlayerOnTheChest = false;
     public bool chestOpened = false;
     [SerializeField] GameObject[] objects;
-
+    GameObject interactBtn;
     public enum ChestType
     {
         Gold,
@@ -21,11 +21,21 @@ public class OpenChest : MonoBehaviour
     void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        interactBtn = transform.GetChild(0).gameObject;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (isPlayerOnTheChest && !chestOpened)
+        {
+            interactBtn.SetActive(true);
+        }
+        else
+        {
+            interactBtn.SetActive(false);
+        }
+
         if (isPlayerOnTheChest && !chestOpened && Input.GetKeyDown(KeyCode.E))
         {
             spriteRenderer.sprite = openedChestSprite;
@@ -44,6 +54,12 @@ public class OpenChest : MonoBehaviour
     {
         isPlayerOnTheChest = true;
     }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        isPlayerOnTheChest = true;
+    }
+
     private void OnTriggerExit2D(Collider2D collision)
     {
         isPlayerOnTheChest = false;

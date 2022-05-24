@@ -29,6 +29,11 @@ public class NextLevelDoor : MonoBehaviour
         }
     }
 
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        isOnDoor = true;
+    }
+
     private void OnTriggerExit2D(Collider2D collision)
     {
         isOnDoor = false;

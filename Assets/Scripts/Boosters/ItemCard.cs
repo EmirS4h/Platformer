@@ -15,6 +15,16 @@ public class ItemCard : MonoBehaviour
         SetTexts();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            gameObject.SetActive(false);
+            UiManager.Instance.activeUi = UiManager.UI.Hud;
+            GameManager.Instance.StartTime();
+        }
+    }
+
     public void SetTexts()
     {
         header.SetText(cardDescription.HeaderText);

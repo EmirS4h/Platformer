@@ -64,7 +64,7 @@ public class UiManager : MonoBehaviour
             timeText = minutes + ":"+seconds;
             timerText.text = timeText;
         }
-        if (Input.GetKeyDown(KeyCode.Escape) && activeUi != UI.MainMenu)
+        if (Input.GetKeyDown(KeyCode.Escape) && activeUi == UI.Hud)
         {
             onMenu = !onMenu;
         }

@@ -378,6 +378,8 @@ public class PlayerController : MonoBehaviour
         collectedDashForceBoosterAmount = 0;
         collectedJumpForceBoosterAmount = 0;
         collectedMoveSpeedBoosterAmount = 0;
+
+        hasCollectedPowerUpStone = false;
     }
     public void LoadPlayerData()
     {

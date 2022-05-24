@@ -32,20 +32,26 @@ public class ApplyBoost : MonoBehaviour
         {
             DeactivateBoostAndApply(boost.type, boost.boostAmount, boost.boostTime);
         }
+        if (playerOnBooster)
+        {
+            card.SetActive(true);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player") && !PlayerController.Instance.boostActive)
         {
-            card.SetActive(true);
-            playerOnBooster = true;
             playerStartSpeed = PlayerController.Instance.moveSpeed;
             playerStartDashForce = PlayerController.Instance.dashForce;
             playerStartJumpForce = PlayerController.Instance.jumpForce;
         }
     }
 
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        playerOnBooster = true;
+    }
     private void OnTriggerExit2D(Collider2D collision)
     {
         card.SetActive(false);

@@ -35,15 +35,24 @@ public class CollectBooster : MonoBehaviour
             ApplyBooster();
             audioSource.Play();
         }
+        if (playerOnBooster)
+        {
+            card.SetActive(true);
+        }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
             playerOnBooster = true;
-            card.SetActive(true);
         }
     }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+            playerOnBooster = true;
+    }
+
     private void OnTriggerExit2D(Collider2D collision)
     {
         playerOnBooster = false;

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -58,6 +59,13 @@ public class CollectBooster : MonoBehaviour
     }
     private void ApplyBooster()
     {
+
+        if (!PlayerController.Instance.hasCollectedPowerUpStone)
+        {
+            ShowCard();
+            PlayerController.Instance.hasCollectedPowerUpStone = true;
+        }
+
         switch (boost.type)
         {
             case Boost.Type.DoubleDashBooster:
@@ -120,4 +128,14 @@ public class CollectBooster : MonoBehaviour
         }
         StartCoroutine(PlayParticles());
     }
+
+    private void ShowCard()
+    {
+        UiManager.Instance.ActivateItemCard();
+    }
+    private void HideCard()
+    {
+        UiManager.Instance.DeactivateItemCard();
+    }
+
 }

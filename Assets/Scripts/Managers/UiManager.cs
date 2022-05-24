@@ -20,7 +20,7 @@ public class UiManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI levelEndingTimeText;
 
-    [SerializeField] GameObject mainMenu, pauseMenu, optionsMenu, charSelectMenu, Hud;
+    [SerializeField] GameObject mainMenu, pauseMenu, optionsMenu, charSelectMenu, Hud, itemCard;
 
     [SerializeField] Deneme deneme;
 
@@ -31,6 +31,7 @@ public class UiManager : MonoBehaviour
         OptionsMenu,
         CharacterSelectMenu,
         Hud,
+        itemCard,
     }
     public UI activeUi;
 
@@ -71,7 +72,7 @@ public class UiManager : MonoBehaviour
         {
             GameManager.Instance.StopTime();
         }
-        if (Input.GetKeyDown(KeyCode.Escape) && pauseMenu != null && activeUi != UI.OptionsMenu && activeUi != UI.MainMenu)
+        if (Input.GetKeyDown(KeyCode.Escape) && pauseMenu != null && activeUi != UI.OptionsMenu && activeUi != UI.MainMenu && activeUi != UI.itemCard)
         {
             pauseMenu.SetActive(true);
             activeUi = UI.PauseMenu;
@@ -117,5 +118,17 @@ public class UiManager : MonoBehaviour
     {
         PlayerController.Instance.ResetPlayerData();
         PlayerController.Instance.SavePlayerData();
+    }
+    public void ActivateItemCard()
+    {
+        itemCard.SetActive(true);
+        activeUi = UI.itemCard;
+        GameManager.Instance.StopTime();
+    }
+    public void DeactivateItemCard()
+    {
+        itemCard.SetActive(false);
+        activeUi = UI.Hud;
+        GameManager.Instance.StartTime();
     }
 }

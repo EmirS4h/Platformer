@@ -42,12 +42,5 @@ public class PlayerData
         collectedDashForceBoosterAmount = player.collectedDashForceBoosterAmount;
         collectedJumpForceBoosterAmount = player.collectedJumpForceBoosterAmount;
         collectedMoveSpeedBoosterAmount = player.collectedMoveSpeedBoosterAmount;
-
-        hasCollectedDoubleDashBooster = player.hasCollectedDoubleDashBooster;
-        hasCollectedDoubleJumpBooster = player.hasCollectedDoubleJumpBooster;
-
-        hasCollectedDashForceBooster = player.hasCollectedDashForceBooster;
-        hasCollectedJumpForceBooster = player.hasCollectedJumpForceBooster;
-        hasCollectedMoveSpeedBooster = player.hasCollectedMoveSpeedBooster;
     }
 }

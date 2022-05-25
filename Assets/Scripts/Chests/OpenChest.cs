@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.InputSystem;
 public class OpenChest : MonoBehaviour
 {
     SpriteRenderer spriteRenderer;
@@ -11,6 +11,8 @@ public class OpenChest : MonoBehaviour
     public bool chestOpened = false;
     [SerializeField] GameObject[] objects;
     GameObject interactBtn;
+
+    [SerializeField] PlayerActions playerActions = default;
     public enum ChestType
     {
         Gold,
@@ -24,19 +26,18 @@ public class OpenChest : MonoBehaviour
         interactBtn = transform.GetChild(0).gameObject;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnEnable()
+    {
+        playerActions.interactEvent += Open;
+    }
+    private void OnDisable()
+    {
+        playerActions.interactEvent -= Open;
+    }
+
+    public void Open()
     {
         if (isPlayerOnTheChest && !chestOpened)
-        {
-            interactBtn.SetActive(true);
-        }
-        else
-        {
-            interactBtn.SetActive(false);
-        }
-
-        if (isPlayerOnTheChest && !chestOpened && Input.GetKeyDown(KeyCode.E))
         {
             spriteRenderer.sprite = openedChestSprite;
             chestOpened = true;
@@ -50,19 +51,24 @@ public class OpenChest : MonoBehaviour
             }
         }
     }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        isPlayerOnTheChest = true;
-    }
-
     private void OnTriggerStay2D(Collider2D collision)
     {
         isPlayerOnTheChest = true;
+
+        if (!chestOpened)
+        {
+            interactBtn.SetActive(true);
+        }
+        else
+        {
+            interactBtn.SetActive(false);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         isPlayerOnTheChest = false;
+        interactBtn.SetActive(false);
     }
 
     public void ReturnNormalState()

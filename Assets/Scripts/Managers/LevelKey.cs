@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.InputSystem;
 public class LevelKey : MonoBehaviour
 {
     [SerializeField] ParticleSystem particles;
@@ -14,15 +14,24 @@ public class LevelKey : MonoBehaviour
     [SerializeField] bool playerOnKey = false;
     public bool keyActivated = false;
 
+    [SerializeField] PlayerActions playerActions = default;
+
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         interactBtn = transform.GetChild(2).gameObject;
     }
-
-    private void Update()
+    private void OnEnable()
     {
-        if (playerOnKey && Input.GetKeyDown(KeyCode.E))
+        playerActions.interactEvent += ActivateKey;
+    }
+    private void OnDisable()
+    {
+        playerActions.interactEvent -= ActivateKey;
+    }
+    public void ActivateKey()
+    {
+        if (playerOnKey)
         {
             spriteRenderer.sprite = activeSprite;
             particles.Play();
@@ -30,8 +39,16 @@ public class LevelKey : MonoBehaviour
             keyActivated = true;
             GameManager.Instance.keysActivated.Add(this); // Adds its self to GameManagers activeKeysList
         }
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        playerOnKey = true;
+    }
 
-        if(!keyActivated && playerOnKey)
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        playerOnKey = true;
+        if (!keyActivated)
         {
             interactBtn.SetActive(true);
         }
@@ -41,19 +58,10 @@ public class LevelKey : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        playerOnKey = true;
-    }
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        playerOnKey = true;
-    }
-
     private void OnTriggerExit2D(Collider2D collision)
     {
         playerOnKey = false;
+        interactBtn.SetActive(false);
     }
 
     public void DeactivateKey()

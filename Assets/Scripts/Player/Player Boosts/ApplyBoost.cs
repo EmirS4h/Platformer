@@ -13,34 +13,38 @@ public class ApplyBoost : MonoBehaviour
     [SerializeField] private bool playerOnBooster = false;
 
     [SerializeField] GameObject card;
+    [SerializeField] PlayerActions playerActions;
 
     private void Awake()
     {
         card = transform.GetChild(0).gameObject;
     }
-
+    private void OnEnable()
+    {
+        playerActions.interactEvent += Apply;
+    }
+    private void OnDisable()
+    {
+        playerActions.interactEvent -= Apply;
+    }
     private void Start()
     {
         playerStartSpeed = PlayerController.Instance.moveSpeed;
         playerStartDashForce = PlayerController.Instance.dashForce;
         playerStartJumpForce = PlayerController.Instance.jumpForce;
     }
-
-    private void Update()
+   
+    public void Apply()
     {
-        if (playerOnBooster && Input.GetKeyDown(KeyCode.E))
+        if (playerOnBooster && !PlayerController.Instance.boostActive)
         {
             DeactivateBoostAndApply(boost.type, boost.boostAmount, boost.boostTime);
         }
-        if (playerOnBooster)
-        {
-            card.SetActive(true);
-        }
-    }
 
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player") && !PlayerController.Instance.boostActive)
+        if (collision.gameObject.CompareTag("Player"))
         {
             playerStartSpeed = PlayerController.Instance.moveSpeed;
             playerStartDashForce = PlayerController.Instance.dashForce;
@@ -51,6 +55,14 @@ public class ApplyBoost : MonoBehaviour
     private void OnTriggerStay2D(Collider2D collision)
     {
         playerOnBooster = true;
+        if (playerOnBooster && !PlayerController.Instance.boostActive)
+        {
+            card.SetActive(true);
+        }
+        else
+        {
+            card.SetActive(false);
+        }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {

@@ -19,6 +19,8 @@ public class CollectBooster : MonoBehaviour
 
     AudioSource audioSource;
 
+    [SerializeField] PlayerActions playerActions;
+
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
@@ -28,18 +30,25 @@ public class CollectBooster : MonoBehaviour
         cardSpriteRenderer = card.GetComponent<SpriteRenderer>();
         cardSpriteRenderer.sprite = cardSprite;
     }
-    private void Update()
+
+    private void OnEnable()
     {
-        if (playerOnBooster && Input.GetKeyDown(KeyCode.E))
+        playerActions.interactEvent += Collect;
+    }
+    private void OnDisable()
+    {
+        playerActions.interactEvent -= Collect;
+    }
+
+    public void Collect()
+    {
+        if (playerOnBooster)
         {
             ApplyBooster();
             audioSource.Play();
         }
-        if (playerOnBooster)
-        {
-            card.SetActive(true);
-        }
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
@@ -50,7 +59,15 @@ public class CollectBooster : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-            playerOnBooster = true;
+        playerOnBooster = true;
+        if (playerOnBooster)
+        {
+            card.SetActive(true);
+        }
+        else
+        {
+            card.SetActive(false);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)

@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D rb;
     private Animator animator;
+    [SerializeField] PlayerActions playerActions;
 
     [Header("Player Particles")]
     [SerializeField] private ParticleSystem jumpParticle;
@@ -99,22 +100,30 @@ public class PlayerController : MonoBehaviour
             Instance = this;
         }
         LoadPlayerData();
-    }
 
-    void Start()
-    {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         wallJumpDirection.Normalize();
     }
+    private void OnEnable()
+    {
+        playerActions.movementEvent += OnMove;
+        playerActions.dashEvent += OnDash;
+        playerActions.jumpEvent += OnJump;
+    }
+
+    private void OnDisable()
+    {
+        playerActions.movementEvent -= OnMove;
+        playerActions.dashEvent -= OnDash;
+        playerActions.jumpEvent -= OnJump;
+    }
 
     private void FixedUpdate()
     {
-        ApplyGravity();
-        ApplyFriction();
-
         if (!isGameOver)
         {
+            ApplyFriction();
             Move();
 
             if (isJumping)
@@ -135,22 +144,61 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+    private void OnMove(Vector2 movement)
+    {
+        horizontalInput = movement.x;
+    }
+    private void OnDash()
+    {
+        if (canDash && dashsLeft != 0)
+        {
+            isDashing = true;
+            canDash = false;
+            dashsLeft--;
+            if (Mathf.Abs(horizontalInput)>0.01f)
+            {
+                dashParticle.Play();
+                CameraShake.Instance.Shake(cameraShakeIntensity, cameraShakeTime);
+            }
+            StartCoroutine(StopDash());
+        }
+    }
+    private void OnJump()
+    {
+        if (isGrounded || wallSliding)
+        {
+            jumpBufferTimeCounter = bufferTime;
+        }
+        else if (canDoubleJump)
+        {
+            doubleJump = true;
+        }
+        else
+        {
+            jumpBufferTimeCounter -= Time.deltaTime;
+        }
 
+        if (jumpBufferTimeCounter > 0.01f && coyoteTimeCounter > 0.01f)
+        {
+            isJumping = true;
+            jumpBufferTimeCounter = 0.0f;
+        }
+
+        if (rb.velocity.y > 0.01f)
+        {
+            coyoteTimeCounter = 0.0f;
+        }
+
+
+    }
     void Update()
     {
+        ApplyGravity();
+
         ChangeAnimation();
 
         if (!isGameOver)
         {
-            #region Check for Horizontal Input
-
-            // Mobile
-            //horizontalInput = CrossPlatformInputManager.GetAxisRaw("Horizontal");
-
-            // Pc Web
-            horizontalInput = Input.GetAxisRaw("Horizontal");
-            #endregion
-
 
             #region Flip the Character based on HorizontalInput
 
@@ -162,7 +210,6 @@ public class PlayerController : MonoBehaviour
             {
                 FlipCharacter();
             }
-
             #endregion
 
             #region Check for Surroundings
@@ -174,11 +221,10 @@ public class PlayerController : MonoBehaviour
 
             #endregion
 
-            #region Jump
-
             if (isGrounded || wallSliding)
             {
                 canJump = true;
+                canDash = false;
                 if (hasDoubleJump)
                 {
                     canDoubleJump = true;
@@ -189,56 +235,9 @@ public class PlayerController : MonoBehaviour
             else
             {
                 canJump = false;
+                canDash = true;
                 coyoteTimeCounter -= Time.deltaTime; // for jumping
             }
-            // Input.GetButtonDown("Jump") PC Web
-            // Mobile CrossPlatformInputManager.GetButtonDown("Jump")
-            if (Input.GetButtonDown("Jump") && (isGrounded || wallSliding))
-            {
-                jumpBufferTimeCounter = bufferTime;
-            }
-            else if (Input.GetButtonDown("Jump") && canDoubleJump)
-            {
-                doubleJump = true;
-            }
-            else
-            {
-                jumpBufferTimeCounter -= Time.deltaTime;
-            }
-
-            if (jumpBufferTimeCounter > 0.01f && coyoteTimeCounter > 0.01f)
-            {
-                isJumping = true;
-                jumpBufferTimeCounter = 0.0f;
-            }
-
-            if (Input.GetButtonDown("Jump") && rb.velocity.y > 0.01f)
-            {
-                coyoteTimeCounter = 0.0f;
-            }
-            #endregion
-
-            #region Dash
-            // Input.GetButtonDown("Dash")
-            // CrossPlatformInputManager.GetButtonDown("Dash")
-            if (Input.GetButtonDown("Dash") && canDash && dashsLeft != 0)
-            {
-                isDashing = true;
-                canDash = false;
-                dashsLeft--;
-                if (Mathf.Abs(horizontalInput)>0.01f)
-                {
-                    dashParticle.Play();
-                    CameraShake.Instance.Shake(cameraShakeIntensity, cameraShakeTime);
-                }
-                StartCoroutine(StopDash());
-            }
-            if (isGrounded || wallSliding)
-                canDash = false;
-            else
-                canDash = true;
-
-            #endregion
         }
         else
         {
@@ -323,16 +322,9 @@ public class PlayerController : MonoBehaviour
         {
             rb.gravityScale = wallSlideGravity;
         }
-        // Short jump
-        // !Input.GetButton("Jump")
-        // !CrossPlatformInputManager.GetButton("Jump")
-        else if (rb.velocity.y > 0.01f && !Input.GetButton("Jump"))
+        else if (rb.velocity.y < -0.01f)
         {
             rb.gravityScale = lowJumpMultiplier;
-        }
-        else if (rb.velocity.y < -0.01f) // Long jump
-        {
-            rb.gravityScale = fallMultiplier;
         }
         else
         {

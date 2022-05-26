@@ -6,6 +6,8 @@ using System.Linq;
 public class NextLevelDoor : MonoBehaviour
 {
     AudioSource audioSource;
+    [SerializeField] PlayerActions playerActions;
+
     [SerializeField] AudioClip openSound;
     [SerializeField] AudioClip closeSound;
 
@@ -18,6 +20,35 @@ public class NextLevelDoor : MonoBehaviour
     {
         keys = FindObjectsOfType<LevelKey>();
         audioSource = GetComponent<AudioSource>();
+    }
+
+    private void OnEnable()
+    {
+        playerActions.interactEvent += EnterDoor;
+    }
+
+    private void OnDisable()
+    {
+        playerActions.interactEvent -= EnterDoor;
+    }
+
+    private void EnterDoor()
+    {
+        if (isOnDoor)
+        {
+            if (canGoLoadNextLevel)
+            {
+                PlayerController.Instance.isGameOver = true;
+                audioSource.clip = openSound;
+                audioSource.Play();
+                LevelManager.Instance.LevelEndingScreen();
+            }
+            else
+            {
+                audioSource.clip = closeSound;
+                audioSource.Play();
+            }
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -37,26 +68,5 @@ public class NextLevelDoor : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
         isOnDoor = false;
-    }
-
-    private void Update()
-    {
-        // CrossPlatformInputManager.GetButtonDown("InteractBtn")
-        // Input.GetKeyDown(KeyCode.E)
-        if (Input.GetKeyDown(KeyCode.E) && isOnDoor)
-        {
-            if (canGoLoadNextLevel)
-            {
-                PlayerController.Instance.isGameOver = true;
-                audioSource.clip = openSound;
-                audioSource.Play();
-                LevelManager.Instance.LevelEndingScreen();
-            }
-            else
-            {
-                audioSource.clip = closeSound;
-                audioSource.Play();
-            }
-        }
     }
 }

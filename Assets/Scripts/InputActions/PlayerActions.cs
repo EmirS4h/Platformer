@@ -10,9 +10,11 @@ public class PlayerActions : ScriptableObject, PlayerInputActions.IPlayerActions
     PlayerInputActions playerInputActions;
 
     public event UnityAction interactEvent = delegate { };
+    public event UnityAction dropDownEvent = delegate { };
     public event UnityAction jumpEvent = delegate { };
     public event UnityAction dashEvent = delegate { };
     public event UnityAction jumpEventCancelled = delegate { };
+    public event UnityAction optionsBtn = delegate { };
     public event UnityAction<Vector2> movementEvent = delegate { };
 
     private void OnEnable()
@@ -28,6 +30,14 @@ public class PlayerActions : ScriptableObject, PlayerInputActions.IPlayerActions
     private void OnDisable()
     {
         playerInputActions.Player.Disable();
+    }
+    public void DisableMovement()
+    {
+        playerInputActions.Player.Disable();
+    }
+    public void EnableMovement()
+    {
+        playerInputActions.Player.Enable();
     }
 
     public void OnMovement(InputAction.CallbackContext context)
@@ -54,6 +64,22 @@ public class PlayerActions : ScriptableObject, PlayerInputActions.IPlayerActions
         if (context.phase == InputActionPhase.Performed)
         {
             dashEvent.Invoke();
+        }
+    }
+
+    public void OnDropDown(InputAction.CallbackContext context)
+    {
+        if(context.phase == InputActionPhase.Performed)
+        {
+            dropDownEvent.Invoke();
+        }
+    }
+
+    public void OnOptionsMenu(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Performed)
+        {
+            optionsBtn.Invoke();
         }
     }
 }

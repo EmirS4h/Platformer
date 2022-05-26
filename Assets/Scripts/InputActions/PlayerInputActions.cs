@@ -62,6 +62,24 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DropDown"",
+                    ""type"": ""Button"",
+                    ""id"": ""58279c39-3143-41fc-ad48-332044cd2710"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""OptionsMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""f073dd47-572f-4d51-8a3e-f93bb0f2503b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -165,17 +183,6 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""down"",
-                    ""id"": ""6e13010b-3345-46e7-9dd4-6ee87ab82d12"",
-                    ""path"": ""<DualShockGamepad>/dpad/down"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": ""left"",
                     ""id"": ""e0ad17c6-cc30-4673-9b89-1fc7a4125cd2"",
                     ""path"": ""<DualShockGamepad>/leftStick/left"",
@@ -190,6 +197,39 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""name"": ""right"",
                     ""id"": ""60224cfa-1f52-42d9-9579-cd5307e05581"",
                     ""path"": ""<DualShockGamepad>/leftStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Ps4Pads"",
+                    ""id"": ""66885aee-3b04-491d-ab46-236729c96a64"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""e28df88c-21d1-47a3-adbf-dca4ba995070"",
+                    ""path"": ""<DualShockGamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""b8b98b9c-7ddb-40f1-8174-7f87e67da3a0"",
+                    ""path"": ""<DualShockGamepad>/dpad/right"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -214,7 +254,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""path"": ""<DualShockGamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""KeyboardMouse"",
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -236,7 +276,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""path"": ""<DualShockGamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""KeyboardMouse"",
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -258,8 +298,74 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""path"": ""<DualShockGamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""KeyboardMouse"",
                     ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d40c012a-d2c2-4970-b553-8326fd0b2732"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""913e4da3-77d0-44f2-9386-9b02852a3e68"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""DropDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7cd4bab6-36a5-4311-bab7-cc36d8f6541a"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""DropDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""67a35e18-215a-4c7a-917f-6617b96763ef"",
+                    ""path"": ""<DualShockGamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""DropDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e5a0aab4-6fa9-41f7-af7c-63518860abc2"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""OptionsMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""63da91ce-a73f-4512-a9fa-8c3879938c06"",
+                    ""path"": ""<DualShockGamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""OptionsMenu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -291,6 +397,8 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
+        m_Player_DropDown = m_Player.FindAction("DropDown", throwIfNotFound: true);
+        m_Player_OptionsMenu = m_Player.FindAction("OptionsMenu", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -354,6 +462,8 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Interact;
     private readonly InputAction m_Player_Dash;
+    private readonly InputAction m_Player_DropDown;
+    private readonly InputAction m_Player_OptionsMenu;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -362,6 +472,8 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
         public InputAction @Dash => m_Wrapper.m_Player_Dash;
+        public InputAction @DropDown => m_Wrapper.m_Player_DropDown;
+        public InputAction @OptionsMenu => m_Wrapper.m_Player_OptionsMenu;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -383,6 +495,12 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Dash.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDash;
                 @Dash.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDash;
                 @Dash.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDash;
+                @DropDown.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDropDown;
+                @DropDown.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDropDown;
+                @DropDown.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDropDown;
+                @OptionsMenu.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOptionsMenu;
+                @OptionsMenu.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOptionsMenu;
+                @OptionsMenu.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOptionsMenu;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -399,6 +517,12 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Dash.started += instance.OnDash;
                 @Dash.performed += instance.OnDash;
                 @Dash.canceled += instance.OnDash;
+                @DropDown.started += instance.OnDropDown;
+                @DropDown.performed += instance.OnDropDown;
+                @DropDown.canceled += instance.OnDropDown;
+                @OptionsMenu.started += instance.OnOptionsMenu;
+                @OptionsMenu.performed += instance.OnOptionsMenu;
+                @OptionsMenu.canceled += instance.OnOptionsMenu;
             }
         }
     }
@@ -418,5 +542,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
+        void OnDropDown(InputAction.CallbackContext context);
+        void OnOptionsMenu(InputAction.CallbackContext context);
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using UnityEngine.InputSystem;
 public class UiManager : MonoBehaviour
 {
     public static UiManager Instance;
@@ -23,6 +23,8 @@ public class UiManager : MonoBehaviour
     [SerializeField] GameObject mainMenu, pauseMenu, optionsMenu, charSelectMenu, Hud, itemCard;
 
     [SerializeField] Deneme deneme;
+
+    [SerializeField] PlayerActions playerActions;
 
     public enum UI
     {
@@ -48,11 +50,37 @@ public class UiManager : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        playerActions.optionsBtn += OpenPauseMenu;
+    }
+    private void OnDisable()
+    {
+        playerActions.optionsBtn -= OpenPauseMenu;
+    }
+
     private void Start()
     {
         timerTime = Time.time;
     }
-
+    private void OpenPauseMenu()
+    {
+        if (pauseMenu != null && activeUi != UI.OptionsMenu && activeUi != UI.MainMenu && activeUi != UI.itemCard)
+        {
+            pauseMenu.SetActive(true);
+            activeUi = UI.PauseMenu;
+            onMenu = !onMenu;
+            playerActions.DisableMovement();
+        }
+    }
+    public void OpenOptionsMenu()
+    {
+        if (activeUi == UI.OptionsMenu)
+        {
+            optionsMenu.SetActive(false);
+            activeUi = UI.Hud;
+        }
+    }
     void Update()
     {
         if (!PlayerController.Instance.isGameOver)
@@ -63,25 +91,6 @@ public class UiManager : MonoBehaviour
             seconds = (t % 60).ToString("f0");
             timeText = minutes + ":"+seconds;
             timerText.text = timeText;
-        }
-        if (Input.GetKeyDown(KeyCode.Escape) && activeUi == UI.Hud)
-        {
-            onMenu = !onMenu;
-        }
-        if (onMenu)
-        {
-            GameManager.Instance.StopTime();
-        }
-        if (Input.GetKeyDown(KeyCode.Escape) && pauseMenu != null && activeUi != UI.OptionsMenu && activeUi != UI.MainMenu && activeUi != UI.itemCard)
-        {
-            pauseMenu.SetActive(true);
-            activeUi = UI.PauseMenu;
-        }
-        else if (Input.GetKeyDown(KeyCode.Escape) && activeUi == UI.OptionsMenu)
-        {
-            optionsMenu.SetActive(false);
-            activeUi = UI.Hud;
-            GameManager.Instance.StartTime();
         }
     }
 
@@ -112,7 +121,7 @@ public class UiManager : MonoBehaviour
     {
         onMenu = false;
         activeUi = UI.Hud;
-        GameManager.Instance.StartTime();
+        playerActions.EnableMovement();
     }
     public void ResetBtn()
     {

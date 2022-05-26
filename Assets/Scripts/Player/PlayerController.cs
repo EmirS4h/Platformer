@@ -238,6 +238,11 @@ public class PlayerController : MonoBehaviour
                 canDash = true;
                 coyoteTimeCounter -= Time.deltaTime; // for jumping
             }
+
+            if (transform.position.y < -20.0f)
+            {
+                GameManager.Instance.SentPlayerBackToStart();
+            }
         }
         else
         {

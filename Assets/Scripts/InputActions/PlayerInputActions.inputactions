@@ -40,6 +40,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "DropDown",
+                    "type": "Button",
+                    "id": "58279c39-3143-41fc-ad48-332044cd2710",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "OptionsMenu",
+                    "type": "Button",
+                    "id": "f073dd47-572f-4d51-8a3e-f93bb0f2503b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -143,17 +161,6 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "down",
-                    "id": "6e13010b-3345-46e7-9dd4-6ee87ab82d12",
-                    "path": "<DualShockGamepad>/dpad/down",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Movement",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
                     "name": "left",
                     "id": "e0ad17c6-cc30-4673-9b89-1fc7a4125cd2",
                     "path": "<DualShockGamepad>/leftStick/left",
@@ -168,6 +175,39 @@
                     "name": "right",
                     "id": "60224cfa-1f52-42d9-9579-cd5307e05581",
                     "path": "<DualShockGamepad>/leftStick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Ps4Pads",
+                    "id": "66885aee-3b04-491d-ab46-236729c96a64",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "left",
+                    "id": "e28df88c-21d1-47a3-adbf-dca4ba995070",
+                    "path": "<DualShockGamepad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "b8b98b9c-7ddb-40f1-8174-7f87e67da3a0",
+                    "path": "<DualShockGamepad>/dpad/right",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -192,7 +232,7 @@
                     "path": "<DualShockGamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "KeyboardMouse",
                     "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -214,7 +254,7 @@
                     "path": "<DualShockGamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "KeyboardMouse",
                     "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -236,8 +276,74 @@
                     "path": "<DualShockGamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "KeyboardMouse",
                     "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d40c012a-d2c2-4970-b553-8326fd0b2732",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "913e4da3-77d0-44f2-9386-9b02852a3e68",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "DropDown",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7cd4bab6-36a5-4311-bab7-cc36d8f6541a",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "DropDown",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "67a35e18-215a-4c7a-917f-6617b96763ef",
+                    "path": "<DualShockGamepad>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "DropDown",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e5a0aab4-6fa9-41f7-af7c-63518860abc2",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "OptionsMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "63da91ce-a73f-4512-a9fa-8c3879938c06",
+                    "path": "<DualShockGamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "OptionsMenu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

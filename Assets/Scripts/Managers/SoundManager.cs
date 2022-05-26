@@ -7,27 +7,10 @@ public class SoundManager : MonoBehaviour
     public static SoundManager Instance;
 
     AudioSource audioSource;
-    Rigidbody2D rb;
     [SerializeField] AudioClip keySound;
-    
-    [Header("Running Sounds")]
-    [SerializeField] AudioClip[] grassSounds;
-    [SerializeField] AudioClip[] rockSounds;
-    [SerializeField] AudioClip[] woodSounds;
-    
+
     [Header("Jump Start Sounds")]
-    [SerializeField] AudioClip[] grassJumpSounds;
-    [SerializeField] AudioClip[] rockJumpSounds;
-    [SerializeField] AudioClip[] woodJumpSounds;
-
-    [Header("Jump Landing Sounds")]
-    [SerializeField] AudioClip[] grassLandingSounds;
-    [SerializeField] AudioClip[] rockLandingSounds;
-    [SerializeField] AudioClip[] woodLandingSounds;
-
-    public int groundType = 0;
-    public bool playLandingSound = false;
-    int rnd;
+    [SerializeField] AudioClip rockJumpSound;
 
     private void Awake()
     {
@@ -44,7 +27,6 @@ public class SoundManager : MonoBehaviour
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
-        rb = GetComponent<Rigidbody2D>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -55,61 +37,12 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (playLandingSound && rb.velocity.y < 10.0f)
-        {
-            PlayLandingSound();
-        }
-    }
-
-    public void PlayFootSteps()
-    {
-        rnd = Random.Range(0, 2);
-        switch (groundType)
-        {
-            case 0:
-                audioSource.PlayOneShot(grassSounds[rnd]);
-                break;
-            case 1:
-                audioSource.PlayOneShot(rockSounds[rnd]);
-                break;
-            case 2:
-                audioSource.PlayOneShot(woodSounds[rnd]);
-                break;
-        }
-    }
     public void PlayJumpSound()
     {
-        rnd = Random.Range(0, 2);
-        switch (groundType)
-        {
-            case 0:
-                audioSource.PlayOneShot(grassJumpSounds[rnd]);
-                break;
-            case 1:
-                audioSource.PlayOneShot(rockJumpSounds[rnd]);
-                break;
-            case 2:
-                audioSource.PlayOneShot(woodJumpSounds[rnd]);
-                break;
-        }
+        audioSource.PlayOneShot(rockJumpSound);
     }
-
-    public void PlayLandingSound()
+    public void PlaySoundOneShot(AudioClip sound)
     {
-        rnd = Random.Range(0, 2);
-        switch (groundType)
-        {
-            case 0:
-                audioSource.PlayOneShot(grassLandingSounds[rnd]);
-                break;
-            case 1:
-                audioSource.PlayOneShot(rockLandingSounds[rnd]);
-                break;
-            case 2:
-                audioSource.PlayOneShot(woodLandingSounds[rnd]);
-                break;
-        }
+        audioSource.PlayOneShot(sound);
     }
 }

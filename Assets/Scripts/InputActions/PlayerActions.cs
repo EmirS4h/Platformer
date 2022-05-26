@@ -15,6 +15,8 @@ public class PlayerActions : ScriptableObject, PlayerInputActions.IPlayerActions
     public event UnityAction dashEvent = delegate { };
     public event UnityAction jumpEventCancelled = delegate { };
     public event UnityAction optionsBtn = delegate { };
+    public event UnityAction nextBtn = delegate { };
+    public event UnityAction prevBtn = delegate { };
     public event UnityAction<Vector2> movementEvent = delegate { };
 
     private void OnEnable()

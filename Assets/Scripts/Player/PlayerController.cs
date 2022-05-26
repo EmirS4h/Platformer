@@ -215,7 +215,6 @@ public class PlayerController : MonoBehaviour
             #region Check for Surroundings
 
             CheckGround();
-            SoundManager.Instance.playLandingSound = !isGrounded;
             CheckWall();
             CheckForWallSliding();
 

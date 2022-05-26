@@ -22,7 +22,7 @@ public class UiManager : MonoBehaviour
 
     [SerializeField] GameObject mainMenu, pauseMenu, optionsMenu, charSelectMenu, Hud, itemCard;
 
-    [SerializeField] Deneme deneme;
+    [SerializeField] CharSelection charSelection;
 
     [SerializeField] PlayerActions playerActions;
 
@@ -100,7 +100,8 @@ public class UiManager : MonoBehaviour
     }
     public void NextLevel()
     {
-        deneme.SetChar();
+        charSelection.SetChar();
+        playerActions.EnableMovement();
         StartCoroutine(LevelManager.Instance.LoadNextLevel());
     }
     public void Save()

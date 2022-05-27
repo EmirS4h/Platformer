@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityStandardAssets.CrossPlatformInput;
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController Instance;
@@ -140,6 +139,7 @@ public class PlayerController : MonoBehaviour
             if (isDashing)
             {
                 rb.AddForce(new Vector2(horizontalInput, 0.0f) * dashForce, ForceMode2D.Impulse);
+                rb.gravityScale = 0.0f;
                 canDash = false;
             }
         }
@@ -318,6 +318,7 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(dashTime);
         isDashing = false;
+        rb.gravityScale = gravityScale;
     }
 
     private void ApplyGravity()

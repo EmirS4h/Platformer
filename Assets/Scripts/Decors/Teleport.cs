@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityStandardAssets.CrossPlatformInput;
 public class Teleport : MonoBehaviour
 {
     [SerializeField] Transform whereTo;
@@ -23,15 +22,15 @@ public class Teleport : MonoBehaviour
         canTeleport = false;
     }
     // Update is called once per frame
-    void Update()
-    {
-        // Input.GetKeyDown(KeyCode.E)
-        // CrossPlatformInputManager.GetButtonDown("InteractBtn")
-        if (CrossPlatformInputManager.GetButtonDown("InteractBtn") && canTeleport && !teleporting)
-        {
-            StartCoroutine(StartTeleportation());
-        }
-    }
+    //void Update()
+    //{
+    //    // Input.GetKeyDown(KeyCode.E)
+    //    // CrossPlatformInputManager.GetButtonDown("InteractBtn")
+    //    if (CrossPlatformInputManager.GetButtonDown("InteractBtn") && canTeleport && !teleporting)
+    //    {
+    //        StartCoroutine(StartTeleportation());
+    //    }
+    //}
 
     public IEnumerator StartTeleportation()
     {

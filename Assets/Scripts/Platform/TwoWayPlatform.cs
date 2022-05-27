@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityStandardAssets.CrossPlatformInput;
 public class TwoWayPlatform : MonoBehaviour
 {
     private BoxCollider2D bxcollider2D;

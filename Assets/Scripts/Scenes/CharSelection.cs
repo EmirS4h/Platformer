@@ -7,9 +7,15 @@ public class CharSelection : MonoBehaviour
 {
     [SerializeField] GameObject[] chars;
     public int selectedCharIndex = 0;
+
+    private void Awake()
+    {
+        selectedCharIndex = PlayerPrefs.GetInt("charIndex");
+    }
+
     private void Start()
     {
-        chars[0].SetActive(true);
+        chars[selectedCharIndex].SetActive(true);
     }
     public void NextCharacter()
     {
@@ -21,7 +27,7 @@ public class CharSelection : MonoBehaviour
     {
         chars[selectedCharIndex].SetActive(false);
         selectedCharIndex--;
-        if(selectedCharIndex < 0)
+        if (selectedCharIndex < 0)
         {
             selectedCharIndex += chars.Length;
         }

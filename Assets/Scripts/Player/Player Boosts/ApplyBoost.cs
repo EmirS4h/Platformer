@@ -1,23 +1,54 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class ApplyBoost : MonoBehaviour
 {
+    public enum Boost
+    {
+        JumpForce,
+        DashForce,
+        MoveSpeed,
+        JumpForceFromChest,
+        DashForceFromChest,
+        MoveSpeedFromChest,
+        DoubleJumpBooster,
+        DoubleDashBooster,
+        PermaDashForce,
+        PermaMoveSpeed,
+        PermaJumpForce,
+    }
+    public Boost type;
+    public float boostAmount;
+    public float boostTime;
+
+    public float permaMoveSpeedBoostAmount;
+    public float permaDashForceBoostAmount;
+    public float permaJumpForceBoostAmount;
+
     [Header("Starting Forces")]
     [SerializeField] private float playerStartSpeed;
     [SerializeField] private float playerStartDashForce;
     [SerializeField] private float playerStartJumpForce;
 
-    [SerializeField] private Boost boost;
+    //[SerializeField] private Boost boost;
     [SerializeField] private bool playerOnBooster = false;
 
     [SerializeField] GameObject card;
     [SerializeField] PlayerActions playerActions;
 
+    [SerializeField] TextMeshPro stats;
+
+    ParticleSystem ps;
+
     private void Awake()
     {
         card = transform.GetChild(0).gameObject;
+        ps = GetComponent<ParticleSystem>();
+        boostAmount = Random.Range(1.1f, 1.5f);
+        boostTime = Random.Range(3.0f, 10.0f);
+        stats.SetText("+"+ Mathf.Floor((boostAmount-Mathf.Floor(boostAmount))*100) + "% " + type + " For " + Mathf.Floor(boostTime) + " Seconds");
     }
     private void OnEnable()
     {
@@ -33,12 +64,13 @@ public class ApplyBoost : MonoBehaviour
         playerStartDashForce = PlayerController.Instance.dashForce;
         playerStartJumpForce = PlayerController.Instance.jumpForce;
     }
-   
+
     public void Apply()
     {
         if (playerOnBooster && !PlayerController.Instance.boostActive)
         {
-            DeactivateBoostAndApply(boost.type, boost.boostAmount, boost.boostTime);
+            ps.Play();
+            DeactivateBoostAndApply(type, boostAmount, boostTime);
         }
 
     }
@@ -70,26 +102,26 @@ public class ApplyBoost : MonoBehaviour
         playerOnBooster = false;
     }
 
-    IEnumerator Booster(Boost.Type boostType, float boostAmount, float time)
+    IEnumerator Booster(Boost boostType, float boostAmount, float time)
     {
         switch (boostType)
         {
-            case Boost.Type.MoveSpeed:
-            case Boost.Type.MoveSpeedFromChest:
+            case Boost.MoveSpeed:
+            case Boost.MoveSpeedFromChest:
                 PlayerController.Instance.moveSpeed *= boostAmount;
                 yield return new WaitForSeconds(time);
                 PlayerController.Instance.moveSpeed = playerStartSpeed;
                 PlayerController.Instance.boostActive = false;
                 break;
-            case Boost.Type.DashForce:
-            case Boost.Type.DashForceFromChest:
+            case Boost.DashForce:
+            case Boost.DashForceFromChest:
                 PlayerController.Instance.dashForce *= boostAmount;
                 yield return new WaitForSeconds(time);
                 PlayerController.Instance.dashForce = playerStartDashForce;
                 PlayerController.Instance.boostActive = false;
                 break;
-            case Boost.Type.JumpForce:
-            case Boost.Type.JumpForceFromChest:
+            case Boost.JumpForce:
+            case Boost.JumpForceFromChest:
                 PlayerController.Instance.jumpForce *= boostAmount;
                 yield return new WaitForSeconds(time);
                 PlayerController.Instance.jumpForce = playerStartJumpForce;
@@ -98,12 +130,12 @@ public class ApplyBoost : MonoBehaviour
         }
     }
 
-    private void DeactivateBoostAndApply(Boost.Type boostType, float amount, float time)
+    private void DeactivateBoostAndApply(Boost boostType, float amount, float time)
     {
         PlayerController.Instance.boostActive = true;
         gameObject.GetComponent<SpriteRenderer>().enabled = false;
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
-        if (boost.type == Boost.Type.MoveSpeedFromChest || boost.type == Boost.Type.DashForceFromChest || boost.type == Boost.Type.JumpForceFromChest)
+        if (type == Boost.MoveSpeedFromChest || type == Boost.DashForceFromChest || type == Boost.JumpForceFromChest)
         {
             GameManager.Instance.boostObjectFromChest.Add(gameObject);
             StartCoroutine(Booster(boostType, amount, time));

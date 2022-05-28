@@ -7,12 +7,6 @@ public class Boost : ScriptableObject
 {
     public enum Type
     {
-        JumpForce,
-        DashForce,
-        MoveSpeed,
-        JumpForceFromChest,
-        DashForceFromChest,
-        MoveSpeedFromChest,
         DoubleJumpBooster,
         DoubleDashBooster,
         PermaDashForce,
@@ -20,8 +14,6 @@ public class Boost : ScriptableObject
         PermaJumpForce,
     }
     public Type type;
-    public float boostAmount;
-    public float boostTime;
 
     public float permaMoveSpeedBoostAmount;
     public float permaDashForceBoostAmount;

@@ -29,6 +29,8 @@ public class CollectBooster : MonoBehaviour
         card = transform.GetChild(1).gameObject;
         cardSpriteRenderer = card.GetComponent<SpriteRenderer>();
         cardSpriteRenderer.sprite = cardSprite;
+
+        PlayerPrefs.DeleteKey("hasCollectedPowerUpStone");
     }
 
     private void OnEnable()
@@ -86,10 +88,10 @@ public class CollectBooster : MonoBehaviour
     private void ApplyBooster()
     {
 
-        if (!PlayerController.Instance.hasCollectedPowerUpStone)
+        if (!PlayerPrefs.HasKey("hasCollectedPowerUpStone"))
         {
             ShowCard();
-            PlayerController.Instance.hasCollectedPowerUpStone = true;
+            PlayerPrefs.SetInt("hasCollectedPowerUpStone", 1);
         }
 
         switch (boost.type)

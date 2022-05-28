@@ -240,6 +240,7 @@ public class PlayerController : MonoBehaviour
 
             if (transform.position.y < -20.0f)
             {
+                GameManager.Instance.ReActivateBack();
                 GameManager.Instance.SentPlayerBackToStart();
             }
         }

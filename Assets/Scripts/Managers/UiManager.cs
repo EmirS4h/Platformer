@@ -8,23 +8,27 @@ public class UiManager : MonoBehaviour
 {
     public static UiManager Instance;
 
-    [SerializeField] TextMeshProUGUI timerText;
+    [SerializeField] private TextMeshProUGUI timerText;
 
-    float timerTime;
-    float t;
+    private float timerTime;
+    private float t;
 
-    string minutes;
-    string seconds;
+    private string minutes;
+    private string seconds;
 
-    string timeText;
+    private string timeText;
 
     [SerializeField] private TextMeshProUGUI levelEndingTimeText;
 
-    [SerializeField] GameObject mainMenu, pauseMenu, optionsMenu, charSelectMenu, Hud, itemCard;
+    [SerializeField] private GameObject mainMenu, pauseMenu, optionsMenu, charSelectMenu, Hud, itemCard, notifier, chars;
+    [SerializeField] private TextMeshProUGUI notifTitle;
+    [SerializeField] private TextMeshProUGUI notifDescription;
 
-    [SerializeField] CharSelection charSelection;
+    [SerializeField] private CharSelection charSelection;
 
-    [SerializeField] PlayerActions playerActions;
+    [SerializeField] private PlayerActions playerActions;
+
+    [SerializeField] private int selectedCharIndex = 0;
 
     public enum UI
     {
@@ -37,7 +41,6 @@ public class UiManager : MonoBehaviour
     }
     public UI activeUi;
 
-    bool onMenu = false;
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -47,6 +50,9 @@ public class UiManager : MonoBehaviour
         else
         {
             Instance = this;
+            selectedCharIndex = PlayerPrefs.GetInt("charIndex");
+            if (chars != null)
+                chars.transform.GetChild(selectedCharIndex).gameObject.SetActive(true);
         }
     }
 
@@ -61,26 +67,18 @@ public class UiManager : MonoBehaviour
 
     private void Start()
     {
-        timerTime = Time.time;
-    }
-    private void OpenPauseMenu()
-    {
-        if (pauseMenu != null && activeUi != UI.OptionsMenu && activeUi != UI.MainMenu && activeUi != UI.itemCard)
+        if (SceneManager.GetActiveScene().buildIndex == 0)
         {
-            pauseMenu.SetActive(true);
-            activeUi = UI.PauseMenu;
-            onMenu = !onMenu;
             playerActions.DisableMovement();
+            OpenMainMenu();
         }
-    }
-    public void OpenOptionsMenu()
-    {
-        if (activeUi == UI.OptionsMenu)
+        else
         {
-            optionsMenu.SetActive(false);
-            activeUi = UI.Hud;
+            chars = null;
+            timerTime = Time.time;
         }
     }
+
     void Update()
     {
         if (!PlayerController.Instance.isGameOver)
@@ -98,21 +96,15 @@ public class UiManager : MonoBehaviour
     {
         levelEndingTimeText.text = timeText;
     }
-    public void NextLevel()
+    public void StartBtn()
     {
         charSelection.SetChar();
         playerActions.EnableMovement();
-        StartCoroutine(LevelManager.Instance.LoadNextLevel());
+        StartCoroutine(LevelManager.Instance.LoadLevel(1));
     }
-    public void Save()
+    public void SavePlayerData()
     {
         PlayerController.Instance.SavePlayerData();
-    }
-    public void OptionsMenu()
-    {
-        activeUi = UI.OptionsMenu;
-        mainMenu.SetActive(false);
-        optionsMenu.SetActive(true);
     }
     public void ReturnToMainMenu()
     {
@@ -120,7 +112,6 @@ public class UiManager : MonoBehaviour
     }
     public void ContinueBtn()
     {
-        onMenu = false;
         activeUi = UI.Hud;
         playerActions.EnableMovement();
     }
@@ -140,5 +131,76 @@ public class UiManager : MonoBehaviour
         itemCard.SetActive(false);
         activeUi = UI.Hud;
         GameManager.Instance.StartTime();
+    }
+    public void Notif(string title, string details)
+    {
+        notifTitle.SetText(title);
+        notifDescription.SetText(details);
+        notifier.SetActive(true);
+        activeUi = UI.itemCard;
+        GameManager.Instance.StopTime();
+    }
+    public void CloseNotif()
+    {
+        notifier.SetActive(false);
+        activeUi = UI.Hud;
+        GameManager.Instance.StartTime();
+    }
+    public void QuitGame()
+    {
+        PlayerController.Instance.SavePlayerData();
+        Application.Quit();
+    }
+
+    public void OpenMainMenu()
+    {
+        activeUi = UI.MainMenu;
+        mainMenu.SetActive(true);
+    }
+    public void CloseMainMenu()
+    {
+        mainMenu.SetActive(false);
+    }
+
+    public void OpenOptionsMenu()
+    {
+        activeUi = UI.OptionsMenu;
+        optionsMenu.SetActive(true);
+    }
+    public void CloseOptionsMenu()
+    {
+        optionsMenu.SetActive(false);
+    }
+
+    public void OpenPauseMenu()
+    {
+        activeUi = UI.PauseMenu;
+        playerActions.DisableMovement();
+        pauseMenu.SetActive(true);
+    }
+    public void ClosePauseMenu()
+    {
+        playerActions.EnableMovement();
+        pauseMenu.SetActive(false);
+    }
+
+    public void OpenCharSelectMenu()
+    {
+        activeUi = UI.CharacterSelectMenu;
+        chars.transform.position = new Vector2(0.0f, 0.0f);
+        charSelectMenu.SetActive(true);
+    }
+    public void CloseCharSelectMenu()
+    {
+        chars.transform.position = new Vector2(-5.81f, 0.0f);
+        charSelectMenu.SetActive(false);
+    }
+    public void CloseChar()
+    {
+        chars.SetActive(false);
+    }
+    public void OpenChar()
+    {
+        chars.SetActive(true);
     }
 }

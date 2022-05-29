@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
+using UnityEngine.SceneManagement;
+
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController Instance;
@@ -8,6 +11,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private Animator animator;
     [SerializeField] PlayerActions playerActions;
+    [SerializeField] Light2D light2D;
 
     [Header("Player Particles")]
     [SerializeField] private ParticleSystem jumpParticle;
@@ -103,6 +107,15 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         wallJumpDirection.Normalize();
+
+        if (SceneManager.GetActiveScene().buildIndex != 0 && SceneManager.GetActiveScene().buildIndex != 1)
+        {
+            light2D.enabled = true;
+        }
+        else
+        {
+            light2D.enabled = false;
+        }
     }
     private void OnEnable()
     {
@@ -385,6 +398,8 @@ public class PlayerController : MonoBehaviour
         PlayerPrefs.DeleteKey("wallJumpNotif");
         PlayerPrefs.DeleteKey("dashNotif");
         PlayerPrefs.DeleteKey("totemNotif");
+        PlayerPrefs.DeleteKey("potionNotif");
+        PlayerPrefs.DeleteKey("nextLevelDoorNotif");
     }
     public void LoadPlayerData()
     {

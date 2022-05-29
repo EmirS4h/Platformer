@@ -37,10 +37,9 @@ public class NextLevelDoor : MonoBehaviour
         {
             if (canGoLoadNextLevel)
             {
-                PlayerController.Instance.isGameOver = true;
                 audioSource.clip = openSound;
                 audioSource.Play();
-                LevelManager.Instance.LevelEndingScreen();
+                LevelManager.Instance.NextLevel();
             }
             else
             {

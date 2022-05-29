@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df820994077d5954394432af38e40a40, type: 3}
-  m_Name: TotemNotifier
+  m_Name: PotionNotifier
   m_EditorClassIdentifier: 
-  title: Totems
-  description: Totems will appear throughout the level, there can be one or more
-    totems in a level, you must activate all the totems in order to move on to the
-    next level
+  title: Potions
+  description: 'You can find potions in levels
+
+    Potions helps you complete a
+    level faster'

@@ -11,6 +11,7 @@ public class WallJumpNotifier : MonoBehaviour
         DashNotif,
         BoosterNotif,
         LevelKeyNotif,
+        NextLevelDoorNotif,
         ChestNotif,
         PermaDashForceUpgradeNotif,
         PermaJumpForceUpgradeNotif,
@@ -48,6 +49,22 @@ public class WallJumpNotifier : MonoBehaviour
                 if (!levelKeyNotif)
                 {
                     PlayerPrefs.SetInt("totemNotif", 1);
+                    UiManager.Instance.Notif(notifDetails.title, notifDetails.description);
+                }
+                break;
+            case NotifType.PotionNotif:
+                bool potionNotif = PlayerPrefs.HasKey("potionNotif");
+                if (!potionNotif)
+                {
+                    PlayerPrefs.SetInt("potionNotif", 1);
+                    UiManager.Instance.Notif(notifDetails.title, notifDetails.description);
+                }
+                break;
+            case NotifType.NextLevelDoorNotif:
+                bool nextLevelDoorNotif = PlayerPrefs.HasKey("nextLevelDoorNotif");
+                if (!nextLevelDoorNotif)
+                {
+                    PlayerPrefs.SetInt("nextLevelDoorNotif", 1);
                     UiManager.Instance.Notif(notifDetails.title, notifDetails.description);
                 }
                 break;

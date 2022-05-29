@@ -368,6 +368,7 @@ public class PlayerController : MonoBehaviour
         dashForce = 6.0f;
 
         hasDoubleJump = false;
+        canDoubleJump = false;
         maxDash = 1;
 
         collectedDoubleDashBoosterAmount = 0;
@@ -378,6 +379,12 @@ public class PlayerController : MonoBehaviour
         collectedMoveSpeedBoosterAmount = 0;
 
         hasCollectedPowerUpStone = false;
+
+        PlayerPrefs.DeleteKey("hasCollectedPowerUpStone");
+
+        PlayerPrefs.DeleteKey("wallJumpNotif");
+        PlayerPrefs.DeleteKey("dashNotif");
+        PlayerPrefs.DeleteKey("totemNotif");
     }
     public void LoadPlayerData()
     {

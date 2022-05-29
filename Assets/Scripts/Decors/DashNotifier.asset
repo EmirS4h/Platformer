@@ -13,4 +13,9 @@ MonoBehaviour:
   m_Name: DashNotifier
   m_EditorClassIdentifier: 
   title: Dash
-  description: You can dash
+  description: 'While moving forwards in the air
+
+    Press Shift to Dash
+
+    Dashing
+    allows you to reach places you can''t normally reach'

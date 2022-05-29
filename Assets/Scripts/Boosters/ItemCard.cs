@@ -2,27 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-
+using UnityEngine.InputSystem;
 public class ItemCard : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI header;
     [SerializeField] TextMeshProUGUI description;
 
     [SerializeField] CardDescription cardDescription;
+    [SerializeField] private PlayerActions playerActions;
 
     private void Awake()
     {
         SetTexts();
     }
 
-    private void Update()
+    private void OnEnable()
     {
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            gameObject.SetActive(false);
-            UiManager.Instance.activeUi = UiManager.UI.Hud;
-            GameManager.Instance.StartTime();
-        }
+        playerActions.optionsBtn += CloseItemCard;
+    }
+    private void OnDisable()
+    {
+        playerActions.optionsBtn -= CloseItemCard;
+    }
+
+    private void CloseItemCard()
+    {
+        gameObject.SetActive(false);
+        UiManager.Instance.activeUi = UiManager.UI.Hud;
+        GameManager.Instance.StartTime();
     }
 
     public void SetTexts()

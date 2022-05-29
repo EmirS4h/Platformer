@@ -20,7 +20,7 @@ public class UiManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI levelEndingTimeText;
 
-    [SerializeField] private GameObject mainMenu, pauseMenu, optionsMenu, charSelectMenu, Hud, itemCard, notifier, chars;
+    [SerializeField] private GameObject mainMenu, pauseMenu, optionsMenu, charSelectMenu, Hud, itemCard, notifier, chars, upgradeCard;
     [SerializeField] private TextMeshProUGUI notifTitle;
     [SerializeField] private TextMeshProUGUI notifDescription;
 
@@ -38,6 +38,7 @@ public class UiManager : MonoBehaviour
         CharacterSelectMenu,
         Hud,
         itemCard,
+        upgradeCard,
     }
     public UI activeUi;
 
@@ -122,6 +123,7 @@ public class UiManager : MonoBehaviour
     }
     public void ActivateItemCard()
     {
+        playerActions.DisableMovement();
         itemCard.SetActive(true);
         activeUi = UI.itemCard;
         GameManager.Instance.StopTime();
@@ -132,8 +134,24 @@ public class UiManager : MonoBehaviour
         activeUi = UI.Hud;
         GameManager.Instance.StartTime();
     }
+
+    public void ActivateUpgradeCard()
+    {
+        playerActions.DisableMovement();
+        upgradeCard.SetActive(true);
+        activeUi = UI.upgradeCard;
+        GameManager.Instance.StopTime();
+    }
+    public void DeactivateUpgradeCard()
+    {
+        upgradeCard.SetActive(false);
+        activeUi = UI.Hud;
+        GameManager.Instance.StartTime();
+    }
+
     public void Notif(string title, string details)
     {
+        playerActions.DisableMovement();
         notifTitle.SetText(title);
         notifDescription.SetText(details);
         notifier.SetActive(true);
@@ -142,6 +160,7 @@ public class UiManager : MonoBehaviour
     }
     public void CloseNotif()
     {
+        playerActions.EnableMovement();
         notifier.SetActive(false);
         activeUi = UI.Hud;
         GameManager.Instance.StartTime();
@@ -154,6 +173,7 @@ public class UiManager : MonoBehaviour
 
     public void OpenMainMenu()
     {
+        playerActions.DisableMovement();
         activeUi = UI.MainMenu;
         mainMenu.SetActive(true);
     }
@@ -164,6 +184,7 @@ public class UiManager : MonoBehaviour
 
     public void OpenOptionsMenu()
     {
+        playerActions.DisableMovement();
         activeUi = UI.OptionsMenu;
         optionsMenu.SetActive(true);
     }
@@ -174,6 +195,7 @@ public class UiManager : MonoBehaviour
 
     public void OpenPauseMenu()
     {
+        playerActions.DisableMovement();
         activeUi = UI.PauseMenu;
         playerActions.DisableMovement();
         pauseMenu.SetActive(true);
@@ -186,6 +208,7 @@ public class UiManager : MonoBehaviour
 
     public void OpenCharSelectMenu()
     {
+        playerActions.DisableMovement();
         activeUi = UI.CharacterSelectMenu;
         chars.transform.position = new Vector2(0.0f, 0.0f);
         charSelectMenu.SetActive(true);

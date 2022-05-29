@@ -12,16 +12,16 @@ public class WallJumpNotifier : MonoBehaviour
         BoosterNotif,
         LevelKeyNotif,
         ChestNotif,
+        PermaDashForceUpgradeNotif,
+        PermaJumpForceUpgradeNotif,
+        PermaMoveSpeedUpgradeNotif,
+        DoubleDashUpgradeNotif,
+        DoubleJumpUpgradeNotif,
     }
     public NotifType type;
 
     [SerializeField] NotifDetails notifDetails;
 
-    private void Awake()
-    {
-        PlayerPrefs.DeleteKey("wallJumpNotif");
-        PlayerPrefs.DeleteKey("dashNotif");
-    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
@@ -40,6 +40,14 @@ public class WallJumpNotifier : MonoBehaviour
                 if (!checkDashNotif)
                 {
                     PlayerPrefs.SetInt("dashNotif", 1);
+                    UiManager.Instance.Notif(notifDetails.title, notifDetails.description);
+                }
+                break;
+            case NotifType.LevelKeyNotif:
+                bool levelKeyNotif = PlayerPrefs.HasKey("totemNotif");
+                if (!levelKeyNotif)
+                {
+                    PlayerPrefs.SetInt("totemNotif", 1);
                     UiManager.Instance.Notif(notifDetails.title, notifDetails.description);
                 }
                 break;

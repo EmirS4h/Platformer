@@ -20,6 +20,7 @@ public class CollectBooster : MonoBehaviour
     AudioSource audioSource;
 
     [SerializeField] PlayerActions playerActions;
+    [SerializeField] NotifDetails notifDetails;
 
     private void Awake()
     {
@@ -29,8 +30,6 @@ public class CollectBooster : MonoBehaviour
         card = transform.GetChild(1).gameObject;
         cardSpriteRenderer = card.GetComponent<SpriteRenderer>();
         cardSpriteRenderer.sprite = cardSprite;
-
-        PlayerPrefs.DeleteKey("hasCollectedPowerUpStone");
     }
 
     private void OnEnable()
@@ -102,6 +101,7 @@ public class CollectBooster : MonoBehaviour
                     PlayerController.Instance.collectedDoubleDashBoosterAmount++;
                     if (PlayerController.Instance.collectedDoubleDashBoosterAmount==3)
                     {
+                        UiManager.Instance.Notif(notifDetails.title, notifDetails.description);
                         PlayerController.Instance.maxDash = 2;
                     }
                     PlayerController.Instance.SavePlayerData();
@@ -113,6 +113,7 @@ public class CollectBooster : MonoBehaviour
                     PlayerController.Instance.collectedDoubleJumpBoosterAmount++;
                     if (PlayerController.Instance.collectedDoubleJumpBoosterAmount==3)
                     {
+                        UiManager.Instance.Notif(notifDetails.title, notifDetails.description);
                         PlayerController.Instance.hasDoubleJump = true;
                     }
                     PlayerController.Instance.SavePlayerData();
@@ -124,6 +125,7 @@ public class CollectBooster : MonoBehaviour
                     PlayerController.Instance.collectedDashForceBoosterAmount++;
                     if (PlayerController.Instance.collectedDashForceBoosterAmount==3)
                     {
+                        UiManager.Instance.Notif(notifDetails.title, notifDetails.description);
                         PlayerController.Instance.dashForce *= boost.permaDashForceBoostAmount;
                     }
                     PlayerController.Instance.SavePlayerData();
@@ -135,6 +137,7 @@ public class CollectBooster : MonoBehaviour
                     PlayerController.Instance.collectedMoveSpeedBoosterAmount++;
                     if (PlayerController.Instance.collectedMoveSpeedBoosterAmount==3)
                     {
+                        UiManager.Instance.Notif(notifDetails.title, notifDetails.description);
                         PlayerController.Instance.moveSpeed *= boost.permaMoveSpeedBoostAmount;
                     }
                     PlayerController.Instance.SavePlayerData();
@@ -146,6 +149,7 @@ public class CollectBooster : MonoBehaviour
                     PlayerController.Instance.collectedJumpForceBoosterAmount++;
                     if (PlayerController.Instance.collectedJumpForceBoosterAmount==3)
                     {
+                        UiManager.Instance.Notif(notifDetails.title, notifDetails.description);
                         PlayerController.Instance.jumpForce *= boost.permaJumpForceBoostAmount;
                     }
                     PlayerController.Instance.SavePlayerData();

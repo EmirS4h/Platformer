@@ -10,10 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df820994077d5954394432af38e40a40, type: 3}
-  m_Name: WallJumpNotifier
+  m_Name: PermaDashForceUpgradeNotif
   m_EditorClassIdentifier: 
-  title: Wall Jump
-  description: 'While on a wall press Jump Button to jump to the opposite wall
-
-    This
-    allow you to climb walls'
+  title: ' Dash Force'
+  description: You have gained more Dash Force

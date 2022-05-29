@@ -9,7 +9,9 @@ public class OpenChest : MonoBehaviour
     public Sprite openedChestSprite;
     [SerializeField] private bool isPlayerOnTheChest = false;
     public bool chestOpened = false;
-    [SerializeField] GameObject[] objects;
+    [SerializeField] GameObject[] potions;
+    [SerializeField] GameObject[] boosters;
+
     GameObject interactBtn;
 
     [SerializeField] PlayerActions playerActions = default;
@@ -41,12 +43,18 @@ public class OpenChest : MonoBehaviour
         {
             spriteRenderer.sprite = openedChestSprite;
             chestOpened = true;
-            int rnd = Random.Range(0, objects.Length);
             int leftRight = Random.Range(0, 2);
             Vector2 spawnPos = new Vector2(leftRight == 0 ? gameObject.transform.position.x + 1.0f : gameObject.transform.position.x + -1.0f, gameObject.transform.position.y);
-            Instantiate(objects[rnd], spawnPos, Quaternion.identity);
-            if (type == ChestType.Silver)
+
+            if (type == ChestType.Gold && boosters != null)
             {
+                int rnd = Random.Range(0, boosters.Length);
+                Instantiate(boosters[rnd], spawnPos, Quaternion.identity);
+            }
+            else if (type == ChestType.Silver && potions != null)
+            {
+                int rnd = Random.Range(0, potions.Length);
+                Instantiate(potions[rnd], spawnPos, Quaternion.identity);
                 GameManager.Instance.chestsOpened.Add(this);
             }
         }

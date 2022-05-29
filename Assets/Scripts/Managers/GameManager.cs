@@ -27,14 +27,28 @@ public class GameManager : MonoBehaviour
     public List<OpenChest> chestsOpened = new List<OpenChest>();
     public List<LevelKey> keysActivated = new List<LevelKey>();
 
-    public GameObject booster;
-    public Transform[] boosterSpawnPoints;
+    [SerializeField] private GameObject doubleJumpBoosterPrefab;
+    [SerializeField] private bool spawnDoubleJumpBooster;
 
-    public GameObject nextLevelGate;
-    public Transform[] rndomPositions;
+    [SerializeField] private GameObject doubleDashBoosterPrefab;
+    [SerializeField] private bool spawnDoubleDashBooster;
 
-    public GameObject[] playerModels;
-    public Transform startingPosition;
+    [SerializeField] private GameObject permaMoveSpeedBoosterPrefab;
+    [SerializeField] private bool spawnPermaMoveSpeedBooster;
+
+    [SerializeField] private GameObject permaDashForceBoosterPrefab;
+    [SerializeField] private bool spawnPermaDashForceBooster;
+
+    [SerializeField] private GameObject permaJumpForceBoosterPrefab;
+    [SerializeField] private bool spawnPermaJumpForceBooster;
+
+    [SerializeField] private Transform[] boosterSpawnPoints;
+
+    [SerializeField] private GameObject nextLevelGate;
+    [SerializeField] private Transform[] randomGatePositions;
+
+    [SerializeField] private GameObject[] playerModels;
+    [SerializeField] private Transform startingPosition;
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -68,13 +82,31 @@ public class GameManager : MonoBehaviour
 
     }
 
-    // Oyuncunun baslangic pozisyonunu ve ozelliklerini kaydeder
     private void Start()
     {
         if (SceneManager.GetActiveScene().buildIndex != 0)
         {
-            SpawnRandomObject(booster, boosterSpawnPoints);
-            SpawnRandomObject(nextLevelGate, rndomPositions);
+            if (spawnDoubleJumpBooster && doubleJumpBoosterPrefab != null && !PlayerController.Instance.hasDoubleJump)
+            {
+                SpawnRandomObject(doubleJumpBoosterPrefab, boosterSpawnPoints);
+            }
+            else if (spawnDoubleDashBooster && doubleDashBoosterPrefab != null && PlayerController.Instance.maxDash != 2)
+            {
+                SpawnRandomObject(doubleDashBoosterPrefab, boosterSpawnPoints);
+            }
+            else if (spawnPermaMoveSpeedBooster && permaMoveSpeedBoosterPrefab != null && PlayerController.Instance.collectedMoveSpeedBoosterAmount != 3)
+            {
+                SpawnRandomObject(permaMoveSpeedBoosterPrefab, boosterSpawnPoints);
+            }
+            else if (spawnPermaDashForceBooster && permaDashForceBoosterPrefab != null && PlayerController.Instance.collectedDashForceBoosterAmount != 3)
+            {
+                SpawnRandomObject(permaDashForceBoosterPrefab, boosterSpawnPoints);
+            }
+            else if (spawnPermaJumpForceBooster && permaJumpForceBoosterPrefab != null && PlayerController.Instance.collectedJumpForceBoosterAmount != 3)
+            {
+                SpawnRandomObject(permaJumpForceBoosterPrefab, boosterSpawnPoints);
+            }
+            SpawnRandomObject(nextLevelGate, randomGatePositions);
             audioSource.Play();
         }
         StartTime();
@@ -137,7 +169,6 @@ public class GameManager : MonoBehaviour
             Instantiate(gameObject, spawnPoints[rndPos].transform.position, gameObject.transform.rotation);
         }
     }
-
     public void StopTime()
     {
         Time.timeScale = 0.0f;

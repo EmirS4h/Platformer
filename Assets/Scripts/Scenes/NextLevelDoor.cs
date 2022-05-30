@@ -39,7 +39,7 @@ public class NextLevelDoor : MonoBehaviour
             {
                 audioSource.clip = openSound;
                 audioSource.Play();
-                LevelManager.Instance.LoadNextLevel();
+                UiManager.Instance.LevelEnd();
             }
             else
             {

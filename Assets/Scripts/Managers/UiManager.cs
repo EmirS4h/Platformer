@@ -20,12 +20,17 @@ public class UiManager : MonoBehaviour
 
     private string timeText;
 
-    [SerializeField] private TextMeshProUGUI levelEndingTimeText;
-
     [SerializeField] private GameObject mainMenu, pauseMenu, optionsMenu, charSelectMenu, Hud, itemCard, notifier, chars, upgradeCard;
 
     public GameObject loadingScreen;
     public Slider slider;
+
+    [SerializeField] private GameObject background;
+
+    [SerializeField] private GameObject levelComplete;
+    [SerializeField] private TextMeshProUGUI currentLevelText;
+    [SerializeField] private TextMeshProUGUI levelTimeText;
+
 
     [SerializeField] private TextMeshProUGUI notifTitle;
     [SerializeField] private TextMeshProUGUI notifDescription;
@@ -66,12 +71,16 @@ public class UiManager : MonoBehaviour
 
     private void OnEnable()
     {
-        playerActions.optionsBtn += OpenPauseMenu;
-        playerActions.optionsBtn += SoundPitchDown;
+        if (SceneManager.GetActiveScene().buildIndex != 0)
+        {
+            playerActions.optionsBtn += OpenPauseMenu;
+            playerActions.optionsBtn += SoundPitchDown;
+        }
     }
     private void OnDisable()
     {
         playerActions.optionsBtn -= OpenPauseMenu;
+        playerActions.optionsBtn -= SoundPitchDown;
     }
 
     private void Start()
@@ -115,10 +124,6 @@ public class UiManager : MonoBehaviour
         loadingScreen.SetActive(false);
     }
 
-    public void LevelEnd()
-    {
-        levelEndingTimeText.text = timeText;
-    }
     public void StartBtn()
     {
         charSelection.SetChar();
@@ -138,6 +143,7 @@ public class UiManager : MonoBehaviour
     {
         activeUi = UI.Hud;
         playerActions.EnableMovement();
+        background.SetActive(false);
         GameManager.Instance.StartTime();
         SoundPitchDefault();
     }
@@ -220,6 +226,7 @@ public class UiManager : MonoBehaviour
 
     public void OpenPauseMenu()
     {
+        background.SetActive(true);
         GameManager.Instance.StopTime();
         playerActions.DisableMovement();
         activeUi = UI.PauseMenu;
@@ -260,5 +267,17 @@ public class UiManager : MonoBehaviour
     public void SoundPitchDefault()
     {
         GameManager.Instance.DefaultPitch();
+    }
+    public void LoadNextLevel()
+    {
+        LevelManager.Instance.LoadNextLevel();
+    }
+    public void LevelEnd()
+    {
+        GameManager.Instance.StopTime();
+        playerActions.DisableMovement();
+        levelTimeText.SetText(timeText);
+        currentLevelText.SetText("LEVEL "+SceneManager.GetActiveScene().buildIndex.ToString());
+        levelComplete.SetActive(true);
     }
 }

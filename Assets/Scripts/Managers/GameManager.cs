@@ -110,6 +110,7 @@ public class GameManager : MonoBehaviour
             audioSource.Play();
         }
         StartTime();
+        UiManager.Instance.DeactivateLoadingScreen();
     }
 
     // Oyuncu olunce Oyuncunun olmeden once topladigi herseyi geri getirir
@@ -176,5 +177,15 @@ public class GameManager : MonoBehaviour
     public void StartTime()
     {
         Time.timeScale = 1.0f;
+    }
+    public void PitchSoundDown()
+    {
+        audioSource.volume *= 0.5f;
+        audioSource.pitch *= 0.5f;
+    }
+    public void DefaultPitch()
+    {
+        audioSource.volume = 0.2f;
+        audioSource.pitch = 1.0f;
     }
 }

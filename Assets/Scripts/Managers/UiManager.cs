@@ -4,6 +4,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
+
 public class UiManager : MonoBehaviour
 {
     public static UiManager Instance;
@@ -21,6 +23,10 @@ public class UiManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI levelEndingTimeText;
 
     [SerializeField] private GameObject mainMenu, pauseMenu, optionsMenu, charSelectMenu, Hud, itemCard, notifier, chars, upgradeCard;
+
+    public GameObject loadingScreen;
+    public Slider slider;
+
     [SerializeField] private TextMeshProUGUI notifTitle;
     [SerializeField] private TextMeshProUGUI notifDescription;
 
@@ -39,6 +45,7 @@ public class UiManager : MonoBehaviour
         Hud,
         itemCard,
         upgradeCard,
+        loadingScreen,
     }
     public UI activeUi;
 
@@ -60,6 +67,7 @@ public class UiManager : MonoBehaviour
     private void OnEnable()
     {
         playerActions.optionsBtn += OpenPauseMenu;
+        playerActions.optionsBtn += SoundPitchDown;
     }
     private void OnDisable()
     {
@@ -93,6 +101,20 @@ public class UiManager : MonoBehaviour
         }
     }
 
+    public void ActivateLoadingScreen()
+    {
+        activeUi = UI.loadingScreen;
+        playerActions.DisableMovement();
+        loadingScreen.SetActive(true);
+    }
+
+    public void DeactivateLoadingScreen()
+    {
+        activeUi = UI.Hud;
+        playerActions.EnableMovement();
+        loadingScreen.SetActive(false);
+    }
+
     public void LevelEnd()
     {
         levelEndingTimeText.text = timeText;
@@ -101,7 +123,8 @@ public class UiManager : MonoBehaviour
     {
         charSelection.SetChar();
         playerActions.EnableMovement();
-        StartCoroutine(LevelManager.Instance.LoadLevel(1));
+        GameManager.Instance.StartTime();
+        LevelManager.Instance.LoadLevel(1);
     }
     public void SavePlayerData()
     {
@@ -115,6 +138,8 @@ public class UiManager : MonoBehaviour
     {
         activeUi = UI.Hud;
         playerActions.EnableMovement();
+        GameManager.Instance.StartTime();
+        SoundPitchDefault();
     }
     public void ResetBtn()
     {
@@ -195,6 +220,7 @@ public class UiManager : MonoBehaviour
 
     public void OpenPauseMenu()
     {
+        GameManager.Instance.StopTime();
         playerActions.DisableMovement();
         activeUi = UI.PauseMenu;
         playerActions.DisableMovement();
@@ -225,5 +251,14 @@ public class UiManager : MonoBehaviour
     public void OpenChar()
     {
         chars.SetActive(true);
+    }
+
+    public void SoundPitchDown()
+    {
+        GameManager.Instance.PitchSoundDown();
+    }
+    public void SoundPitchDefault()
+    {
+        GameManager.Instance.DefaultPitch();
     }
 }

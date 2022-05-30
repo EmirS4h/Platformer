@@ -108,7 +108,7 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         wallJumpDirection.Normalize();
 
-        if (SceneManager.GetActiveScene().buildIndex != 0 && SceneManager.GetActiveScene().buildIndex != 1)
+        if (SceneManager.GetActiveScene().buildIndex != 0)
         {
             light2D.enabled = true;
         }

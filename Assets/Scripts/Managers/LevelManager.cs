@@ -23,37 +23,37 @@ public class LevelManager : MonoBehaviour
     }
 
     // Level yukleme animasyonunu oynatýr ve bir sonraki leveli yukler
-    public IEnumerator LoadNextLevel()
-    {
-        //animator.SetTrigger("Start");
-        yield return new WaitForSecondsRealtime(1);
-        if (SceneManager.GetActiveScene().buildIndex + 1 == SceneManager.sceneCountInBuildSettings)
-        {
-            SceneManager.LoadScene(0);
-        }
-        else
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-        }
-    }
+    //public IEnumerator LoadNextLevel()
+    //{
+    //    //animator.SetTrigger("Start");
+    //    yield return new WaitForSecondsRealtime(1);
+    //    if (SceneManager.GetActiveScene().buildIndex + 1 == SceneManager.sceneCountInBuildSettings)
+    //    {
+    //        SceneManager.LoadScene(0);
+    //    }
+    //    else
+    //    {
+    //        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    //    }
+    //}
     // Level yukleme animasyonunu oynatýr ve istenilen leveli yukler
-    public IEnumerator LoadLevel(int index)
-    {
-        //animator.SetTrigger("Start");
-        yield return new WaitForSecondsRealtime(1);
-        if (SceneManager.sceneCountInBuildSettings >= index)
-        {
-            SceneManager.LoadScene(index);
-        }
-    }
-    public void NextLevel()
-    {
-        if (levelEndingCanvas)
-        {
-            levelEndingCanvas.SetActive(false);
-        }
-        StartCoroutine(LoadNextLevel());
-    }
+    //public IEnumerator LoadLevel(int index)
+    //{
+    //    //animator.SetTrigger("Start");
+    //    yield return new WaitForSecondsRealtime(1);
+    //    if (SceneManager.sceneCountInBuildSettings >= index)
+    //    {
+    //        SceneManager.LoadScene(index);
+    //    }
+    //}
+    //public void NextLevel()
+    //{
+    //    if (levelEndingCanvas)
+    //    {
+    //        levelEndingCanvas.SetActive(false);
+    //    }
+    //    StartCoroutine(LoadNextLevel());
+    //}
     public void LevelEndingScreen()
     {
         UiManager.Instance.LevelEnd();
@@ -62,7 +62,7 @@ public class LevelManager : MonoBehaviour
     public void StartGame()
     {
         GameManager.Instance.StartTime();
-        StartCoroutine(LoadLevel(1));
+        LoadLevel(1);
     }
     // Cikis yapar
     public void QuitGame()
@@ -72,6 +72,37 @@ public class LevelManager : MonoBehaviour
     public void LoadMainMenu()
     {
         GameManager.Instance.StartTime();
-        StartCoroutine(LoadLevel(0));
+        LoadLevel(0);
+    }
+
+    public IEnumerator LoadNextLevelAsync(int sceneIndex)
+    {
+        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneIndex);
+
+        UiManager.Instance.ActivateLoadingScreen();
+
+        while (!operation.isDone)
+        {
+            float progress = Mathf.Clamp01(operation.progress / 0.9f);
+            UiManager.Instance.slider.value = progress;
+            yield return null;
+        }
+    }
+
+    public void LoadLevel(int index)
+    {
+        StartCoroutine(LoadNextLevelAsync(index));
+    }
+
+    public void LoadNextLevel()
+    {
+        if (SceneManager.GetActiveScene().buildIndex + 1 == SceneManager.sceneCountInBuildSettings)
+        {
+            StartCoroutine(LoadNextLevelAsync(0));
+        }
+        else
+        {
+            StartCoroutine(LoadNextLevelAsync(SceneManager.GetActiveScene().buildIndex + 1));
+        }
     }
 }

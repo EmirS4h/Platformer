@@ -20,7 +20,7 @@ public class UiManager : MonoBehaviour
 
     private string timeText;
 
-    [SerializeField] private GameObject mainMenu, pauseMenu, optionsMenu, charSelectMenu, Hud, itemCard, notifier, chars, upgradeCard;
+    [SerializeField] private GameObject mainMenu, pauseMenu, optionsMenu, charSelectMenu, Hud, itemCard, notifier, chars, upgradeCard, levelSelectScreen;
 
     public GameObject loadingScreen;
     public Slider slider;
@@ -30,6 +30,7 @@ public class UiManager : MonoBehaviour
     [SerializeField] private GameObject levelComplete;
     [SerializeField] private TextMeshProUGUI currentLevelText;
     [SerializeField] private TextMeshProUGUI levelTimeText;
+    [SerializeField] private TextMeshProUGUI selectedLevelText;
 
 
     [SerializeField] private TextMeshProUGUI notifTitle;
@@ -51,6 +52,7 @@ public class UiManager : MonoBehaviour
         itemCard,
         upgradeCard,
         loadingScreen,
+        levelSelectScreen,
     }
     public UI activeUi;
 
@@ -87,6 +89,7 @@ public class UiManager : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().buildIndex == 0)
         {
+            selectedLevelText.SetText(PlayerPrefs.HasKey("selectedLevelIndex") ? "Level " + PlayerPrefs.GetInt("selectedLevelIndex").ToString() : "Level 1");
             playerActions.DisableMovement();
             OpenMainMenu();
         }
@@ -129,7 +132,7 @@ public class UiManager : MonoBehaviour
         charSelection.SetChar();
         playerActions.EnableMovement();
         GameManager.Instance.StartTime();
-        LevelManager.Instance.LoadLevel(1);
+        LevelManager.Instance.LoadLevel(PlayerPrefs.HasKey("selectedLevelIndex") ? PlayerPrefs.GetInt("selectedLevelIndex") : 1);
     }
     public void SavePlayerData()
     {
@@ -251,6 +254,22 @@ public class UiManager : MonoBehaviour
         chars.transform.position = new Vector2(-5.81f, 0.0f);
         charSelectMenu.SetActive(false);
     }
+
+    public void OpenLevelSelectScreen()
+    {
+        playerActions.DisableMovement();
+        activeUi = UI.levelSelectScreen;
+        CloseMainMenu();
+        levelSelectScreen.SetActive(true);
+    }
+
+    public void CloseLevelSelectScreen()
+    {
+        activeUi = UI.MainMenu;
+        OpenMainMenu();
+        levelSelectScreen.SetActive(false);
+    }
+
     public void CloseChar()
     {
         chars.SetActive(false);

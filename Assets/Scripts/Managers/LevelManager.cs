@@ -102,7 +102,9 @@ public class LevelManager : MonoBehaviour
         }
         else
         {
-            StartCoroutine(LoadNextLevelAsync(SceneManager.GetActiveScene().buildIndex + 1));
+            int index = SceneManager.GetActiveScene().buildIndex + 1;
+            StartCoroutine(LoadNextLevelAsync(index));
+            PlayerPrefs.SetInt("selectedLevelIndex", index);
         }
     }
 }

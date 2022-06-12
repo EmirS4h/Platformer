@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class LevelKey : MonoBehaviour
 {
     [SerializeField] ParticleSystem particles;
-
+    [SerializeField] AudioSource audioSource;
     [SerializeField] Sprite inActiveSprite;
     [SerializeField] Sprite activeSprite;
     [SerializeField] GameObject bg, interactBtn;
@@ -21,6 +21,7 @@ public class LevelKey : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         interactBtn = transform.GetChild(2).gameObject;
+        audioSource = GetComponent<AudioSource>();
     }
     private void OnEnable()
     {
@@ -36,6 +37,7 @@ public class LevelKey : MonoBehaviour
         {
             spriteRenderer.sprite = activeSprite;
             particles.Play();
+            audioSource.Play();
             bg.SetActive(true);
             keyActivated = true;
             GameManager.Instance.keysActivated.Add(this); // Adds its self to GameManagers activeKeysList

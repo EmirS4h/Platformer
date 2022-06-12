@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     Rigidbody2D rb;
     AudioSource audioSource;
 
+    [SerializeField] AudioClip portalSound;
+
     public Vector2 playerStartingPosition;
     public Vector3 playerStartingRotation;
     public float playerStartingDirection;
@@ -47,6 +49,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform[] boosterSpawnPoints;
 
     [SerializeField] private GameObject nextLevelGate;
+    public GameObject portal;
     [SerializeField] private Transform[] randomGatePositions;
 
     [SerializeField] private GameObject[] playerModels;
@@ -153,8 +156,7 @@ public class GameManager : MonoBehaviour
     // Oyuncuyu baslangictaki haline dondurur
     public void SentPlayerBackToStart()
     {
-        PlayerController.Instance.transform.position = playerStartingPosition;
-        PlayerController.Instance.transform.rotation = Quaternion.Euler(playerStartingRotation);
+        PlayerController.Instance.transform.SetPositionAndRotation(playerStartingPosition, Quaternion.Euler(playerStartingRotation));
         PlayerController.Instance.direction = playerStartingDirection;
         PlayerController.Instance.isFacingRight = playerStartingFacingDirection;
 
@@ -165,20 +167,27 @@ public class GameManager : MonoBehaviour
         rb.bodyType = RigidbodyType2D.Dynamic;
         PlayerController.Instance.boostActive = false;
         totemsActivated = false;
+        Destroy(portal);
     }
 
     // For spawning Object to random positions
-    public void SpawnRandomObject(GameObject gameObject, Transform[] spawnPoints)
+    public GameObject SpawnRandomObject(GameObject gameObject, Transform[] spawnPoints)
     {
         if (gameObject && spawnPoints.Length != 0)
         {
             int rndPos = Random.Range(0, spawnPoints.Length);
-            Instantiate(gameObject, spawnPoints[rndPos].transform.position, gameObject.transform.rotation);
+            GameObject ob = Instantiate(gameObject, spawnPoints[rndPos].transform.position, gameObject.transform.rotation);
+            return ob;
+        }
+        else
+        {
+            return null;
         }
     }
     public void SpawnPortal()
     {
-        SpawnRandomObject(nextLevelGate, randomGatePositions);
+        portal = SpawnRandomObject(nextLevelGate, randomGatePositions);
+        audioSource.PlayOneShot(portalSound);
     }
     public void StopTime()
     {

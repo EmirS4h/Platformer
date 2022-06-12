@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Tween : MonoBehaviour
@@ -59,7 +57,7 @@ public class Tween : MonoBehaviour
                 MoveAlongAxis();
                 break;
             case AnimationType.Rotate:
-                Rotate();
+                Rotate(gameObject,to,rotDegrees,duration);
                 break;
         }
         if (loop)
@@ -138,9 +136,10 @@ public class Tween : MonoBehaviour
                 break;
         }
     }
-    public void Rotate()
+    public void Rotate(GameObject objectToRotate, Vector3 to, float rotDegrees, float duration)
     {
-        _tweenObject = LeanTween.rotateAround(gameObject, to, rotDegrees, duration);
+        _tweenObject = LeanTween.rotateAround(objectToRotate, to, rotDegrees, duration);
+        _tweenObject.setLoopClamp();
     }
     public void MoveToLocation(GameObject objectToMove, Vector3 location, float duration)
     {

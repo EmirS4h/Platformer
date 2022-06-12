@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -164,7 +163,9 @@ public class GameManager : MonoBehaviour
 
         if (portalOrb)
         {
+            totemsActivated = false;
             Destroy(portalOrb);
+            Destroy(portal);
         }
     }
 
@@ -181,8 +182,6 @@ public class GameManager : MonoBehaviour
 
         rb.bodyType = RigidbodyType2D.Dynamic;
         PlayerController.Instance.boostActive = false;
-        totemsActivated = false;
-        Destroy(portal);
     }
 
     // For spawning Object to random positions

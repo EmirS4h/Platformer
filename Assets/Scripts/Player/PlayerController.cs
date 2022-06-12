@@ -400,6 +400,7 @@ public class PlayerController : MonoBehaviour
         PlayerPrefs.DeleteKey("totemNotif");
         PlayerPrefs.DeleteKey("potionNotif");
         PlayerPrefs.DeleteKey("nextLevelDoorNotif");
+        PlayerPrefs.DeleteKey("selectedLevelIndex");
     }
     public void LoadPlayerData()
     {

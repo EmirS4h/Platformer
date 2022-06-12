@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 public class LevelKey : MonoBehaviour
@@ -38,6 +39,11 @@ public class LevelKey : MonoBehaviour
             bg.SetActive(true);
             keyActivated = true;
             GameManager.Instance.keysActivated.Add(this); // Adds its self to GameManagers activeKeysList
+            GameManager.Instance.totemsActivated = GameManager.Instance.keys.All(key => key.keyActivated == true);
+            if (GameManager.Instance.totemsActivated)
+            {
+                GameManager.Instance.SpawnPortal();
+            }
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)

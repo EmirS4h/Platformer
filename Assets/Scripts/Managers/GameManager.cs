@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     // OYUNCUNUN LEVEL ICERISINDEKI DURUMUNU ve YAPDIKLARINI TAKIP EDER
     public static GameManager Instance;
 
+    public bool totemsActivated = false;
+
     Rigidbody2D rb;
     AudioSource audioSource;
 
@@ -49,6 +51,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private GameObject[] playerModels;
     [SerializeField] private Transform startingPosition;
+
+    public LevelKey[] keys;
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -62,6 +66,8 @@ public class GameManager : MonoBehaviour
 
         if (SceneManager.GetActiveScene().buildIndex != 0)
         {
+            keys = FindObjectsOfType<LevelKey>();
+
             GameObject prefab = playerModels[PlayerPrefs.GetInt("charIndex")]; // Secili Karakter Modelini Bul
             Instantiate(prefab, startingPosition.position, Quaternion.identity); // Instantiate the prefferd char model
 
@@ -106,7 +112,6 @@ public class GameManager : MonoBehaviour
             {
                 SpawnRandomObject(permaJumpForceBoosterPrefab, boosterSpawnPoints);
             }
-            SpawnRandomObject(nextLevelGate, randomGatePositions);
             audioSource.Play();
         }
         StartTime();
@@ -159,6 +164,7 @@ public class GameManager : MonoBehaviour
 
         rb.bodyType = RigidbodyType2D.Dynamic;
         PlayerController.Instance.boostActive = false;
+        totemsActivated = false;
     }
 
     // For spawning Object to random positions
@@ -169,6 +175,10 @@ public class GameManager : MonoBehaviour
             int rndPos = Random.Range(0, spawnPoints.Length);
             Instantiate(gameObject, spawnPoints[rndPos].transform.position, gameObject.transform.rotation);
         }
+    }
+    public void SpawnPortal()
+    {
+        SpawnRandomObject(nextLevelGate, randomGatePositions);
     }
     public void StopTime()
     {

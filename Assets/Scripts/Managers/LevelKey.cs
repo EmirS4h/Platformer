@@ -17,6 +17,8 @@ public class LevelKey : MonoBehaviour
 
     [SerializeField] PlayerActions playerActions = default;
 
+    [SerializeField] GameObject portalOrb;
+
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -45,6 +47,7 @@ public class LevelKey : MonoBehaviour
             if (GameManager.Instance.totemsActivated)
             {
                 GameManager.Instance.SpawnPortal();
+                Instantiate(portalOrb, transform.position, Quaternion.identity);
             }
         }
     }

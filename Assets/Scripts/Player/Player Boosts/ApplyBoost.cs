@@ -13,19 +13,10 @@ public class ApplyBoost : MonoBehaviour
         JumpForceFromChest,
         DashForceFromChest,
         MoveSpeedFromChest,
-        DoubleJumpBooster,
-        DoubleDashBooster,
-        PermaDashForce,
-        PermaMoveSpeed,
-        PermaJumpForce,
     }
     public Boost type;
     public float boostAmount;
     public float boostTime;
-
-    public float permaMoveSpeedBoostAmount;
-    public float permaDashForceBoostAmount;
-    public float permaJumpForceBoostAmount;
 
     [Header("Starting Forces")]
     [SerializeField] private float playerStartSpeed;
@@ -74,15 +65,12 @@ public class ApplyBoost : MonoBehaviour
         }
 
     }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            playerStartSpeed = PlayerController.Instance.moveSpeed;
-            playerStartDashForce = PlayerController.Instance.dashForce;
-            playerStartJumpForce = PlayerController.Instance.jumpForce;
-        }
-    }
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    playerStartSpeed = PlayerController.Instance.moveSpeed;
+    //    playerStartDashForce = PlayerController.Instance.dashForce;
+    //    playerStartJumpForce = PlayerController.Instance.jumpForce;
+    //}
 
     private void OnTriggerStay2D(Collider2D collision)
     {

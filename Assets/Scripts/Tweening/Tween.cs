@@ -49,6 +49,7 @@ public class Tween : MonoBehaviour
 
     private void Awake()
     {
+
         switch (animationType)
         {
             case AnimationType.ScaleInAndOut:
@@ -140,5 +141,14 @@ public class Tween : MonoBehaviour
     public void Rotate()
     {
         _tweenObject = LeanTween.rotateAround(gameObject, to, rotDegrees, duration);
+    }
+    public void MoveToLocation(GameObject objectToMove, Vector3 location, float duration)
+    {
+        _tweenObject = LeanTween.move(objectToMove, location, duration);
+    }
+    public void MoveUpDown(GameObject objectToMove, float to, float duration)
+    {
+        _tweenObject = LeanTween.moveY(objectToMove, to, duration);
+        _tweenObject.setLoopPingPong();
     }
 }

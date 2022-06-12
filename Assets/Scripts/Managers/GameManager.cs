@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private GameObject nextLevelGate;
     public GameObject portal;
+    public GameObject portalOrb;
     [SerializeField] private Transform[] randomGatePositions;
 
     [SerializeField] private GameObject[] playerModels;
@@ -127,18 +128,24 @@ public class GameManager : MonoBehaviour
     // Oyuncu olunce Oyuncunun olmeden once topladigi herseyi geri getirir
     public void ReActivateBack()
     {
-        foreach (GameObject o in objects)
+        if (objects.Count != 0)
         {
-            o.SetActive(true);
+            foreach (GameObject o in objects)
+            {
+                o.SetActive(true);
+            }
+            objects.Clear();
         }
-        objects.Clear();
 
-        foreach (GameObject o in boostObject)
+        if (boostObject.Count != 0)
         {
-            o.GetComponent<SpriteRenderer>().enabled = true;
-            o.GetComponent<BoxCollider2D>().enabled = true;
+            foreach (GameObject o in boostObject)
+            {
+                o.GetComponent<SpriteRenderer>().enabled = true;
+                o.GetComponent<BoxCollider2D>().enabled = true;
+            }
+            boostObject.Clear();
         }
-        boostObject.Clear();
 
         foreach (OpenChest o in chestsOpened)
         {
@@ -153,6 +160,11 @@ public class GameManager : MonoBehaviour
         foreach (LevelKey key in keysActivated)
         {
             key.DeactivateKey();
+        }
+
+        if (portalOrb)
+        {
+            Destroy(portalOrb);
         }
     }
 

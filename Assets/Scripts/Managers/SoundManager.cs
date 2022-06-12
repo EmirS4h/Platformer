@@ -7,8 +7,6 @@ public class SoundManager : MonoBehaviour
     public static SoundManager Instance;
 
     AudioSource audioSource;
-    [SerializeField] AudioClip keySound;
-
     [Header("Jump Start Sounds")]
     [SerializeField] AudioClip rockJumpSound;
 
@@ -27,14 +25,6 @@ public class SoundManager : MonoBehaviour
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("Key"))
-        {
-            audioSource.PlayOneShot(keySound);
-        }
     }
 
     public void PlayJumpSound()

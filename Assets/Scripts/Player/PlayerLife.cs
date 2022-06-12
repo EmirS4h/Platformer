@@ -15,7 +15,7 @@ public class PlayerLife : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.CompareTag("Trap"))
+        if (collision.gameObject.CompareTag("Trap"))
         {
             Die();
         }
@@ -23,13 +23,14 @@ public class PlayerLife : MonoBehaviour
     private void Die()
     {
         animator.SetTrigger("Die");
+        PlayerController.Instance.audioSource.Play();
         rb.bodyType = RigidbodyType2D.Static;
-        StartCoroutine(Deneme());
+        StartCoroutine(RestartPlayer());
     }
 
-    public IEnumerator Deneme()
+    public IEnumerator RestartPlayer()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.5f);
         GameManager.Instance.ReActivateBack();
         GameManager.Instance.SentPlayerBackToStart();
     }

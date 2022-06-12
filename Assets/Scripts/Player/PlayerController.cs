@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
 {
     public static PlayerController Instance;
 
+    public AudioSource audioSource;
+
     private Rigidbody2D rb;
     private Animator animator;
     [SerializeField] PlayerActions playerActions;
@@ -106,6 +108,7 @@ public class PlayerController : MonoBehaviour
 
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
         wallJumpDirection.Normalize();
 
         if (SceneManager.GetActiveScene().buildIndex != 0)
@@ -251,7 +254,7 @@ public class PlayerController : MonoBehaviour
                 coyoteTimeCounter -= Time.deltaTime; // for jumping
             }
 
-            if (transform.position.y < -20.0f)
+            if (transform.position.y < -50.0f)
             {
                 GameManager.Instance.ReActivateBack();
                 GameManager.Instance.SentPlayerBackToStart();

@@ -30,8 +30,8 @@ public class PlayerLife : MonoBehaviour
 
     public IEnumerator RestartPlayer()
     {
-        yield return new WaitForSeconds(0.5f);
         GameManager.Instance.ReActivateBack();
+        yield return new WaitForSeconds(0.5f);
         GameManager.Instance.SentPlayerBackToStart();
     }
 }

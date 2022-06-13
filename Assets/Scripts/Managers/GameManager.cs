@@ -14,6 +14,9 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] AudioClip portalSound;
 
+    public bool portalOpened = false;
+    
+
     public Vector2 playerStartingPosition;
     public Vector3 playerStartingRotation;
     public float playerStartingDirection;
@@ -164,6 +167,7 @@ public class GameManager : MonoBehaviour
         if (portalOrb)
         {
             totemsActivated = false;
+            portalOpened = false;
             Destroy(portalOrb);
             Destroy(portal);
         }

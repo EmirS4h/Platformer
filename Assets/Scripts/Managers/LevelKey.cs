@@ -32,7 +32,7 @@ public class LevelKey : MonoBehaviour
     }
     public void ActivateKey()
     {
-        if (playerOnKey)
+        if (playerOnKey && !GameManager.Instance.portalOpened)
         {
             spriteRenderer.sprite = activeSprite;
             particles.Play();
@@ -43,6 +43,7 @@ public class LevelKey : MonoBehaviour
             GameManager.Instance.totemsActivated = GameManager.Instance.keys.All(key => key.keyActivated == true);
             if (GameManager.Instance.totemsActivated)
             {
+                GameManager.Instance.portalOpened = true;
                 GameManager.Instance.SpawnPortal();
                 Instantiate(portalOrb, transform.position, Quaternion.identity);
             }

@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D rb;
     private Animator animator;
+    public SpriteRenderer spr;
     [SerializeField] PlayerActions playerActions;
     [SerializeField] Light2D light2D;
 
@@ -18,6 +19,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private ParticleSystem jumpParticle;
     [SerializeField] private ParticleSystem dashParticle;
     [SerializeField] private ParticleSystem wallSlideParticle;
+    public ParticleSystem bloodParticle;
 
     [Header("Player Ground Checking")]
     [SerializeField] private Transform checkGround;
@@ -107,6 +109,7 @@ public class PlayerController : MonoBehaviour
 
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        spr = GetComponent<SpriteRenderer>();
         audioSource = GetComponent<AudioSource>();
         wallJumpDirection.Normalize();
 

@@ -2,11 +2,9 @@ using System.Collections;
 using UnityEngine;
 public class PlayerLife : MonoBehaviour
 {
-    private Animator animator;
     private Rigidbody2D rb;
     void Start()
     {
-        animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -19,7 +17,8 @@ public class PlayerLife : MonoBehaviour
     }
     private void Die()
     {
-        animator.SetTrigger("Die");
+        PlayerController.Instance.spr.enabled = false;
+        PlayerController.Instance.bloodParticle.Play();
         PlayerController.Instance.audioSource.Play();
         rb.bodyType = RigidbodyType2D.Static;
         StartCoroutine(RestartPlayer());
@@ -30,5 +29,6 @@ public class PlayerLife : MonoBehaviour
         GameManager.Instance.ReActivateBack();
         yield return new WaitForSeconds(0.5f);
         GameManager.Instance.SentPlayerBackToStart();
+        PlayerController.Instance.spr.enabled = true;
     }
 }

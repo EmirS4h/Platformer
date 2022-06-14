@@ -30,12 +30,10 @@ public class ApplyBoost : MonoBehaviour
 
     [SerializeField] TextMeshPro stats;
 
-    ParticleSystem ps;
+    [SerializeField] ParticleSystem ps;
 
     private void Awake()
     {
-        card = transform.GetChild(0).gameObject;
-        ps = GetComponent<ParticleSystem>();
         boostAmount = Random.Range(1.1f, 1.5f);
         boostTime = Random.Range(3.0f, 10.0f);
         stats.SetText("+"+ Mathf.Floor((boostAmount-Mathf.Floor(boostAmount))*100) + "% " + type + " For " + Mathf.Floor(boostTime) + " Seconds");
@@ -64,12 +62,6 @@ public class ApplyBoost : MonoBehaviour
         }
 
     }
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    playerStartSpeed = PlayerController.Instance.moveSpeed;
-    //    playerStartDashForce = PlayerController.Instance.dashForce;
-    //    playerStartJumpForce = PlayerController.Instance.jumpForce;
-    //}
 
     private void OnTriggerStay2D(Collider2D collision)
     {

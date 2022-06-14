@@ -5,8 +5,8 @@ public class CollectBooster : MonoBehaviour
 {
     [SerializeField] Boost boost;
     [SerializeField] ParticleSystem ps;
-    SpriteRenderer sp;
-    CircleCollider2D cc;
+    [SerializeField] SpriteRenderer sp;
+    [SerializeField] CircleCollider2D cc;
 
     [SerializeField] bool playerOnBooster = false;
 
@@ -15,17 +15,13 @@ public class CollectBooster : MonoBehaviour
     [SerializeField] GameObject card;
     [SerializeField] SpriteRenderer cardSpriteRenderer;
 
-    AudioSource audioSource;
+    [SerializeField] AudioSource audioSource;
 
     [SerializeField] PlayerActions playerActions;
     [SerializeField] NotifDetails notifDetails;
 
     private void Awake()
     {
-        audioSource = GetComponent<AudioSource>();
-        sp = GetComponent<SpriteRenderer>();
-        cc = GetComponent<CircleCollider2D>();
-        card = transform.GetChild(1).gameObject;
         cardSpriteRenderer = card.GetComponent<SpriteRenderer>();
         cardSpriteRenderer.sprite = cardSprite;
     }

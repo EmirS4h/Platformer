@@ -7,7 +7,7 @@ public class LevelKey : MonoBehaviour
     [SerializeField] Sprite inActiveSprite;
     [SerializeField] Sprite activeSprite;
     [SerializeField] GameObject bg, interactBtn;
-    SpriteRenderer spriteRenderer;
+    [SerializeField] SpriteRenderer spriteRenderer;
 
     [SerializeField] bool playerOnKey = false;
     public bool keyActivated = false;
@@ -16,12 +16,6 @@ public class LevelKey : MonoBehaviour
 
     [SerializeField] GameObject portalOrb;
 
-    private void Awake()
-    {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        interactBtn = transform.GetChild(2).gameObject;
-        audioSource = GetComponent<AudioSource>();
-    }
     private void OnEnable()
     {
         playerActions.interactEvent += ActivateKey;
@@ -32,7 +26,7 @@ public class LevelKey : MonoBehaviour
     }
     public void ActivateKey()
     {
-        if (playerOnKey && !GameManager.Instance.portalOpened)
+        if (playerOnKey && !keyActivated)
         {
             spriteRenderer.sprite = activeSprite;
             particles.Play();

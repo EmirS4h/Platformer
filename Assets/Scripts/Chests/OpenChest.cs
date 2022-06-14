@@ -1,7 +1,7 @@
 using UnityEngine;
 public class OpenChest : MonoBehaviour
 {
-    SpriteRenderer spriteRenderer;
+    [SerializeField] SpriteRenderer spriteRenderer;
     public Sprite closedChestSprite;
     public Sprite openedChestSprite;
     [SerializeField] private bool isPlayerOnTheChest = false;
@@ -9,7 +9,7 @@ public class OpenChest : MonoBehaviour
     [SerializeField] GameObject[] potions;
     [SerializeField] GameObject[] boosters;
 
-    GameObject interactBtn;
+    [SerializeField] GameObject interactBtn;
 
     [SerializeField] PlayerActions playerActions = default;
     public enum ChestType
@@ -18,12 +18,6 @@ public class OpenChest : MonoBehaviour
         Silver,
     }
     public ChestType type;
-    // Start is called before the first frame update
-    void Awake()
-    {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        interactBtn = transform.GetChild(0).gameObject;
-    }
 
     private void OnEnable()
     {

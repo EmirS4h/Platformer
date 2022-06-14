@@ -42,7 +42,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "DropDown",
+                    "name": "TeleportStone",
                     "type": "Button",
                     "id": "58279c39-3143-41fc-ad48-332044cd2710",
                     "expectedControlType": "Button",
@@ -54,6 +54,15 @@
                     "name": "OptionsMenu",
                     "type": "Button",
                     "id": "f073dd47-572f-4d51-8a3e-f93bb0f2503b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "TpToStone",
+                    "type": "Button",
+                    "id": "09099783-b6e5-46a6-b568-d2a59a1c00b9",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -299,7 +308,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
-                    "action": "DropDown",
+                    "action": "TeleportStone",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -310,7 +319,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
-                    "action": "DropDown",
+                    "action": "TeleportStone",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -321,7 +330,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
-                    "action": "DropDown",
+                    "action": "TeleportStone",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -344,6 +353,17 @@
                     "processors": "",
                     "groups": "KeyboardMouse",
                     "action": "OptionsMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e9cdedcc-3fde-4fd2-82e2-5eb0dc66728a",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "TpToStone",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

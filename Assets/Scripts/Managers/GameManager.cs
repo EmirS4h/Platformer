@@ -171,6 +171,11 @@ public class GameManager : MonoBehaviour
             Destroy(portalOrb);
             Destroy(portal);
         }
+        if (PlayerController.Instance.tpStonePlaced)
+        {
+            PlayerController.Instance.tpStonePlaced = false;
+            PlayerController.Instance.DestroyTpStone();
+        }
     }
 
     // Oyuncuyu baslangictaki haline dondurur

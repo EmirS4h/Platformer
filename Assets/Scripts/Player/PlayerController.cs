@@ -95,6 +95,11 @@ public class PlayerController : MonoBehaviour
 
     public bool hasCollectedPowerUpStone = false;
 
+    [SerializeField] GameObject tpStone;
+    [SerializeField] GameObject tpStoneInstance;
+    [SerializeField] Vector3 tpStoneCoords;
+    public bool tpStonePlaced = false;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -127,6 +132,8 @@ public class PlayerController : MonoBehaviour
         playerActions.movementEvent += OnMove;
         playerActions.dashEvent += OnDash;
         playerActions.jumpEvent += OnJump;
+        playerActions.tpPlaceEvent += OnTeleportStonePlace;
+        playerActions.tpBackEvent += OnTpBack;
     }
 
     private void OnDisable()
@@ -134,6 +141,8 @@ public class PlayerController : MonoBehaviour
         playerActions.movementEvent -= OnMove;
         playerActions.dashEvent -= OnDash;
         playerActions.jumpEvent -= OnJump;
+        playerActions.tpPlaceEvent -= OnTeleportStonePlace;
+        playerActions.tpBackEvent -= OnTpBack;
     }
 
     private void FixedUpdate()
@@ -161,6 +170,26 @@ public class PlayerController : MonoBehaviour
                 canDash = false;
             }
         }
+    }
+    private void OnTpBack()
+    {
+        if (tpStonePlaced)
+        {
+            transform.position = tpStoneCoords;
+        }
+    }
+    private void OnTeleportStonePlace()
+    {
+        if (!tpStonePlaced)
+        {
+            tpStoneCoords = transform.position;
+            tpStoneInstance = Instantiate(tpStone, transform.position, Quaternion.identity);
+            tpStonePlaced = true;
+        }
+    }
+    public void DestroyTpStone()
+    {
+        Destroy(tpStoneInstance);
     }
     private void OnMove(Vector2 movement)
     {

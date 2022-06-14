@@ -64,7 +64,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""DropDown"",
+                    ""name"": ""TeleportStone"",
                     ""type"": ""Button"",
                     ""id"": ""58279c39-3143-41fc-ad48-332044cd2710"",
                     ""expectedControlType"": ""Button"",
@@ -76,6 +76,15 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""name"": ""OptionsMenu"",
                     ""type"": ""Button"",
                     ""id"": ""f073dd47-572f-4d51-8a3e-f93bb0f2503b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TpToStone"",
+                    ""type"": ""Button"",
+                    ""id"": ""09099783-b6e5-46a6-b568-d2a59a1c00b9"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -321,7 +330,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KeyboardMouse"",
-                    ""action"": ""DropDown"",
+                    ""action"": ""TeleportStone"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -332,7 +341,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KeyboardMouse"",
-                    ""action"": ""DropDown"",
+                    ""action"": ""TeleportStone"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -343,7 +352,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KeyboardMouse"",
-                    ""action"": ""DropDown"",
+                    ""action"": ""TeleportStone"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -366,6 +375,17 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""KeyboardMouse"",
                     ""action"": ""OptionsMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e9cdedcc-3fde-4fd2-82e2-5eb0dc66728a"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""TpToStone"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -397,8 +417,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
-        m_Player_DropDown = m_Player.FindAction("DropDown", throwIfNotFound: true);
+        m_Player_TeleportStone = m_Player.FindAction("TeleportStone", throwIfNotFound: true);
         m_Player_OptionsMenu = m_Player.FindAction("OptionsMenu", throwIfNotFound: true);
+        m_Player_TpToStone = m_Player.FindAction("TpToStone", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -462,8 +483,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Interact;
     private readonly InputAction m_Player_Dash;
-    private readonly InputAction m_Player_DropDown;
+    private readonly InputAction m_Player_TeleportStone;
     private readonly InputAction m_Player_OptionsMenu;
+    private readonly InputAction m_Player_TpToStone;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -472,8 +494,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
         public InputAction @Dash => m_Wrapper.m_Player_Dash;
-        public InputAction @DropDown => m_Wrapper.m_Player_DropDown;
+        public InputAction @TeleportStone => m_Wrapper.m_Player_TeleportStone;
         public InputAction @OptionsMenu => m_Wrapper.m_Player_OptionsMenu;
+        public InputAction @TpToStone => m_Wrapper.m_Player_TpToStone;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -495,12 +518,15 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Dash.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDash;
                 @Dash.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDash;
                 @Dash.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDash;
-                @DropDown.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDropDown;
-                @DropDown.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDropDown;
-                @DropDown.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDropDown;
+                @TeleportStone.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTeleportStone;
+                @TeleportStone.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTeleportStone;
+                @TeleportStone.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTeleportStone;
                 @OptionsMenu.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOptionsMenu;
                 @OptionsMenu.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOptionsMenu;
                 @OptionsMenu.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOptionsMenu;
+                @TpToStone.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTpToStone;
+                @TpToStone.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTpToStone;
+                @TpToStone.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTpToStone;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -517,12 +543,15 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Dash.started += instance.OnDash;
                 @Dash.performed += instance.OnDash;
                 @Dash.canceled += instance.OnDash;
-                @DropDown.started += instance.OnDropDown;
-                @DropDown.performed += instance.OnDropDown;
-                @DropDown.canceled += instance.OnDropDown;
+                @TeleportStone.started += instance.OnTeleportStone;
+                @TeleportStone.performed += instance.OnTeleportStone;
+                @TeleportStone.canceled += instance.OnTeleportStone;
                 @OptionsMenu.started += instance.OnOptionsMenu;
                 @OptionsMenu.performed += instance.OnOptionsMenu;
                 @OptionsMenu.canceled += instance.OnOptionsMenu;
+                @TpToStone.started += instance.OnTpToStone;
+                @TpToStone.performed += instance.OnTpToStone;
+                @TpToStone.canceled += instance.OnTpToStone;
             }
         }
     }
@@ -542,7 +571,8 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
-        void OnDropDown(InputAction.CallbackContext context);
+        void OnTeleportStone(InputAction.CallbackContext context);
         void OnOptionsMenu(InputAction.CallbackContext context);
+        void OnTpToStone(InputAction.CallbackContext context);
     }
 }

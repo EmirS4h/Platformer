@@ -12,7 +12,6 @@ public class PortalOrb : MonoBehaviour
 
     private void Awake()
     {
-        tr = GetComponent<TrailRenderer>();
         otherLocation = FindObjectOfType<NextLevelDoor>().transform;
     }
     private void Start()

@@ -5,8 +5,11 @@ public class SoundManager : MonoBehaviour
     public static SoundManager Instance;
 
     AudioSource audioSource;
-    [Header("Jump Start Sounds")]
+    [Header("Jump Sound")]
     [SerializeField] AudioClip rockJumpSound;
+
+    [Header("FootStep Sound")]
+    [SerializeField] AudioClip footSteps;
 
     private void Awake()
     {
@@ -28,6 +31,10 @@ public class SoundManager : MonoBehaviour
     public void PlayJumpSound()
     {
         audioSource.PlayOneShot(rockJumpSound);
+    }
+    public void PlayFootStep()
+    {
+        audioSource.PlayOneShot(footSteps);
     }
     public void PlaySoundOneShot(AudioClip sound)
     {

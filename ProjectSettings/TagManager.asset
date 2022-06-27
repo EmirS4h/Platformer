@@ -52,11 +52,11 @@ TagManager:
   - name: Background
     uniqueID: 836002515
     locked: 0
-  - name: Traps
-    uniqueID: 1618250287
-    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Traps
+    uniqueID: 1618250287
     locked: 0
   - name: LightSrc
     uniqueID: 3679597451

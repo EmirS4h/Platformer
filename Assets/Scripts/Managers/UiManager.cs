@@ -41,6 +41,9 @@ public class UiManager : MonoBehaviour
 
     [SerializeField] private Image potImage;
 
+    [SerializeField] AudioSource musicSource;
+    [SerializeField] private Slider musicSlider;
+
     public enum UI
     {
         MainMenu,
@@ -67,6 +70,7 @@ public class UiManager : MonoBehaviour
             selectedCharIndex = PlayerPrefs.GetInt("charIndex");
             if (chars != null)
                 chars.transform.GetChild(selectedCharIndex).gameObject.SetActive(true);
+            SoundManager.Instance.LoadMusicVolume(musicSource, musicSlider);
         }
     }
 
@@ -306,5 +310,9 @@ public class UiManager : MonoBehaviour
     public void DeactivatePotImage()
     {
         potImage.enabled = false;
+    }
+    public void ChangeMusicVolume()
+    {
+        SoundManager.Instance.ChangeVolume(musicSource, musicSlider);
     }
 }

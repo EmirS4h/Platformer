@@ -15,7 +15,7 @@ public class PlayerLife : MonoBehaviour
             Die();
         }
     }
-    private void Die()
+    public void Die()
     {
         PlayerController.Instance.spr.enabled = false;
         PlayerController.Instance.bloodParticle.Play();

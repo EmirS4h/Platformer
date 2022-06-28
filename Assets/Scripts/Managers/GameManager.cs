@@ -228,7 +228,7 @@ public class GameManager : MonoBehaviour
     }
     public void DefaultPitch()
     {
-        audioSource.volume = 0.2f;
+        audioSource.volume = PlayerPrefs.GetFloat("musicVolume");
         audioSource.pitch = 1.0f;
     }
 }

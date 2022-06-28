@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     public static PlayerController Instance;
 
     public AudioSource audioSource;
+    public PlayerLife playerLife;
 
     private Rigidbody2D rb;
     private Animator animator;
@@ -116,6 +117,7 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         spr = GetComponent<SpriteRenderer>();
         audioSource = GetComponent<AudioSource>();
+        playerLife = GetComponent<PlayerLife>();
         wallJumpDirection.Normalize();
 
         if (SceneManager.GetActiveScene().buildIndex != 0)

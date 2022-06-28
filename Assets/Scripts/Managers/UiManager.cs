@@ -39,6 +39,8 @@ public class UiManager : MonoBehaviour
 
     [SerializeField] private int selectedCharIndex = 0;
 
+    [SerializeField] private Image potImage;
+
     public enum UI
     {
         MainMenu,
@@ -295,5 +297,14 @@ public class UiManager : MonoBehaviour
         levelTimeText.SetText(timeText);
         currentLevelText.SetText("LEVEL "+SceneManager.GetActiveScene().buildIndex.ToString());
         levelComplete.SetActive(true);
+    }
+    public void ActivatePotImage(Sprite sprite)
+    {
+        potImage.enabled = true;
+        potImage.sprite = sprite;
+    }
+    public void DeactivatePotImage()
+    {
+        potImage.enabled = false;
     }
 }

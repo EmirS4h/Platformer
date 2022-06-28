@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] AudioClip portalSound;
 
     public bool portalOpened = false;
-    
+
 
     public Vector2 playerStartingPosition;
     public Vector3 playerStartingRotation;
@@ -191,6 +191,7 @@ public class GameManager : MonoBehaviour
 
         rb.bodyType = RigidbodyType2D.Dynamic;
         PlayerController.Instance.boostActive = false;
+        UiManager.Instance.DeactivatePotImage();
     }
 
     // For spawning Object to random positions

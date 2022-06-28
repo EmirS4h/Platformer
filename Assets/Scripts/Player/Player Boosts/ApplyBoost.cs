@@ -32,6 +32,8 @@ public class ApplyBoost : MonoBehaviour
 
     [SerializeField] ParticleSystem ps;
 
+    [Header("Sprite")]
+    [SerializeField] Sprite sprite;
     private void Awake()
     {
         boostAmount = Random.Range(1.1f, 1.5f);
@@ -88,21 +90,27 @@ public class ApplyBoost : MonoBehaviour
             case Boost.MoveSpeed:
             case Boost.MoveSpeedFromChest:
                 PlayerController.Instance.moveSpeed *= boostAmount;
+                UiManager.Instance.ActivatePotImage(sprite);
                 yield return new WaitForSeconds(time);
+                UiManager.Instance.DeactivatePotImage();
                 PlayerController.Instance.moveSpeed = playerStartSpeed;
                 PlayerController.Instance.boostActive = false;
                 break;
             case Boost.DashForce:
             case Boost.DashForceFromChest:
                 PlayerController.Instance.dashForce *= boostAmount;
+                UiManager.Instance.ActivatePotImage(sprite);
                 yield return new WaitForSeconds(time);
+                UiManager.Instance.DeactivatePotImage();
                 PlayerController.Instance.dashForce = playerStartDashForce;
                 PlayerController.Instance.boostActive = false;
                 break;
             case Boost.JumpForce:
             case Boost.JumpForceFromChest:
                 PlayerController.Instance.jumpForce *= boostAmount;
+                UiManager.Instance.ActivatePotImage(sprite);
                 yield return new WaitForSeconds(time);
+                UiManager.Instance.DeactivatePotImage();
                 PlayerController.Instance.jumpForce = playerStartJumpForce;
                 PlayerController.Instance.boostActive = false;
                 break;

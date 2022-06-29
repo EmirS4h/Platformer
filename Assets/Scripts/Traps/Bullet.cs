@@ -4,6 +4,8 @@ public class Bullet : MonoBehaviour
 {
     [SerializeField] Rigidbody2D rb;
     [SerializeField] float force = 10.0f;
+
+   
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -12,8 +14,8 @@ public class Bullet : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
-    public void Shoot()
+    public void Shoot(Vector2 dir)
     {
-        rb.AddForce(Vector3.forward * force);
+        rb.AddForce(dir * force);
     }
 }

@@ -14,12 +14,14 @@ public class OpenCloseTrap : MonoBehaviour
 
     [SerializeField] bool openClose = false;
 
-    private void Start()
+    WaitForSeconds _delay;
+    private void Awake()
     {
+        _delay = new WaitForSeconds(timeToClose);
+
         time = timeToClose;
         spr.sprite = newSprite;
     }
-
     private void Update()
     {
         if (openClose)
@@ -38,7 +40,7 @@ public class OpenCloseTrap : MonoBehaviour
     private IEnumerator DeActivateTrap()
     {
         trapToClose.SetActive(false);
-        yield return new WaitForSeconds(timeToClose);
+        yield return _delay;
         time = timeToClose;
     }
     public void CloseTrap()

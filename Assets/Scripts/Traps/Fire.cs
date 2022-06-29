@@ -10,16 +10,6 @@ public class Fire : MonoBehaviour
 
     [SerializeField] float time = 1.0f;
     [SerializeField] float repeatRate = 1.0f;
-
-    public enum Direction
-    {
-        Up,
-        Down,
-        Left,
-        Right,
-    }
-    public Direction direction;
-
     private void Start()
     {
         InvokeRepeating(nameof(FireBullet), time, repeatRate);
@@ -30,25 +20,7 @@ public class Fire : MonoBehaviour
         bullet = _pool.GetFromPool();
         bullet.gameObject.transform.SetPositionAndRotation(bulletPos.position, bulletPos.rotation);
         bullet.gameObject.SetActive(true);
-
-        switch (direction)
-        {
-            case Direction.Up:
-                bullet.Shoot(Vector2.up);
-                break;
-            case Direction.Down:
-                bullet.Shoot(Vector2.down);
-                break;
-            case Direction.Left:
-                bullet.Shoot(Vector2.left);
-                break;
-            case Direction.Right:
-                bullet.Shoot(Vector2.right);
-                break;
-            default:
-                break;
-        }
-
+        bullet.Shoot();
         PlayFireSound();
     }
     private void PlayFireSound()

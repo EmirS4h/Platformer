@@ -313,6 +313,6 @@ public class UiManager : MonoBehaviour
     }
     public void ChangeMusicVolume()
     {
-        SoundManager.Instance.ChangeVolume(musicSource, musicSlider);
+        SoundManager.Instance.ChangeMusicVolume(musicSource, musicSlider);
     }
 }

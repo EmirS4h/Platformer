@@ -21,16 +21,15 @@ public class SoundManager : MonoBehaviour
         else
         {
             Instance = this;
-        }
-    }
-
-    private void Start()
-    {
-        audioSource = GetComponent<AudioSource>();
-
-        if (!PlayerPrefs.HasKey("musicVolume"))
-        {
-            PlayerPrefs.SetFloat("musicVolume", 0.2f);
+            audioSource = GetComponent<AudioSource>();
+            if (!PlayerPrefs.HasKey("musicVolume"))
+            {
+                PlayerPrefs.SetFloat("musicVolume", 0.2f);
+            }
+            if (!PlayerPrefs.HasKey("sfxVolume"))
+            {
+                PlayerPrefs.SetFloat("sfxVolume", 0.75f);
+            }
         }
     }
     public void PlayJumpSound()
@@ -45,7 +44,7 @@ public class SoundManager : MonoBehaviour
     {
         audioSource.PlayOneShot(sound);
     }
-    public void ChangeVolume(AudioSource source, Slider slider)
+    public void ChangeMusicVolume(AudioSource source, Slider slider)
     {
         source.volume = slider.value;
         SaveMusicVolume(slider);

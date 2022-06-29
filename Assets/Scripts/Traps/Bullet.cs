@@ -3,9 +3,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     [SerializeField] Rigidbody2D rb;
-    [SerializeField] float force = 10.0f;
-
-   
+    [SerializeField] float force = 250.0f;
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();

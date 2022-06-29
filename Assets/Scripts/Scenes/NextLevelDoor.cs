@@ -38,13 +38,17 @@ public class NextLevelDoor : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        isOnDoor = true;
+        if (collision.gameObject.CompareTag("Player"))
+            isOnDoor = true;
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        isOnDoor = true;
-        interactBtn.SetActive(true);
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            isOnDoor = true;
+            interactBtn.SetActive(true);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)

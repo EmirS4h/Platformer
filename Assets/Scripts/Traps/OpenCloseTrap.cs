@@ -41,4 +41,8 @@ public class OpenCloseTrap : MonoBehaviour
         yield return new WaitForSeconds(timeToClose);
         time = timeToClose;
     }
+    public void CloseTrap()
+    {
+        trapToClose.SetActive(false);
+    }
 }

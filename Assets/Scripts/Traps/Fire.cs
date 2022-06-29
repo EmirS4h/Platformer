@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Fire : MonoBehaviour
 {
+    [SerializeField] BulletPool _pool;
     [SerializeField] Bullet bullet;
     [SerializeField] Transform bulletPos;
     [SerializeField] AudioSource audioSource;
@@ -26,7 +27,7 @@ public class Fire : MonoBehaviour
 
     private void FireBullet()
     {
-        bullet = BulletPool.Instance.GetFromPool();
+        bullet = _pool.GetFromPool();
         bullet.gameObject.transform.SetPositionAndRotation(bulletPos.position, bulletPos.rotation);
         bullet.gameObject.SetActive(true);
 
@@ -47,6 +48,7 @@ public class Fire : MonoBehaviour
             default:
                 break;
         }
+
         PlayFireSound();
     }
     private void PlayFireSound()

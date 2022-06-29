@@ -13,6 +13,7 @@ public class Bullet : MonoBehaviour
         Blue,
         Green,
         Yellow,
+        Purple,
     }
     public BulletColor bColor;
     private void Awake()
@@ -36,6 +37,9 @@ public class Bullet : MonoBehaviour
                 break;
             case BulletColor.Yellow:
                 _particle.ChangeColor(Color.yellow);
+                break;
+            case BulletColor.Purple:
+                _particle.ChangeColor(Color.magenta);
                 break;
             default:
                 break;

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -10,16 +8,12 @@ public class Bullet : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
     }
-    private void Start()
-    {
-        rb.AddForce(Vector3.forward * force);
-    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            PlayerController.Instance.playerLife.Die();
-        }
-        Destroy(gameObject);
+        gameObject.SetActive(false);
+    }
+    public void Shoot()
+    {
+        rb.AddForce(Vector3.forward * force);
     }
 }

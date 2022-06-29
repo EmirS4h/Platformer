@@ -18,6 +18,7 @@ public class PlayerLife : MonoBehaviour
     public void Die()
     {
         PlayerController.Instance.spr.enabled = false;
+        PlayerController.Instance.bxCollider.enabled = false;
         PlayerController.Instance.bloodParticle.Play();
         PlayerController.Instance.audioSource.Play();
         rb.bodyType = RigidbodyType2D.Static;

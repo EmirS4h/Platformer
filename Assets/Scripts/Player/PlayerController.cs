@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
 
     public AudioSource audioSource;
     public PlayerLife playerLife;
+    public BoxCollider2D bxCollider;
 
     private Rigidbody2D rb;
     private Animator animator;
@@ -118,6 +119,7 @@ public class PlayerController : MonoBehaviour
         spr = GetComponent<SpriteRenderer>();
         audioSource = GetComponent<AudioSource>();
         playerLife = GetComponent<PlayerLife>();
+        bxCollider = GetComponent<BoxCollider2D>();
         wallJumpDirection.Normalize();
 
         if (SceneManager.GetActiveScene().buildIndex != 0)

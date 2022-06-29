@@ -190,6 +190,7 @@ public class GameManager : MonoBehaviour
         PlayerController.Instance.dashForce = playerStartingDashForce;
 
         rb.bodyType = RigidbodyType2D.Dynamic;
+        PlayerController.Instance.bxCollider.enabled = true;
         PlayerController.Instance.boostActive = false;
         UiManager.Instance.DeactivatePotImage();
     }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class ActivatePlatform : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class ActivatePlatform : MonoBehaviour
     [SerializeField] bool playerOnComputer = false;
     [SerializeField] bool stoppedOnce = false;
 
+    [SerializeField] Light2D cmpLight;
     [SerializeField] SpriteRenderer spr;
     [SerializeField] Sprite activeComputer;
     [SerializeField] Sprite inActiveComputer;
@@ -41,6 +43,7 @@ public class ActivatePlatform : MonoBehaviour
         {
             spr.sprite = activeComputer;
             twp.ActivatePlatform();
+            cmpLight.enabled = true;
             if (!stoppedOnce)
             {
                 tween.MoveLeftRight();
@@ -64,6 +67,7 @@ public class ActivatePlatform : MonoBehaviour
         {
             spr.sprite = inActiveComputer;
             twp.DeActivatePlatform();
+            cmpLight.enabled = false;
             tween.CancelTween();
             computerActive = false;
             tween.enabled = true;

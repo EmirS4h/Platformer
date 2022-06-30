@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Fire : MonoBehaviour
@@ -10,9 +11,26 @@ public class Fire : MonoBehaviour
 
     [SerializeField] float time = 1.0f;
     [SerializeField] float repeatRate = 1.0f;
+
+    [SerializeField] bool burst = false;
+    [SerializeField] int burstAmount = 3;
+    [SerializeField] float timeBetweenBurst = 3.0f;
+
+    WaitForSeconds delay;
+    private void Awake()
+    {
+        delay = new WaitForSeconds(0.2f);
+    }
     private void Start()
     {
-        InvokeRepeating(nameof(FireBullet), time, repeatRate);
+        if (burst)
+        {
+            InvokeRepeating(nameof(BurstFire), time, timeBetweenBurst);
+        }
+        else
+        {
+            InvokeRepeating(nameof(FireBullet), time, repeatRate);
+        }
     }
 
     private void FireBullet()
@@ -27,5 +45,16 @@ public class Fire : MonoBehaviour
     {
         audioSource.PlayOneShot(sound);
     }
-
+    private void BurstFire()
+    {
+        StartCoroutine(DelayFire());
+    }
+    private IEnumerator DelayFire()
+    {
+        for (int i = 0; i < burstAmount; i++)
+        {
+            FireBullet();
+            yield return delay;
+        }
+    }
 }

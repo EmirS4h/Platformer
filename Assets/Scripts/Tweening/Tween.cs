@@ -45,61 +45,67 @@ public class Tween : MonoBehaviour
 
     public Vector3 to;
 
+    public bool twen = true;
+
+    public int id;
+
     private void Awake()
     {
-
-        switch (animationType)
+        if (twen)
         {
-            case AnimationType.ScaleInAndOut:
-                ScaleInAndOut();
-                break;
-            case AnimationType.MoveAlongAxis:
-                MoveAlongAxis();
-                break;
-            case AnimationType.Rotate:
-                Rotate(gameObject,to,rotDegrees,duration);
-                break;
-        }
-        if (loop)
-        {
-            _tweenObject.setLoopClamp();
-        }
-        if (pingpong)
-        {
-            _tweenObject.setLoopPingPong();
-        }
-        if (tweenAfterATime)
-        {
-            _tweenObject.setDelay(delay);
-        }
-        switch (easeType)
-        {
-            case EaseType.None:
-                break;
-            case EaseType.EaseInBack:
-                _tweenObject.setEase(LeanTweenType.easeInBack);
-                break;
-            case EaseType.EaseInBounce:
-                _tweenObject.setEase(LeanTweenType.easeInBounce);
-                break;
-            case EaseType.EaseInOutBack:
-                _tweenObject.setEase(LeanTweenType.easeInOutBack);
-                break;
-            case EaseType.EaseInOutBounce:
-                _tweenObject.setEase(LeanTweenType.easeInOutBounce);
-                break;
-            case EaseType.EaseOutBack:
-                _tweenObject.setEase(LeanTweenType.easeOutBack);
-                break;
-            case EaseType.EaseOutBounce:
-                _tweenObject.setEase(LeanTweenType.easeOutBounce);
-                break;
-            case EaseType.EaseInOutElastic:
-                _tweenObject.setEase(LeanTweenType.easeInOutElastic);
-                break;
-            case EaseType.Linear:
-                _tweenObject.setEase(LeanTweenType.linear);
-                break;
+            switch (animationType)
+            {
+                case AnimationType.ScaleInAndOut:
+                    ScaleInAndOut();
+                    break;
+                case AnimationType.MoveAlongAxis:
+                    MoveAlongAxis();
+                    break;
+                case AnimationType.Rotate:
+                    Rotate(gameObject, to, rotDegrees, duration);
+                    break;
+            }
+            if (loop)
+            {
+                _tweenObject.setLoopClamp();
+            }
+            if (pingpong)
+            {
+                _tweenObject.setLoopPingPong();
+            }
+            if (tweenAfterATime)
+            {
+                _tweenObject.setDelay(delay);
+            }
+            switch (easeType)
+            {
+                case EaseType.None:
+                    break;
+                case EaseType.EaseInBack:
+                    _tweenObject.setEase(LeanTweenType.easeInBack);
+                    break;
+                case EaseType.EaseInBounce:
+                    _tweenObject.setEase(LeanTweenType.easeInBounce);
+                    break;
+                case EaseType.EaseInOutBack:
+                    _tweenObject.setEase(LeanTweenType.easeInOutBack);
+                    break;
+                case EaseType.EaseInOutBounce:
+                    _tweenObject.setEase(LeanTweenType.easeInOutBounce);
+                    break;
+                case EaseType.EaseOutBack:
+                    _tweenObject.setEase(LeanTweenType.easeOutBack);
+                    break;
+                case EaseType.EaseOutBounce:
+                    _tweenObject.setEase(LeanTweenType.easeOutBounce);
+                    break;
+                case EaseType.EaseInOutElastic:
+                    _tweenObject.setEase(LeanTweenType.easeInOutElastic);
+                    break;
+                case EaseType.Linear:
+                    _tweenObject.setEase(LeanTweenType.linear);
+                    break;
+            }
         }
     }
 
@@ -149,5 +155,28 @@ public class Tween : MonoBehaviour
     {
         _tweenObject = LeanTween.moveY(objectToMove, to, duration);
         _tweenObject.setLoopPingPong();
+    }
+    public void MoveLeftRight()
+    {
+        if (local)
+        {
+            _tweenObject = LeanTween.moveX(gameObject, gameObject.transform.position.x +  to.x, duration);
+            _tweenObject.setLoopPingPong();
+            id = _tweenObject.id;
+        }
+        else
+        {
+            _tweenObject = LeanTween.moveX(gameObject, to.x, duration);
+            _tweenObject.setLoopPingPong();
+            id = _tweenObject.id;
+        }
+    }
+    public void CancelTween()
+    {
+        LeanTween.pause(id);
+    }
+    public void ResumeTween()
+    {
+        LeanTween.resume(id);
     }
 }

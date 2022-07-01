@@ -16,7 +16,6 @@ public class GameManager : MonoBehaviour
 
     public bool portalOpened = false;
 
-
     public Vector2 playerStartingPosition;
     public Vector3 playerStartingRotation;
     public float playerStartingDirection;
@@ -32,23 +31,6 @@ public class GameManager : MonoBehaviour
 
     public List<OpenChest> chestsOpened = new List<OpenChest>();
     public List<LevelKey> keysActivated = new List<LevelKey>();
-
-    [SerializeField] private GameObject doubleJumpBoosterPrefab;
-    [SerializeField] private bool spawnDoubleJumpBooster;
-
-    [SerializeField] private GameObject doubleDashBoosterPrefab;
-    [SerializeField] private bool spawnDoubleDashBooster;
-
-    [SerializeField] private GameObject permaMoveSpeedBoosterPrefab;
-    [SerializeField] private bool spawnPermaMoveSpeedBooster;
-
-    [SerializeField] private GameObject permaDashForceBoosterPrefab;
-    [SerializeField] private bool spawnPermaDashForceBooster;
-
-    [SerializeField] private GameObject permaJumpForceBoosterPrefab;
-    [SerializeField] private bool spawnPermaJumpForceBooster;
-
-    [SerializeField] private Transform[] boosterSpawnPoints;
 
     [SerializeField] private GameObject nextLevelGate;
     public GameObject portal;
@@ -103,29 +85,6 @@ public class GameManager : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().buildIndex != 0)
         {
-            if (boosterSpawnPoints.Length > 0)
-            {
-                if (spawnDoubleJumpBooster && doubleJumpBoosterPrefab != null && !PlayerController.Instance.hasDoubleJump)
-                {
-                    SpawnRandomObject(doubleJumpBoosterPrefab, boosterSpawnPoints);
-                }
-                else if (spawnDoubleDashBooster && doubleDashBoosterPrefab != null && PlayerController.Instance.maxDash != 2)
-                {
-                    SpawnRandomObject(doubleDashBoosterPrefab, boosterSpawnPoints);
-                }
-                else if (spawnPermaMoveSpeedBooster && permaMoveSpeedBoosterPrefab != null && PlayerController.Instance.collectedMoveSpeedBoosterAmount != 3)
-                {
-                    SpawnRandomObject(permaMoveSpeedBoosterPrefab, boosterSpawnPoints);
-                }
-                else if (spawnPermaDashForceBooster && permaDashForceBoosterPrefab != null && PlayerController.Instance.collectedDashForceBoosterAmount != 3)
-                {
-                    SpawnRandomObject(permaDashForceBoosterPrefab, boosterSpawnPoints);
-                }
-                else if (spawnPermaJumpForceBooster && permaJumpForceBoosterPrefab != null && PlayerController.Instance.collectedJumpForceBoosterAmount != 3)
-                {
-                    SpawnRandomObject(permaJumpForceBoosterPrefab, boosterSpawnPoints);
-                }
-            }
             audioSource.Play();
         }
         StartTime();

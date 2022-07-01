@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ComputerControls : MonoBehaviour
@@ -14,6 +12,8 @@ public class ComputerControls : MonoBehaviour
     [SerializeField] bool playerOnComputer = false;
     [SerializeField] CastLaser[] lasers;
 
+    [SerializeField] GameObject interactBtn;
+
     private void OnEnable()
     {
         playerActions.interactEvent += ComputerInteraction;
@@ -25,10 +25,13 @@ public class ComputerControls : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         playerOnComputer = true;
+        if (!computerActivated)
+            interactBtn.SetActive(true);
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
         playerOnComputer = false;
+        interactBtn.SetActive(false);
     }
     private void ComputerInteraction()
     {
@@ -39,6 +42,15 @@ public class ComputerControls : MonoBehaviour
             foreach (var item in lasers)
             {
                 item.DeactivateLineRenderer();
+            }
+        }
+        else if (playerOnComputer && computerActivated)
+        {
+            computerActivated = false;
+            spr.sprite = inactiveSprite;
+            foreach (var item in lasers)
+            {
+                item.ActivateLineRenderer();
             }
         }
     }

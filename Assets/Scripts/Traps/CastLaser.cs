@@ -13,17 +13,20 @@ public class CastLaser : MonoBehaviour
 
     [SerializeField] List<ParticleSystem> particles = new List<ParticleSystem>();
 
+    public bool laserActive = true;
+
     private void Start()
     {
         FillLists();
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < particles.Count; i++)
         {
             particles[i].Play();
         }
     }
     private void Update()
     {
-        ShootLaser();
+        if (laserActive)
+            ShootLaser();
     }
 
     private void ShootLaser()
@@ -63,6 +66,24 @@ public class CastLaser : MonoBehaviour
             {
                 particles.Add(ps);
             }
+        }
+    }
+    public void DeactivateLineRenderer()
+    {
+        lineRenderer.enabled = false;
+        laserActive = false;
+        for (int i = 0; i < particles.Count; i++)
+        {
+            particles[i].Stop();
+        }
+    }
+    public void ActivateLineRenderer()
+    {
+        lineRenderer.enabled = true;
+        laserActive = true;
+        for (int i = 0; i < particles.Count; i++)
+        {
+            particles[i].Play();
         }
     }
 }

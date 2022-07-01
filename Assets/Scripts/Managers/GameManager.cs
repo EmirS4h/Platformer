@@ -59,6 +59,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform startingPosition;
 
     public LevelKey[] keys;
+    public CastLaser[] lasers;
+    public ComputerControls[] computers;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -73,6 +76,8 @@ public class GameManager : MonoBehaviour
         if (SceneManager.GetActiveScene().buildIndex != 0)
         {
             keys = FindObjectsOfType<LevelKey>();
+            lasers = FindObjectsOfType<CastLaser>();
+            computers = FindObjectsOfType<ComputerControls>();
 
             GameObject prefab = playerModels[PlayerPrefs.GetInt("charIndex")]; // Secili Karakter Modelini Bul
             Instantiate(prefab, startingPosition.position, Quaternion.identity); // Instantiate the prefferd char model
@@ -175,6 +180,14 @@ public class GameManager : MonoBehaviour
         {
             PlayerController.Instance.tpStonePlaced = false;
             PlayerController.Instance.DestroyTpStone();
+        }
+        foreach (var laser in lasers)
+        {
+            laser.ActivateLineRenderer();
+        }
+        foreach (var computer in computers)
+        {
+            computer.DeactivateComputer();
         }
     }
 

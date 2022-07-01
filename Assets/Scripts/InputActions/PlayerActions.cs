@@ -8,8 +8,9 @@ public class PlayerActions : ScriptableObject, PlayerInputActions.IPlayerActions
     PlayerInputActions playerInputActions;
 
     public event UnityAction interactEvent = delegate { };
-    public event UnityAction tpPlaceEvent = delegate { };
     public event UnityAction tpBackEvent = delegate { };
+    public event UnityAction dropDownEvent = delegate { };
+    public event UnityAction placeTpStoneEvent = delegate { };
     public event UnityAction jumpEvent = delegate { };
     public event UnityAction dashEvent = delegate { };
     public event UnityAction jumpEventCancelled = delegate { };
@@ -76,19 +77,27 @@ public class PlayerActions : ScriptableObject, PlayerInputActions.IPlayerActions
         }
     }
 
-    public void OnTeleportStone(InputAction.CallbackContext context)
-    {
-        if (context.phase == InputActionPhase.Performed)
-        {
-            tpPlaceEvent.Invoke();
-        }
-    }
-
     public void OnTpToStone(InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Performed)
         {
             tpBackEvent.Invoke();
+        }
+    }
+
+    public void OnDropDown(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Performed)
+        {
+            dropDownEvent.Invoke();
+        }
+    }
+
+    public void OnPlaceTpStone(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Performed)
+        {
+            placeTpStoneEvent.Invoke();
         }
     }
 }

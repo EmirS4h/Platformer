@@ -136,7 +136,7 @@ public class PlayerController : MonoBehaviour
         playerActions.movementEvent += OnMove;
         playerActions.dashEvent += OnDash;
         playerActions.jumpEvent += OnJump;
-        playerActions.tpPlaceEvent += OnTeleportStonePlace;
+        playerActions.placeTpStoneEvent += OnTeleportStonePlace;
         playerActions.tpBackEvent += OnTpBack;
     }
 
@@ -145,7 +145,7 @@ public class PlayerController : MonoBehaviour
         playerActions.movementEvent -= OnMove;
         playerActions.dashEvent -= OnDash;
         playerActions.jumpEvent -= OnJump;
-        playerActions.tpPlaceEvent -= OnTeleportStonePlace;
+        playerActions.placeTpStoneEvent -= OnTeleportStonePlace;
         playerActions.tpBackEvent -= OnTpBack;
     }
 

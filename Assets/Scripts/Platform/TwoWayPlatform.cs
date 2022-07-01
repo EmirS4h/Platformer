@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 public class TwoWayPlatform : MonoBehaviour
 {
+    [SerializeField] PlayerActions playerActions = default;
     [SerializeField] SpriteRenderer spr;
     [SerializeField] Sprite activeSprite;
     [SerializeField] Sprite inActiveSprite;
@@ -15,11 +16,17 @@ public class TwoWayPlatform : MonoBehaviour
         bxcollider2D = GetComponent<BoxCollider2D>();
         delay = new WaitForSeconds(0.5f);
     }
-
-    private void Update()
+    private void OnEnable()
     {
-        //CrossPlatformInputManager.GetButtonDown("DropBtn")
-        if (playerOnPlatform && Input.GetAxisRaw("Vertical") < 0)
+        playerActions.dropDownEvent += DropDownPlatform;
+    }
+    private void OnDisable()
+    {
+        playerActions.dropDownEvent -= DropDownPlatform;
+    }
+    private void DropDownPlatform()
+    {
+        if (playerOnPlatform)
         {
             bxcollider2D.enabled = false;
             StartCoroutine(EnableCollider());

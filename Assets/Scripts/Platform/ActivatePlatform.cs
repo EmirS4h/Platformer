@@ -17,17 +17,22 @@ public class ActivatePlatform : MonoBehaviour
     [SerializeField] Sprite activeComputer;
     [SerializeField] Sprite inActiveComputer;
 
+    [SerializeField] AudioSource audioSource;
+
     private void Awake()
     {
         spr = GetComponent<SpriteRenderer>();
+        audioSource = GetComponent<AudioSource>();
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        playerOnComputer = true;
+        if (collision.gameObject.CompareTag("Player"))
+            playerOnComputer = true;
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        playerOnComputer = false;
+        if (collision.gameObject.CompareTag("Player"))
+            playerOnComputer = false;
     }
     private void OnEnable()
     {
@@ -55,22 +60,22 @@ public class ActivatePlatform : MonoBehaviour
             }
             computerActive = true;
             tween.enabled = true;
+            audioSource.Play();
         }
         else if (computerActive && playerOnComputer)
         {
             DeactivateComputer();
+            audioSource.Play();
         }
     }
     public void DeactivateComputer()
     {
-        if (computerActive &&  playerOnComputer)
-        {
-            spr.sprite = inActiveComputer;
-            twp.DeActivatePlatform();
-            cmpLight.enabled = false;
-            tween.CancelTween();
-            computerActive = false;
-            tween.enabled = true;
-        }
+        spr.sprite = inActiveComputer;
+        cmpLight.enabled = false;
+        stoppedOnce = false;
+        computerActive = false;
+        tween.enabled = true;
+        twp.DeActivatePlatform();
+        tween.CancelTween();
     }
 }

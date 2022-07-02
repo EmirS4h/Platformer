@@ -8,12 +8,12 @@ public class PlayerData
     public bool hasDoubleJump;
     public int playerMaxDash;
 
-    public int collectedDashBoosterAmount;
-    public int collectedJumpBoosterAmount;
+    public bool collectedDashBoosterAmount;
+    public bool collectedJumpBoosterAmount;
 
-    public int collectedDashForceBoosterAmount;
-    public int collectedJumpForceBoosterAmount;
-    public int collectedMoveSpeedBoosterAmount;
+    public bool collectedDashForceBoosterAmount;
+    public bool collectedJumpForceBoosterAmount;
+    public bool collectedMoveSpeedBoosterAmount;
 
     public bool hasCollectedDoubleDashBooster = false;
     public bool hasCollectedDoubleJumpBooster = false;
@@ -34,12 +34,12 @@ public class PlayerData
 
         playerMaxDash = player.maxDash;
 
-        collectedDashBoosterAmount = player.collectedDoubleDashBoosterAmount;
-        collectedJumpBoosterAmount = player.collectedDoubleJumpBoosterAmount;
+        collectedDashBoosterAmount = player.collectedDoubleDashBooster;
+        collectedJumpBoosterAmount = player.collectedDoubleJumpBooster;
 
-        collectedDashForceBoosterAmount = player.collectedDashForceBoosterAmount;
-        collectedJumpForceBoosterAmount = player.collectedJumpForceBoosterAmount;
-        collectedMoveSpeedBoosterAmount = player.collectedMoveSpeedBoosterAmount;
+        collectedDashForceBoosterAmount = player.collectedDashForceBooster;
+        collectedJumpForceBoosterAmount = player.collectedJumpForceBooster;
+        collectedMoveSpeedBoosterAmount = player.collectedMoveSpeedBooster;
 
         hasCollectedPowerUpStone = player.hasCollectedPowerUpStone;
     }

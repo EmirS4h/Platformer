@@ -6,7 +6,7 @@ public class Bullet : MonoBehaviour
     [SerializeField] BulletParticle _particle;
     [SerializeField] Rigidbody2D rb;
     [SerializeField] float force = 20.0f;
-
+    [SerializeField] Color bulletColor;
     public enum BulletColor
     {
         Red,
@@ -20,30 +20,32 @@ public class Bullet : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         _pool = FindObjectOfType<BulletParticlePool>();
-    }
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        _particle = _pool.GetFromPool();
+
         switch (bColor)
         {
             case BulletColor.Red:
-                _particle.ChangeColor(Color.red);
+                bulletColor = Color.red;
                 break;
             case BulletColor.Blue:
-                _particle.ChangeColor(Color.blue);
+                bulletColor = Color.blue;
                 break;
             case BulletColor.Green:
-                _particle.ChangeColor(Color.green);
+                bulletColor = Color.green;
                 break;
             case BulletColor.Yellow:
-                _particle.ChangeColor(Color.yellow);
+                bulletColor = Color.yellow;
                 break;
             case BulletColor.Purple:
-                _particle.ChangeColor(Color.magenta);
+                bulletColor = Color.magenta;
                 break;
             default:
                 break;
         }
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        _particle = _pool.GetFromPool();
+        _particle.ChangeColor(bulletColor);
         _particle.gameObject.transform.SetPositionAndRotation(transform.position, transform.rotation);
         _particle.gameObject.SetActive(true);
         gameObject.SetActive(false);

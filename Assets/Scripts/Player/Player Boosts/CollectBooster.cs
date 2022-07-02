@@ -90,64 +90,39 @@ public class CollectBooster : MonoBehaviour
         switch (boost.type)
         {
             case Boost.Type.DoubleDashBooster:
-                if (PlayerController.Instance.collectedDoubleDashBoosterAmount < 3)
-                {
-                    PlayerController.Instance.collectedDoubleDashBoosterAmount++;
-                    if (PlayerController.Instance.collectedDoubleDashBoosterAmount==3)
-                    {
-                        UiManager.Instance.Notif(notifDetails.title, notifDetails.description);
-                        PlayerController.Instance.maxDash = 2;
-                    }
-                    PlayerController.Instance.SavePlayerData();
-                }
+                PlayerController.Instance.collectedDoubleDashBooster = true;
+                UiManager.Instance.Notif(notifDetails.title, notifDetails.description);
+                PlayerController.Instance.maxDash = 2;
+                PlayerPrefs.SetInt("hasCollectedDoubleDashBooster", 1);
+                PlayerController.Instance.SavePlayerData();
                 break;
             case Boost.Type.DoubleJumpBooster:
-                if (PlayerController.Instance.collectedDoubleJumpBoosterAmount < 3)
-                {
-                    PlayerController.Instance.collectedDoubleJumpBoosterAmount++;
-                    if (PlayerController.Instance.collectedDoubleJumpBoosterAmount==3)
-                    {
-                        UiManager.Instance.Notif(notifDetails.title, notifDetails.description);
-                        PlayerController.Instance.hasDoubleJump = true;
-                    }
-                    PlayerController.Instance.SavePlayerData();
-                }
+                PlayerController.Instance.collectedDoubleJumpBooster = true;
+                UiManager.Instance.Notif(notifDetails.title, notifDetails.description);
+                PlayerController.Instance.hasDoubleJump = true;
+                PlayerPrefs.SetInt("hasCollectedDoubleJumpBooster", 1);
+                PlayerController.Instance.SavePlayerData();
                 break;
             case Boost.Type.PermaDashForce:
-                if (PlayerController.Instance.collectedDashForceBoosterAmount < 3)
-                {
-                    PlayerController.Instance.collectedDashForceBoosterAmount++;
-                    if (PlayerController.Instance.collectedDashForceBoosterAmount==3)
-                    {
-                        UiManager.Instance.Notif(notifDetails.title, notifDetails.description);
-                        PlayerController.Instance.dashForce *= boost.permaDashForceBoostAmount;
-                    }
-                    PlayerController.Instance.SavePlayerData();
-                }
+                PlayerController.Instance.collectedDashForceBooster = true;
+                UiManager.Instance.Notif(notifDetails.title, notifDetails.description);
+                PlayerController.Instance.dashForce *= boost.permaDashForceBoostAmount;
+                PlayerPrefs.SetInt("hasCollectedDashForceBooster", 1);
+                PlayerController.Instance.SavePlayerData();
                 break;
             case Boost.Type.PermaMoveSpeed:
-                if (PlayerController.Instance.collectedMoveSpeedBoosterAmount < 3)
-                {
-                    PlayerController.Instance.collectedMoveSpeedBoosterAmount++;
-                    if (PlayerController.Instance.collectedMoveSpeedBoosterAmount==3)
-                    {
-                        UiManager.Instance.Notif(notifDetails.title, notifDetails.description);
-                        PlayerController.Instance.moveSpeed *= boost.permaMoveSpeedBoostAmount;
-                    }
-                    PlayerController.Instance.SavePlayerData();
-                }
+                PlayerController.Instance.collectedMoveSpeedBooster = true;
+                UiManager.Instance.Notif(notifDetails.title, notifDetails.description);
+                PlayerController.Instance.moveSpeed *= boost.permaMoveSpeedBoostAmount;
+                PlayerPrefs.SetInt("hasCollectedMoveSpeedBooster", 1);
+                PlayerController.Instance.SavePlayerData();
                 break;
             case Boost.Type.PermaJumpForce:
-                if (PlayerController.Instance.collectedJumpForceBoosterAmount < 3)
-                {
-                    PlayerController.Instance.collectedJumpForceBoosterAmount++;
-                    if (PlayerController.Instance.collectedJumpForceBoosterAmount==3)
-                    {
-                        UiManager.Instance.Notif(notifDetails.title, notifDetails.description);
-                        PlayerController.Instance.jumpForce *= boost.permaJumpForceBoostAmount;
-                    }
-                    PlayerController.Instance.SavePlayerData();
-                }
+                PlayerController.Instance.collectedJumpForceBooster = true;
+                UiManager.Instance.Notif(notifDetails.title, notifDetails.description);
+                PlayerController.Instance.jumpForce *= boost.permaJumpForceBoostAmount;
+                PlayerPrefs.SetInt("hasCollectedJumpForceBooster", 1);
+                PlayerController.Instance.SavePlayerData();
                 break;
             default:
                 break;

@@ -12,6 +12,8 @@ public class CastLaser : MonoBehaviour
 
     [SerializeField] List<ParticleSystem> particles = new List<ParticleSystem>();
 
+    [SerializeField] AudioSource audioSource;
+
     public bool laserActive = true;
 
     private void Start()
@@ -71,6 +73,7 @@ public class CastLaser : MonoBehaviour
     {
         lineRenderer.enabled = false;
         laserActive = false;
+        audioSource.Stop();
         for (int i = 0; i < particles.Count; i++)
         {
             particles[i].Stop();
@@ -80,6 +83,7 @@ public class CastLaser : MonoBehaviour
     {
         lineRenderer.enabled = true;
         laserActive = true;
+        audioSource.Play();
         for (int i = 0; i < particles.Count; i++)
         {
             particles[i].Play();

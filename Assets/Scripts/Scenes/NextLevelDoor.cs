@@ -53,7 +53,10 @@ public class NextLevelDoor : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        isOnDoor = false;
-        interactBtn.SetActive(false);
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            isOnDoor = false;
+            interactBtn.SetActive(false);
+        }
     }
 }

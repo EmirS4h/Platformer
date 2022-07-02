@@ -25,12 +25,12 @@ public class GameManager : MonoBehaviour
     public float playerStartingJumpForce;
     public float playerStartingDashForce;
 
-    public List<GameObject> objects = new List<GameObject>();
-    public List<GameObject> boostObject = new List<GameObject>();
-    public List<GameObject> boostObjectFromChest = new List<GameObject>();
+    public List<GameObject> objects = new();
+    public List<GameObject> boostObject = new();
+    public List<GameObject> boostObjectFromChest = new();
 
-    public List<OpenChest> chestsOpened = new List<OpenChest>();
-    public List<LevelKey> keysActivated = new List<LevelKey>();
+    public List<OpenChest> chestsOpened = new();
+    public List<LevelKey> keysActivated = new();
 
     [SerializeField] private GameObject nextLevelGate;
     public GameObject portal;
@@ -43,6 +43,15 @@ public class GameManager : MonoBehaviour
     public LevelKey[] keys;
     public CastLaser[] lasers;
     public ComputerControls[] computers;
+    public TwoWayPlatform[] platforms;
+
+    [SerializeField] Transform boosterSpawnPoint;
+    [SerializeField] GameObject booster;
+    [SerializeField] bool spawnDoubleJumpBooster = false;
+    [SerializeField] bool spawnDoubleDashBooster = false;
+    [SerializeField] bool spawnDashForceBooster = false;
+    [SerializeField] bool spawnJumpForceBooster = false;
+    [SerializeField] bool spawnMoveSpeedBooster = false;
 
     private void Awake()
     {
@@ -60,6 +69,7 @@ public class GameManager : MonoBehaviour
             keys = FindObjectsOfType<LevelKey>();
             lasers = FindObjectsOfType<CastLaser>();
             computers = FindObjectsOfType<ComputerControls>();
+            platforms = FindObjectsOfType<TwoWayPlatform>();
 
             GameObject prefab = playerModels[PlayerPrefs.GetInt("charIndex")]; // Secili Karakter Modelini Bul
             Instantiate(prefab, startingPosition.position, Quaternion.identity); // Instantiate the prefferd char model
@@ -86,6 +96,27 @@ public class GameManager : MonoBehaviour
         if (SceneManager.GetActiveScene().buildIndex != 0)
         {
             audioSource.Play();
+
+            if (spawnDoubleDashBooster && !PlayerPrefs.HasKey("hasCollectedDoubleDashBooster"))
+            {
+                Instantiate(booster, boosterSpawnPoint.position, Quaternion.identity);
+            }
+            else if (spawnDoubleJumpBooster && !PlayerPrefs.HasKey("hasCollectedDoubleJumpBooster"))
+            {
+                Instantiate(booster, boosterSpawnPoint.position, Quaternion.identity);
+            }
+            else if (spawnDashForceBooster && !PlayerPrefs.HasKey("hasCollectedDashForceBooster"))
+            {
+                Instantiate(booster, boosterSpawnPoint.position, Quaternion.identity);
+            }
+            else if (spawnMoveSpeedBooster && !PlayerPrefs.HasKey("hasCollectedMoveSpeedBooster"))
+            {
+                Instantiate(booster, boosterSpawnPoint.position, Quaternion.identity);
+            }
+            else if (spawnJumpForceBooster && !PlayerPrefs.HasKey("hasCollectedJumpForceBooster"))
+            {
+                Instantiate(booster, boosterSpawnPoint.position, Quaternion.identity);
+            }
         }
         StartTime();
         UiManager.Instance.DeactivateLoadingScreen();
@@ -147,6 +178,10 @@ public class GameManager : MonoBehaviour
         foreach (var computer in computers)
         {
             computer.DeactivateComputer();
+        }
+        foreach (var platform in platforms)
+        {
+            platform.ResetPlatform();
         }
     }
 

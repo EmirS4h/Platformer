@@ -171,9 +171,13 @@ public class Tween : MonoBehaviour
             id = _tweenObject.id;
         }
     }
-    public void CancelTween()
+    public void PauseTween()
     {
         LeanTween.pause(id);
+    }
+    public void CancelTween()
+    {
+        LeanTween.cancel(id);
     }
     public void ResumeTween()
     {

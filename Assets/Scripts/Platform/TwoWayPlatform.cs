@@ -10,11 +10,15 @@ public class TwoWayPlatform : MonoBehaviour
     private bool playerOnPlatform = false;
     private WaitForSeconds delay;
 
+    [SerializeField] Vector3 startingPos;
+    [SerializeField] ActivatePlatform cmp;
+
     private void Awake()
     {
         spr = GetComponent<SpriteRenderer>();
         bxcollider2D = GetComponent<BoxCollider2D>();
         delay = new WaitForSeconds(0.5f);
+        startingPos = transform.position;
     }
     private void OnEnable()
     {
@@ -43,7 +47,10 @@ public class TwoWayPlatform : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        playerOnPlatform = false;
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            playerOnPlatform = false;
+        }
     }
     private IEnumerator EnableCollider()
     {
@@ -57,5 +64,14 @@ public class TwoWayPlatform : MonoBehaviour
     public void DeActivatePlatform()
     {
         spr.sprite = inActiveSprite;
+    }
+    public void ResetPlatform()
+    {
+        if (cmp != null)
+        {
+            transform.position = startingPos;
+            DeActivatePlatform();
+            cmp.DeactivateComputer();
+        }
     }
 }

@@ -45,7 +45,8 @@ public class LevelKey : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        playerOnKey = true;
+        if (collision.gameObject.CompareTag("Player"))
+            playerOnKey = true;
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -63,8 +64,11 @@ public class LevelKey : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        playerOnKey = false;
-        interactBtn.SetActive(false);
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            playerOnKey = false;
+            interactBtn.SetActive(false);
+        }
     }
 
     public void DeactivateKey()

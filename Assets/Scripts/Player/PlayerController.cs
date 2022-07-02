@@ -61,6 +61,7 @@ public class PlayerController : MonoBehaviour
     public float direction = 1;
 
     [Header("Player Dash")]
+    [SerializeField] AudioClip dashSound;
     public float dashForce;
     [SerializeField] private float dashTime;
     [SerializeField] private float cameraShakeIntensity;
@@ -84,14 +85,14 @@ public class PlayerController : MonoBehaviour
     public int groundType = 0;
 
     public bool isGameOver = false;
-    public bool playerHaveTheKey = false;
+    //public bool playerHaveTheKey = false;
 
-    public int collectedDoubleDashBoosterAmount = 0;
-    public int collectedDoubleJumpBoosterAmount = 0;
+    public bool collectedDoubleDashBooster = false;
+    public bool collectedDoubleJumpBooster = false;
 
-    public int collectedDashForceBoosterAmount = 0;
-    public int collectedJumpForceBoosterAmount = 0;
-    public int collectedMoveSpeedBoosterAmount = 0;
+    public bool collectedDashForceBooster = false;
+    public bool collectedJumpForceBooster = false;
+    public bool collectedMoveSpeedBooster = false;
 
     public bool boostActive = false;
 
@@ -209,6 +210,7 @@ public class PlayerController : MonoBehaviour
             if (Mathf.Abs(horizontalInput)>0.01f)
             {
                 dashParticle.Play();
+                audioSource.PlayOneShot(dashSound);
                 CameraShake.Instance.Shake(cameraShakeIntensity, cameraShakeTime);
             }
             StartCoroutine(StopDash());
@@ -422,15 +424,17 @@ public class PlayerController : MonoBehaviour
         canDoubleJump = false;
         maxDash = 1;
 
-        collectedDoubleDashBoosterAmount = 0;
-        collectedDoubleJumpBoosterAmount = 0;
-
-        collectedDashForceBoosterAmount = 0;
-        collectedJumpForceBoosterAmount = 0;
-        collectedMoveSpeedBoosterAmount = 0;
-
+        collectedDoubleDashBooster = false;
+        PlayerPrefs.DeleteKey("hasCollectedDoubleDashBooster");
+        collectedDoubleJumpBooster = false;
+        PlayerPrefs.DeleteKey("hasCollectedDoubleJumpBooster");
+        collectedDashForceBooster = false;
+        PlayerPrefs.DeleteKey("hasCollectedDashForceBooster");
+        collectedJumpForceBooster = false;
+        PlayerPrefs.DeleteKey("hasCollectedMoveSpeedBooster");
+        collectedMoveSpeedBooster = false;
+        PlayerPrefs.DeleteKey("hasCollectedJumpForceBooster");
         hasCollectedPowerUpStone = false;
-
         PlayerPrefs.DeleteKey("hasCollectedPowerUpStone");
 
         PlayerPrefs.DeleteKey("wallJumpNotif");
@@ -450,12 +454,12 @@ public class PlayerController : MonoBehaviour
         hasDoubleJump = data.hasDoubleJump;
         maxDash = data.playerMaxDash;
 
-        collectedDoubleDashBoosterAmount = data.collectedDashBoosterAmount;
-        collectedDoubleJumpBoosterAmount = data.collectedJumpBoosterAmount;
+        collectedDoubleDashBooster = data.collectedDashBoosterAmount;
+        collectedDoubleJumpBooster = data.collectedJumpBoosterAmount;
 
-        collectedDashForceBoosterAmount = data.collectedDashForceBoosterAmount;
-        collectedJumpForceBoosterAmount = data.collectedJumpForceBoosterAmount;
-        collectedMoveSpeedBoosterAmount = data.collectedMoveSpeedBoosterAmount;
+        collectedDashForceBooster = data.collectedDashForceBoosterAmount;
+        collectedJumpForceBooster = data.collectedJumpForceBoosterAmount;
+        collectedMoveSpeedBooster = data.collectedMoveSpeedBoosterAmount;
 
         hasCollectedPowerUpStone = data.hasCollectedPowerUpStone;
     }

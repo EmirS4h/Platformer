@@ -11,6 +11,7 @@ public class ActivatePlatform : MonoBehaviour
     [SerializeField] bool computerActive = false;
     [SerializeField] bool playerOnComputer = false;
     [SerializeField] bool stoppedOnce = false;
+    [SerializeField] bool shouldPause = false;
 
     [SerializeField] Light2D cmpLight;
     [SerializeField] SpriteRenderer spr;
@@ -19,6 +20,11 @@ public class ActivatePlatform : MonoBehaviour
 
     [SerializeField] AudioSource audioSource;
 
+    public enum MoveSide
+    {
+        UpDown, LeftRight
+    }
+    public MoveSide side = MoveSide.LeftRight;
     private void Awake()
     {
         spr = GetComponent<SpriteRenderer>();
@@ -51,7 +57,17 @@ public class ActivatePlatform : MonoBehaviour
             cmpLight.enabled = true;
             if (!stoppedOnce)
             {
-                tween.MoveLeftRight();
+                switch (side)
+                {
+                    case MoveSide.UpDown:
+                        tween.MoveUpDown();
+                        break;
+                    case MoveSide.LeftRight:
+                        tween.MoveLeftRight();
+                        break;
+                    default:
+                        break;
+                }
                 stoppedOnce = true;
             }
             else
@@ -76,6 +92,13 @@ public class ActivatePlatform : MonoBehaviour
         computerActive = false;
         tween.enabled = true;
         twp.DeActivatePlatform();
-        tween.CancelTween();
+        if (shouldPause)
+        {
+            tween.PauseTween();
+        }
+        else
+        {
+            tween.CancelTween();
+        }
     }
 }

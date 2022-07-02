@@ -171,6 +171,21 @@ public class Tween : MonoBehaviour
             id = _tweenObject.id;
         }
     }
+    public void MoveUpDown()
+    {
+        if (local)
+        {
+            _tweenObject = LeanTween.moveY(gameObject, gameObject.transform.position.y +  to.y, duration);
+            _tweenObject.setLoopPingPong();
+            id = _tweenObject.id;
+        }
+        else
+        {
+            _tweenObject = LeanTween.moveY(gameObject, to.y, duration);
+            _tweenObject.setLoopPingPong();
+            id = _tweenObject.id;
+        }
+    }
     public void PauseTween()
     {
         LeanTween.pause(id);

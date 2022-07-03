@@ -36,10 +36,13 @@ public class Fire : MonoBehaviour
     private void FireBullet()
     {
         bullet = _pool.GetFromPool();
-        bullet.gameObject.transform.SetPositionAndRotation(bulletPos.position, bulletPos.rotation);
-        bullet.gameObject.SetActive(true);
-        bullet.Shoot();
-        PlayFireSound();
+        if (bullet != null)
+        {
+            bullet.gameObject.transform.SetPositionAndRotation(bulletPos.position, bulletPos.rotation);
+            bullet.gameObject.SetActive(true);
+            bullet.Shoot();
+            PlayFireSound();
+        }
     }
     private void PlayFireSound()
     {

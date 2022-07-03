@@ -10,7 +10,7 @@ public class ActivatePlatform : MonoBehaviour
     [SerializeField] Tween tween;
     [SerializeField] bool computerActive = false;
     [SerializeField] bool playerOnComputer = false;
-    [SerializeField] bool stoppedOnce = false;
+    public bool stoppedOnce = false;
     [SerializeField] bool shouldPause = false;
 
     [SerializeField] Light2D cmpLight;
@@ -57,6 +57,7 @@ public class ActivatePlatform : MonoBehaviour
             cmpLight.enabled = true;
             if (!stoppedOnce)
             {
+                stoppedOnce = true;
                 switch (side)
                 {
                     case MoveSide.UpDown:
@@ -68,7 +69,6 @@ public class ActivatePlatform : MonoBehaviour
                     default:
                         break;
                 }
-                stoppedOnce = true;
             }
             else
             {
@@ -88,7 +88,6 @@ public class ActivatePlatform : MonoBehaviour
     {
         spr.sprite = inActiveComputer;
         cmpLight.enabled = false;
-        stoppedOnce = false;
         computerActive = false;
         tween.enabled = true;
         twp.DeActivatePlatform();

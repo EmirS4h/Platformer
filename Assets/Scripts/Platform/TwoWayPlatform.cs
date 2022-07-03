@@ -72,6 +72,7 @@ public class TwoWayPlatform : MonoBehaviour
             transform.position = startingPos;
             DeActivatePlatform();
             cmp.DeactivateComputer();
+            cmp.stoppedOnce = false;
         }
     }
 }

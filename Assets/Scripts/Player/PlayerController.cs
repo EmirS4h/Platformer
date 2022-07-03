@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     public PlayerLife playerLife;
     public BoxCollider2D bxCollider;
 
-    private Rigidbody2D rb;
+    public Rigidbody2D rb;
     private Animator animator;
     public SpriteRenderer spr;
     [SerializeField] PlayerActions playerActions;

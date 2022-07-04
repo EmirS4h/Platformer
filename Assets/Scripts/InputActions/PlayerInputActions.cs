@@ -98,6 +98,15 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Fire"",
+                    ""type"": ""Button"",
+                    ""id"": ""130789bf-30e3-4062-8f1b-2ffb2114e20c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -419,6 +428,17 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""action"": ""PlaceTpStone"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a4c56196-d4a9-458b-89e4-94b63648db32"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Fire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -452,6 +472,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         m_Player_OptionsMenu = m_Player.FindAction("OptionsMenu", throwIfNotFound: true);
         m_Player_TpToStone = m_Player.FindAction("TpToStone", throwIfNotFound: true);
         m_Player_PlaceTpStone = m_Player.FindAction("PlaceTpStone", throwIfNotFound: true);
+        m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -519,6 +540,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_OptionsMenu;
     private readonly InputAction m_Player_TpToStone;
     private readonly InputAction m_Player_PlaceTpStone;
+    private readonly InputAction m_Player_Fire;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -531,6 +553,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         public InputAction @OptionsMenu => m_Wrapper.m_Player_OptionsMenu;
         public InputAction @TpToStone => m_Wrapper.m_Player_TpToStone;
         public InputAction @PlaceTpStone => m_Wrapper.m_Player_PlaceTpStone;
+        public InputAction @Fire => m_Wrapper.m_Player_Fire;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -564,6 +587,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @PlaceTpStone.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPlaceTpStone;
                 @PlaceTpStone.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPlaceTpStone;
                 @PlaceTpStone.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPlaceTpStone;
+                @Fire.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
+                @Fire.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
+                @Fire.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -592,6 +618,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @PlaceTpStone.started += instance.OnPlaceTpStone;
                 @PlaceTpStone.performed += instance.OnPlaceTpStone;
                 @PlaceTpStone.canceled += instance.OnPlaceTpStone;
+                @Fire.started += instance.OnFire;
+                @Fire.performed += instance.OnFire;
+                @Fire.canceled += instance.OnFire;
             }
         }
     }
@@ -615,5 +644,6 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         void OnOptionsMenu(InputAction.CallbackContext context);
         void OnTpToStone(InputAction.CallbackContext context);
         void OnPlaceTpStone(InputAction.CallbackContext context);
+        void OnFire(InputAction.CallbackContext context);
     }
 }

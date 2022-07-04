@@ -8,6 +8,7 @@ public class PlayerActions : ScriptableObject, PlayerInputActions.IPlayerActions
     PlayerInputActions playerInputActions;
 
     public event UnityAction interactEvent = delegate { };
+    public event UnityAction fireEvent = delegate { };
     public event UnityAction tpBackEvent = delegate { };
     public event UnityAction dropDownEvent = delegate { };
     public event UnityAction placeTpStoneEvent = delegate { };
@@ -98,6 +99,14 @@ public class PlayerActions : ScriptableObject, PlayerInputActions.IPlayerActions
         if (context.phase == InputActionPhase.Performed)
         {
             placeTpStoneEvent.Invoke();
+        }
+    }
+
+    public void OnFire(InputAction.CallbackContext context)
+    {
+        if(context.phase == InputActionPhase.Performed)
+        {
+            fireEvent.Invoke();
         }
     }
 }

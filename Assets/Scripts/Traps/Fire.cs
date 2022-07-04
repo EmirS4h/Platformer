@@ -35,7 +35,7 @@ public class Fire : MonoBehaviour
 
     private void FireBullet()
     {
-        bullet = _pool.GetFromPool();
+        bullet = _pool.GetBulletFromPool();
         if (bullet != null)
         {
             bullet.gameObject.transform.SetPositionAndRotation(bulletPos.position, bulletPos.rotation);

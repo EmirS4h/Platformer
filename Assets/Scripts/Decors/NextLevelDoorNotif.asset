@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df820994077d5954394432af38e40a40, type: 3}
   m_Name: NextLevelDoorNotif
   m_EditorClassIdentifier: 
-  title: Doors
-  description: 'After Activating all the Totems you can go to next level
+  title: Portals
+  description: 'After activating all the Totems a Portal will appear on the Level
 
-    Doors
-    appear on a fixed random position'
+    Follow
+    the Orb to find the Portal'

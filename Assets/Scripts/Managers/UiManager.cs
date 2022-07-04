@@ -69,8 +69,17 @@ public class UiManager : MonoBehaviour
             Instance = this;
             selectedCharIndex = PlayerPrefs.GetInt("charIndex");
             if (chars != null)
+            {
                 chars.transform.GetChild(selectedCharIndex).gameObject.SetActive(true);
-            SoundManager.Instance.LoadMusicVolume(musicSource, musicSlider);
+            }
+            try
+            {
+
+                SoundManager.Instance.LoadMusicVolume(musicSource, musicSlider);
+            }
+            catch
+            {
+            }
         }
     }
 

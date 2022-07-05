@@ -5,9 +5,10 @@ using UnityEngine;
 public class FireGun : MonoBehaviour
 {
     [SerializeField] Transform firePoint;
-    [SerializeField] BulletPool _pool;
     [SerializeField] Projectile bullet;
     [SerializeField] PlayerActions playerActions;
+
+    [SerializeField] BulletPool pooler;
     private void OnEnable()
     {
         playerActions.fireEvent += FireBullet;
@@ -18,12 +19,12 @@ public class FireGun : MonoBehaviour
     }
     private void FireBullet()
     {
-        bullet = _pool.GetPlayerBulletFromPool();
+        bullet = pooler.GetPlayerBulletFromPool();
         if (bullet != null)
         {
-            bullet.gameObject.transform.SetPositionAndRotation(firePoint.position, firePoint.rotation);
+            bullet.transform.SetPositionAndRotation(firePoint.position, firePoint.rotation);
+            bullet.gameObject.transform.SetParent(null);
             bullet.gameObject.SetActive(true);
-            bullet.Shoot();
         }
     }
 }

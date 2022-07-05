@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    [SerializeField] BulletParticlePool _pool;
+    [SerializeField] BulletParticlePool _particlePool;
     [SerializeField] BulletParticle _particle;
     [SerializeField] Rigidbody2D rb;
     [SerializeField] float force = 20.0f;
@@ -19,7 +19,7 @@ public class Bullet : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        _pool = FindObjectOfType<BulletParticlePool>();
+        _particlePool = FindObjectOfType<BulletParticlePool>();
 
         switch (bColor)
         {
@@ -44,7 +44,7 @@ public class Bullet : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        _particle = _pool.GetFromPool();
+        _particle = _particlePool.GetFromPool();
         _particle.ChangeColor(bulletColor);
         _particle.gameObject.transform.SetPositionAndRotation(transform.position, transform.rotation);
         _particle.gameObject.SetActive(true);
@@ -53,5 +53,9 @@ public class Bullet : MonoBehaviour
     public void Shoot()
     {
         rb.velocity = transform.right * force;
+    }
+    private void Start()
+    {
+        Shoot();
     }
 }

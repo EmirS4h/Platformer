@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
+    [SerializeField] ParticleSystem ps;
+    [SerializeField] SpriteRenderer spr;
+    [SerializeField] BoxCollider2D bxc;
+
     [SerializeField] Vector3 startingPos;
     [SerializeField] Vector3 roamPos;
     [SerializeField] float reachedPositionDistance = 1.0f;
@@ -25,6 +29,8 @@ public class EnemyAI : MonoBehaviour
 
     [SerializeField] bool isFacingRight = true;
 
+    [SerializeField] int health = 100;
+
     private enum State
     {
         Roam,
@@ -44,7 +50,11 @@ public class EnemyAI : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("PlayerProjectile"))
         {
-            gameObject.SetActive(false);
+            health -= 25;
+            if (health <= 0)
+            {
+                StartCoroutine(Die());
+            }
         }
     }
     private void Update()
@@ -128,5 +138,12 @@ public class EnemyAI : MonoBehaviour
     private Vector3 GetRandomDir()
     {
         return new Vector3(Random.Range(-5.0f, 5.0f), transform.position.y);
+    }
+    private IEnumerator Die()
+    {
+        spr.enabled = false;
+        bxc.enabled = false;
+        ps.Play();
+        yield return new WaitForSeconds(0.5f);
     }
 }

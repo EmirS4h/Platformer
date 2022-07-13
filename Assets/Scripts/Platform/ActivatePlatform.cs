@@ -20,6 +20,8 @@ public class ActivatePlatform : MonoBehaviour
 
     [SerializeField] AudioSource audioSource;
 
+    [SerializeField] GameObject interactBtn;
+
     public enum MoveSide
     {
         UpDown, LeftRight
@@ -33,12 +35,18 @@ public class ActivatePlatform : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
+        {
             playerOnComputer = true;
+            interactBtn.SetActive(true);
+        }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
+        {
             playerOnComputer = false;
+            interactBtn.SetActive(false);
+        }
     }
     private void OnEnable()
     {

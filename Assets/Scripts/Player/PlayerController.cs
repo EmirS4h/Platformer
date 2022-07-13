@@ -42,6 +42,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] bool doubleJump = false;
     [SerializeField] bool canDoubleJump = false;
     public bool hasDoubleJump = false;
+    [SerializeField] private int jumpsLeft = 1;
     [SerializeField] private float coyoteTime;
     [SerializeField] private float bufferTime;
     [SerializeField] private float fallMultiplier;
@@ -162,12 +163,12 @@ public class PlayerController : MonoBehaviour
                 Jump();
                 isJumping = false;
             }
-            if (doubleJump)
-            {
-                Jump();
-                doubleJump = false;
-                canDoubleJump = false;
-            }
+            //if (doubleJump)
+            //{
+            //    Jump();
+            //    doubleJump = false;
+            //    canDoubleJump = false;
+            //}
             if (isDashing)
             {
                 rb.AddForce(new Vector2(horizontalInput, 0.0f) * dashForce, ForceMode2D.Impulse);
@@ -218,34 +219,11 @@ public class PlayerController : MonoBehaviour
     }
     private void OnJump()
     {
-        if (isGrounded || wallSliding)
-        {
-            jumpBufferTimeCounter = bufferTime;
-        }
-        else if (canDoubleJump)
-        {
-            doubleJump = true;
-        }
-        else
-        {
-            jumpBufferTimeCounter -= Time.deltaTime;
-        }
-
-        if (jumpBufferTimeCounter > 0.01f && coyoteTimeCounter > 0.01f)
-        {
-            isJumping = true;
-            jumpBufferTimeCounter = 0.0f;
-        }
-
-        if (rb.velocity.y > 0.01f)
-        {
-            coyoteTimeCounter = 0.0f;
-        }
-
-
+        jumpBufferTimeCounter = bufferTime;
     }
     void Update()
     {
+        
         ApplyGravity();
 
         ChangeAnimation();
@@ -277,10 +255,6 @@ public class PlayerController : MonoBehaviour
             {
                 canJump = true;
                 canDash = false;
-                if (hasDoubleJump)
-                {
-                    canDoubleJump = true;
-                }
                 coyoteTimeCounter = coyoteTime; // for jumping
                 dashsLeft = maxDash;
             }
@@ -291,7 +265,18 @@ public class PlayerController : MonoBehaviour
                 coyoteTimeCounter -= Time.deltaTime; // for jumping
             }
 
-            if (transform.position.y < -50.0f)
+            if (jumpBufferTimeCounter > 0.1f && coyoteTimeCounter > 0.1f && !isJumping)
+            {
+                isJumping = true;
+                coyoteTimeCounter = 0.0f;
+                jumpBufferTimeCounter = 0.0f;
+            }
+            else
+            {
+                jumpBufferTimeCounter -= Time.deltaTime;
+            }
+
+            if (transform.position.y < -100.0f)
             {
                 GameManager.Instance.ReActivateBack();
                 GameManager.Instance.SentPlayerBackToStart();

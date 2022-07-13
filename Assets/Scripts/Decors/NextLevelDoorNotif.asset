@@ -13,7 +13,5 @@ MonoBehaviour:
   m_Name: NextLevelDoorNotif
   m_EditorClassIdentifier: 
   title: Portals
-  description: 'After activating all the Totems a Portal will appear on the Level
-
-    Follow
-    the Orb to find the Portal'
+  description: After activating all the Totems a Portal will appear on the Level
+    use the Portal to continue on to the next level

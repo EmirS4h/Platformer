@@ -3,48 +3,52 @@ using UnityEngine;
 
 public class OpenCloseTrap : MonoBehaviour
 {
-    [SerializeField] float time;
     [SerializeField] float timeToClose;
+    [SerializeField] float time;
 
     [SerializeField] GameObject trapToClose;
+    [SerializeField] GameObject vfx;
 
     [SerializeField] SpriteRenderer spr;
     [SerializeField] Sprite newSprite;
     [SerializeField] Sprite oldSprite;
 
     [SerializeField] bool openClose = false;
+    [SerializeField] bool closed = false;
 
-    WaitForSeconds _delay;
     private void Awake()
     {
-        _delay = new WaitForSeconds(timeToClose);
-
-        time = timeToClose;
         spr.sprite = newSprite;
+        time = timeToClose;
+    }
+    private void Start()
+    {
+        InvokeRepeating(nameof(OpenTrap), 0f, timeToClose * 2);
     }
     private void Update()
     {
-        if (openClose)
-            if (time > 0)
+        if (openClose && !closed)
+        {
+            if (time < 0)
             {
-                trapToClose.SetActive(true);
-                spr.sprite = newSprite;
-                time -= Time.deltaTime;
-            }
-            else
-            {
+                trapToClose.SetActive(false);
+                vfx.SetActive(false);
                 spr.sprite = oldSprite;
-                StartCoroutine(DeActivateTrap());
+                closed = true;
             }
-    }
-    private IEnumerator DeActivateTrap()
-    {
-        trapToClose.SetActive(false);
-        yield return _delay;
-        time = timeToClose;
+            time -= Time.deltaTime;
+        }
     }
     public void CloseTrap()
     {
         trapToClose.SetActive(false);
+    }
+    public void OpenTrap()
+    {
+        spr.sprite = newSprite;
+        trapToClose.SetActive(true);
+        vfx.SetActive(true);
+        closed = false;
+        time = timeToClose;
     }
 }

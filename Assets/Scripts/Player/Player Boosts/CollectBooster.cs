@@ -49,21 +49,22 @@ public class CollectBooster : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             playerOnBooster = true;
+            card.SetActive(true);
         }
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        playerOnBooster = true;
-        if (playerOnBooster)
-        {
-            card.SetActive(true);
-        }
-        else
-        {
-            card.SetActive(false);
-        }
-    }
+    //private void OnTriggerStay2D(Collider2D collision)
+    //{
+    //    playerOnBooster = true;
+    //    if (playerOnBooster)
+    //    {
+    //        card.SetActive(true);
+    //    }
+    //    else
+    //    {
+    //        card.SetActive(false);
+    //    }
+    //}
 
     private void OnTriggerExit2D(Collider2D collision)
     {
@@ -90,11 +91,14 @@ public class CollectBooster : MonoBehaviour
         switch (boost.type)
         {
             case Boost.Type.DoubleDashBooster:
-                PlayerController.Instance.collectedDoubleDashBooster = true;
-                UiManager.Instance.Notif(notifDetails.title, notifDetails.description);
-                PlayerController.Instance.maxDash = 2;
-                PlayerPrefs.SetInt("hasCollectedDoubleDashBooster", 1);
-                PlayerController.Instance.SavePlayerData();
+                if (!PlayerPrefs.HasKey("hasCollectedDoubleDashBooster"))
+                {
+                    PlayerController.Instance.collectedDoubleDashBooster = true;
+                    UiManager.Instance.Notif(notifDetails.title, notifDetails.description);
+                    PlayerController.Instance.maxDash = 2;
+                    PlayerPrefs.SetInt("hasCollectedDoubleDashBooster", 1);
+                    PlayerController.Instance.SavePlayerData();
+                }
                 break;
             case Boost.Type.DoubleJumpBooster:
                 PlayerController.Instance.collectedDoubleJumpBooster = true;

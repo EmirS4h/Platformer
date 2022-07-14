@@ -31,13 +31,16 @@ public class ApplyBoost : MonoBehaviour
     [SerializeField] TextMeshPro stats;
 
     [SerializeField] ParticleSystem ps;
-
+    [SerializeField] bool randomBoostStats = true;
     [Header("Sprite")]
     [SerializeField] Sprite sprite;
     private void Awake()
     {
-        boostAmount = Random.Range(1.1f, 1.5f);
-        boostTime = Random.Range(3.0f, 10.0f);
+        if (randomBoostStats)
+        {
+            boostAmount = Random.Range(1.1f, 1.5f);
+            boostTime = Random.Range(3.0f, 10.0f);
+        }
         stats.SetText("+"+ Mathf.Floor((boostAmount-Mathf.Floor(boostAmount))*100) + "% " + type + " For " + Mathf.Floor(boostTime) + " Seconds");
     }
     private void OnEnable()

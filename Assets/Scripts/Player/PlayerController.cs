@@ -427,6 +427,13 @@ public class PlayerController : MonoBehaviour
         PlayerPrefs.DeleteKey("totemNotif");
         PlayerPrefs.DeleteKey("potionNotif");
         PlayerPrefs.DeleteKey("nextLevelDoorNotif");
+        PlayerPrefs.DeleteKey("platformNotif");
+        PlayerPrefs.DeleteKey("computerNotif");
+        PlayerPrefs.DeleteKey("flameNotif");
+        PlayerPrefs.DeleteKey("laserBeamNotif");
+        PlayerPrefs.DeleteKey("turretNotif");
+        PlayerPrefs.DeleteKey("stonesNotif");
+
         PlayerPrefs.DeleteKey("selectedLevelIndex");
     }
     public void LoadPlayerData()

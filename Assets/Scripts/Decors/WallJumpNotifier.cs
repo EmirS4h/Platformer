@@ -16,6 +16,12 @@ public class WallJumpNotifier : MonoBehaviour
         PermaMoveSpeedUpgradeNotif,
         DoubleDashUpgradeNotif,
         DoubleJumpUpgradeNotif,
+        PlatformNotif,
+        ComputerNotif,
+        FlameNotif,
+        LaserBeamNotif,
+        TurretNotif,
+        StonesNotif,
     }
     public NotifType type;
 
@@ -63,6 +69,48 @@ public class WallJumpNotifier : MonoBehaviour
                 if (!nextLevelDoorNotif)
                 {
                     PlayerPrefs.SetInt("nextLevelDoorNotif", 1);
+                    UiManager.Instance.Notif(notifDetails.title, notifDetails.description);
+                }
+                break;
+            case NotifType.PlatformNotif:
+                if (!PlayerPrefs.HasKey("platformNotif"))
+                {
+                    PlayerPrefs.SetInt("platformNotif", 1);
+                    UiManager.Instance.Notif(notifDetails.title, notifDetails.description);
+                }
+                break;
+            case NotifType.ComputerNotif:
+                if (!PlayerPrefs.HasKey("computerNotif"))
+                {
+                    PlayerPrefs.SetInt("computerNotif", 1);
+                    UiManager.Instance.Notif(notifDetails.title, notifDetails.description);
+                }
+                break;
+            case NotifType.FlameNotif:
+                if (!PlayerPrefs.HasKey("flameNotif"))
+                {
+                    PlayerPrefs.SetInt("flameNotif", 1);
+                    UiManager.Instance.Notif(notifDetails.title, notifDetails.description);
+                }
+                break;
+            case NotifType.LaserBeamNotif:
+                if (!PlayerPrefs.HasKey("laserBeamNotif"))
+                {
+                    PlayerPrefs.SetInt("laserBeamNotif", 1);
+                    UiManager.Instance.Notif(notifDetails.title, notifDetails.description);
+                }
+                break;
+            case NotifType.TurretNotif:
+                if (!PlayerPrefs.HasKey("turretNotif"))
+                {
+                    PlayerPrefs.SetInt("turretNotif", 1);
+                    UiManager.Instance.Notif(notifDetails.title, notifDetails.description);
+                }
+                break;
+            case NotifType.StonesNotif:
+                if (!PlayerPrefs.HasKey("stonesNotif"))
+                {
+                    PlayerPrefs.SetInt("stonesNotif", 1);
                     UiManager.Instance.Notif(notifDetails.title, notifDetails.description);
                 }
                 break;

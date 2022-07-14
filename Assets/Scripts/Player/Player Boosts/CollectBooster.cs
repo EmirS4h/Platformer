@@ -53,19 +53,6 @@ public class CollectBooster : MonoBehaviour
         }
     }
 
-    //private void OnTriggerStay2D(Collider2D collision)
-    //{
-    //    playerOnBooster = true;
-    //    if (playerOnBooster)
-    //    {
-    //        card.SetActive(true);
-    //    }
-    //    else
-    //    {
-    //        card.SetActive(false);
-    //    }
-    //}
-
     private void OnTriggerExit2D(Collider2D collision)
     {
         playerOnBooster = false;
@@ -81,12 +68,6 @@ public class CollectBooster : MonoBehaviour
     }
     private void ApplyBooster()
     {
-
-        if (!PlayerPrefs.HasKey("hasCollectedPowerUpStone"))
-        {
-            ShowCard();
-            PlayerPrefs.SetInt("hasCollectedPowerUpStone", 1);
-        }
 
         switch (boost.type)
         {
